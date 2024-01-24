@@ -47,5 +47,5 @@ function otfs_add_settings_page( $settings = array() ) {
  * Include required files used on the frontend.
  */
 if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
-	include_once( 'includes/class-otfs-template-loader' );
+	include_once( 'includes/class-otfs-template-loader.php' );
 }
