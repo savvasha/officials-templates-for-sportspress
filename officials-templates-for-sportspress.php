@@ -34,6 +34,7 @@ if ( ! defined( 'OTFS_PLUGIN_URL' ) ) {
 
 // Hooks.
 add_filter( 'sportspress_get_settings_pages', 'otfs_add_settings_page' );
+add_action( 'sportspress_init', 'otfs_add_officials_templates' );
 
 /**
  * Add settings page
@@ -41,6 +42,14 @@ add_filter( 'sportspress_get_settings_pages', 'otfs_add_settings_page' );
 function otfs_add_settings_page( $settings = array() ) {
 	$settings[] = include( 'includes/class-otfs-settings-officials.php' );
 	return $settings;
+}
+
+/**
+ * Include required files used on the backend.
+ */
+function otfs_add_officials_templates() {
+	include_once( 'includes/class-otfs-templates.php' );
+	//SP()->templates->officials = 'new_value';
 }
 
 /**
