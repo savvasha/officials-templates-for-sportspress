@@ -52,7 +52,7 @@ class OTFS_Officials_Template_Loader {
 	}
 
 	public function officials_content( $content ) {
-		if ( is_singular( 'sp_officials' ) )
+		if ( is_singular( 'sp_official' ) )
 			$content = self::add_content( $content, 'officials', apply_filters( 'sportspress_officials_content_priority', 10 ) );
 		return $content;
 	}
