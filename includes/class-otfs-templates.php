@@ -13,16 +13,15 @@ if ( ! class_exists( 'SP_Templates' ) || ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class OTFS_Templates extends SP_Templates {
+class OTFS_Templates {
 
 	/**
-	 * Constructor for the officials templates class - extends parent constructor.
+	 * Constructor for the officials templates class.
 	 *
 	 * @access public
 	 * @return void
 	 */
 	public function __construct() {
-		parent::__construct();
 		// Add your custom template values here
 		SP()->templates->officials = array_merge(
 										apply_filters(
@@ -30,12 +29,12 @@ class OTFS_Templates extends SP_Templates {
 											array(
 												'selector' => array(
 													'title'   => esc_attr__( 'Dropdown', 'sportspress' ),
-													'label'   => esc_attr__( 'Officials', 'sportspress' ),
+													//'label'   => esc_attr__( 'Officials', 'sportspress' ),
 													'option'  => 'sportspress_officials_show_selector',
 													'action'  => array( $this, 'sportspress_output_officials_selector' ),
 													'default' => 'yes',
 												),
-												'photo'    => array(
+												/*'photo'    => array(
 													'title'   => esc_attr__( 'Photo', 'sportspress' ),
 													'option'  => 'sportspress_officials_show_photo',
 													//'action'  => array( $this, 'sportspress_output_officials_photo' ),
@@ -46,7 +45,7 @@ class OTFS_Templates extends SP_Templates {
 													'option'  => 'sportspress_officials_show_details',
 													//'action'  => array( $this, 'sportspress_output_officials_details' ),
 													'default' => 'yes',
-												),
+												),*/
 												'excerpt'  => array(
 													'title'   => esc_attr__( 'Excerpt', 'sportspress' ),
 													'option'  => 'sportspress_officials_show_excerpt',
@@ -55,14 +54,14 @@ class OTFS_Templates extends SP_Templates {
 												),
 											)
 										),
-										array(
+										/*array(
 											'content' => array(
 												'title'   => esc_attr__( 'Profile', 'sportspress' ),
 												'option'  => 'sportspress_officials_show_content',
 												//'action'  => array( $this, 'sportspress_output_officials_content' ),
 												'default' => 'yes',
 											),
-										),
+										),*/
 										apply_filters( 'sportspress_after_officials_template', array() )
 									);
 	}

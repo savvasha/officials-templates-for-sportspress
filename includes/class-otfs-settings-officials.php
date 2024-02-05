@@ -38,6 +38,8 @@ class SP_Settings_Officials extends SP_Settings_Page {
 	 * @return array
 	 */
 	public function get_settings() {
+		$templates = $this->templates();
+		$templates = apply_filters( 'sportspress_' . $this->template . '_templates', $templates );
 
 		return apply_filters(
 			'otfs_officials_settings',
@@ -57,7 +59,7 @@ class SP_Settings_Officials extends SP_Settings_Page {
 
 						array( 'type' => 'officials_tabs' ),
 					),
-					'official'
+					'officials'
 				),
 				array(
 					array(
@@ -73,8 +75,9 @@ class SP_Settings_Officials extends SP_Settings_Page {
 	 * Save settings
 	 */
 	public function save() {
-		$settings = $this->get_settings();
-		SP_Admin_Settings::save_fields( $settings );
+		//$settings = $this->get_settings();
+		//SP_Admin_Settings::save_fields( $settings );
+		parent::save();
 	}
 
 }
