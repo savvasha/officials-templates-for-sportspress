@@ -27,10 +27,10 @@ extract( $defaults, EXTR_SKIP );
 
 $countries = SP()->countries->countries;
 
-//$official = new SP_Official( $id );
+$official = new OTFS_Templates( $id );
 
-//$nationalities = $official->nationalities();
-$nationalities = null;
+$nationalities = $official->nationalities( $id );
+//$nationalities = null;
 
 $data = array();
 if ( $show_nationality && $nationalities && is_array( $nationalities ) ) :

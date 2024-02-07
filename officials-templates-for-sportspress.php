@@ -35,6 +35,7 @@ if ( ! defined( 'OTFS_PLUGIN_URL' ) ) {
 // Hooks.
 add_filter( 'sportspress_get_settings_pages', 'otfs_add_settings_page' );
 add_action( 'sportspress_init', 'otfs_add_officials_templates' );
+add_action( 'sportspress_include_post_type_handlers', 'otfs_include_post_type_handlers' );
 
 /**
  * Add settings page
@@ -49,7 +50,6 @@ function otfs_add_settings_page( $settings = array() ) {
  */
 function otfs_add_officials_templates() {
 	include_once( 'includes/class-otfs-templates.php' );
-	//SP()->templates->officials = 'new_value';
 }
 
 /**
@@ -57,4 +57,11 @@ function otfs_add_officials_templates() {
  */
 if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
 	include_once( 'includes/class-otfs-template-loader.php' );
+}
+
+/**
+ * Conditonally load classes and functions only needed when viewing the post type.
+ */
+function otfs_include_post_type_handlers() {
+	include_once( 'includes/class-otfs-meta-boxes.php' );
 }
