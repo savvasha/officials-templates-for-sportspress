@@ -45,9 +45,19 @@ class OTFS_Officials_Extra_Meta_Boxes {
 				$nationalities[] = $default_nationality;
 			}
 		}
+		
+		if ( taxonomy_exists( 'sp_duty' ) ) :
+			$duties    = get_the_terms( $post->ID, 'sp_duty' );
+			$duty_ids = array();
+			if ( $duties ) :
+				foreach ( $duties as $duty ) :
+					$duty_ids[] = $duty->term_id;
+				endforeach;
+			endif;
+		endif;
 
 		foreach ( $nationalities as $index => $nationality ) :
-		var_dump($nationality);
+
 			if ( is_string( $nationality ) && 2 == strlen( $nationality ) ) :
 				$legacy                  = SP()->countries->legacy;
 				$nationality             = strtolower( $nationality );
@@ -71,6 +81,26 @@ class OTFS_Officials_Extra_Meta_Boxes {
 				</optgroup>
 			<?php endforeach; ?>
 		</select></p>
+		
+				<?php if ( taxonomy_exists( 'sp_duty' ) ) { ?>
+			<p><strong><?php esc_attr_e( 'Duties', 'sportspress' ); ?></strong></p>
+			<p>
+			<?php
+			$args = array(
+				'taxonomy'    => 'sp_duty',
+				'name'        => 'tax_input[sp_duty][]',
+				'selected'    => $duty_ids,
+				'values'      => 'term_id',
+				'placeholder' => sprintf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Duties', 'sportspress' ) ),
+				'class'       => 'widefat',
+				'property'    => 'multiple',
+				'chosen'      => true,
+			);
+			sp_dropdown_taxonomies( $args );
+			?>
+			</p>
+		<?php } ?>
+		
 	<?php
 	}
 
