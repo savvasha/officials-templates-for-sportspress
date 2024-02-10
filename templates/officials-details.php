@@ -29,11 +29,11 @@ $defaults = array(
 
 extract( $defaults, EXTR_SKIP );
 
-$official = new OTFS_Templates( $id );
+$official = new OTFS_Officials( $id );
 $nationalities = $official->nationalities( $id );
 
 $data = array();
-$common = array();
+//$common = array();
 
 if ( $show_name ) :
 	$data[ esc_attr__( 'Name', 'sportspress' ) ] = get_the_title( $id );
@@ -55,10 +55,7 @@ if ( $show_nationality && $nationalities && is_array( $nationalities ) ) :
 endif;
 
 if ( $show_duties ) :
-	$duties = get_the_terms( $id, 'sp_duty' );
-		if ( $duties ) {
-			usort( $duties, 'sp_sort_terms' );
-		}
+	$duties = $official->duties( $id );
 	if ( $duties && is_array( $duties ) ) :
 		$duty_names = array();
 		foreach ( $duties as $duty ) :

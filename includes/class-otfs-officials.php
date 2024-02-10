@@ -29,7 +29,7 @@ class OTFS_Officials extends SP_Custom_Post {
 	 * @return array
 	 */
 	public function nationalities() {
-		$nationalities = get_post_meta( $this->ID, 'sp_nationality', false );
+		$nationalities = get_post_meta( $this->ID, 'sp_nationality', true );
 		if ( empty( $nationalities ) ) {
 			return array();
 		}

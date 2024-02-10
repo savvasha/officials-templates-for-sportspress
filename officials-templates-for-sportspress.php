@@ -38,7 +38,12 @@ add_action( 'sportspress_init', 'otfs_add_officials_templates' );
 add_action( 'sportspress_include_post_type_handlers', 'otfs_include_post_type_handlers' );
 
 /**
- * Add settings page
+ * Include OTFS Officials class.
+ */
+include_once( 'includes/class-otfs-officials.php' );
+
+/**
+ * Add settings page.
  */
 function otfs_add_settings_page( $settings = array() ) {
 	$settings[] = include( 'includes/class-otfs-settings-officials.php' );

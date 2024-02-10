@@ -60,6 +60,18 @@ class OTFS_Templates {
 												'action'  => array( $this, 'sportspress_output_officials_content' ),
 												'default' => 'yes',
 											),
+											'events' => array(
+												'title'   => esc_attr__( 'Events', 'sportspress' ),
+												'option'  => 'sportspress_officials_show_events',
+												'action'  => array( $this, 'sportspress_output_officials_events' ),
+												'default' => 'yes',
+											),
+											'statistics' => array(
+												'title'   => esc_attr__( 'Statistics', 'sportspress' ),
+												'option'  => 'sportspress_officials_show_statistics',
+												'action'  => array( $this, 'sportspress_output_officials_statistics' ),
+												'default' => 'yes',
+											),
 										),
 										apply_filters( 'sportspress_after_officials_template', array() )
 									);
@@ -83,26 +95,11 @@ class OTFS_Templates {
 	public function sportspress_output_officials_content() {
 		sp_get_template( 'officials-content.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
-	
-	/**
-	 * Returns nationalities
-	 *
-	 * @access public
-	 * @return array
-	 */
-	public function nationalities( $id ) {
-		$nationalities = get_post_meta( $id, 'sp_nationality', true );
-		if ( empty( $nationalities ) ) {
-			return array();
-		}
-		foreach ( $nationalities as $nationality ) :
-			if ( 2 == strlen( $nationality ) ) :
-				$legacy      = SP()->countries->legacy;
-				$nationality = strtolower( $nationality );
-				$nationality = sp_array_value( $legacy, $nationality, null );
-			endif;
-		endforeach;
-		return $nationalities;
+	public function sportspress_output_officials_events() {
+		sp_get_template( 'officials-events.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
+	}
+	public function sportspress_output_officials_statistics() {
+		sp_get_template( 'officials-statistics.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
 }
 
