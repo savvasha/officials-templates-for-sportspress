@@ -106,6 +106,17 @@ class SP_Settings_Officials extends SP_Settings_Page {
 						'type'          => 'checkbox',
 						'checkboxgroup' => 'end',
 					),
+					array(
+						'title'   => esc_attr__( 'Events', 'sportspress' ),
+						'id'      => 'otfs_officials_events_format',
+						'default' => 'title',
+						'type'    => 'select',
+						'options' => array(
+							'blocks'   => esc_attr__( 'Blocks', 'sportspress' ),
+							'calendar' => esc_attr__( 'Calendar', 'sportspress' ),
+							'list'     => esc_attr__( 'List', 'sportspress' ),
+						),
+					),
 
 					),
 					'officials'

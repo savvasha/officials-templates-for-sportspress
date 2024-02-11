@@ -50,6 +50,20 @@ class OTFS_Officials extends SP_Custom_Post {
 	 * @return array
 	 */
 	public function data() {
+		$args = array(
+				    'post_type' => 'sp_event',
+				    'posts_per_page' => -1, // Retrieve all posts.
+				    'meta_query' => array(
+				        array(
+				            'key' => 'sp_officials',
+				            'value' => 'i:' . $this->ID . ';', // Format the search string to match the serialized array.
+				            'compare' => 'REGEXP',
+				        ),
+				    ),
+				);
+		$events = get_posts( $args );
+
+		return $events;
 	}
 
 }
