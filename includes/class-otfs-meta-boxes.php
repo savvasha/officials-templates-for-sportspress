@@ -69,6 +69,26 @@ class OTFS_Officials_Extra_Meta_Boxes {
 				endforeach;
 			endif;
 		endif;
+
+		if ( taxonomy_exists( 'sp_league' ) ) :
+			$leagues    = get_the_terms( $post->ID, 'sp_league' );
+			$league_ids = array();
+			if ( $leagues ) :
+				foreach ( $leagues as $league ) :
+					$league_ids[] = $league->term_id;
+				endforeach;
+			endif;
+		endif;
+
+		if ( taxonomy_exists( 'sp_season' ) ) :
+			$seasons    = get_the_terms( $post->ID, 'sp_season' );
+			$season_ids = array();
+			if ( $seasons ) :
+				foreach ( $seasons as $season ) :
+					$season_ids[] = $season->term_id;
+				endforeach;
+			endif;
+		endif;
 	?>
 		<p><strong><?php esc_attr_e( 'Nationality', 'sportspress' ); ?></strong></p>
 		<p><select id="sp_nationality" name="sp_nationality[]" data-placeholder="<?php printf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Nationality', 'sportspress' ) ); ?>" class="widefat chosen-select
@@ -86,7 +106,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 			<?php endforeach; ?>
 		</select></p>
 		
-				<?php if ( taxonomy_exists( 'sp_duty' ) ) { ?>
+		<?php if ( taxonomy_exists( 'sp_duty' ) ) { ?>
 			<p><strong><?php esc_attr_e( 'Duties', 'sportspress' ); ?></strong></p>
 			<p>
 			<?php
@@ -102,6 +122,43 @@ class OTFS_Officials_Extra_Meta_Boxes {
 			);
 			sp_dropdown_taxonomies( $args );
 			?>
+			</p>
+		<?php } ?>
+		<?php if ( taxonomy_exists( 'sp_league' ) ) { ?>
+			<p><strong><?php esc_attr_e( 'Leagues', 'sportspress' ); ?></strong></p>
+			<p>
+				<?php
+				$args = array(
+					'taxonomy'    => 'sp_league',
+					'name'        => 'tax_input[sp_league][]',
+					'selected'    => $league_ids,
+					'values'      => 'term_id',
+					'placeholder' => sprintf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Leagues', 'sportspress' ) ),
+					'class'       => 'widefat',
+					'property'    => 'multiple',
+					'chosen'      => true,
+				);
+				sp_dropdown_taxonomies( $args );
+				?>
+			</p>
+		<?php } ?>
+
+		<?php if ( taxonomy_exists( 'sp_season' ) ) { ?>
+			<p><strong><?php esc_attr_e( 'Seasons', 'sportspress' ); ?></strong></p>
+			<p>
+				<?php
+				$args = array(
+					'taxonomy'    => 'sp_season',
+					'name'        => 'tax_input[sp_season][]',
+					'selected'    => $season_ids,
+					'values'      => 'term_id',
+					'placeholder' => sprintf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Seasons', 'sportspress' ) ),
+					'class'       => 'widefat',
+					'property'    => 'multiple',
+					'chosen'      => true,
+				);
+				sp_dropdown_taxonomies( $args );
+				?>
 			</p>
 		<?php } ?>
 		
