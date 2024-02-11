@@ -28,7 +28,7 @@ if ( $override_global_date ) {
 	$year     = gmdate( 'Y', current_time( 'timestamp' ) );
 	$monthnum = gmdate( 'm', current_time( 'timestamp' ) );
 }
-$events = $official->data();
+$events = $official->events();
 
 if ( empty( $events ) ) {
 	$in = 'AND 1 = 0'; // False logic to prevent SQL error

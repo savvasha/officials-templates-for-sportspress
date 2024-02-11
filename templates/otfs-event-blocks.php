@@ -37,7 +37,7 @@ extract( $defaults, EXTR_SKIP );
 $official 	= new OTFS_Officials( $official_id );
 $official->status = $status;
 $official->order = $order;
-$data       = $official->data();
+$data       = $official->events();
 $usecolumns = array();
 
 if ( isset( $columns ) ) :

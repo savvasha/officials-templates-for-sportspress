@@ -50,12 +50,12 @@ class OTFS_Officials extends SP_Custom_Post {
 	}
 
 	/**
-	 * Returns formatted data
+	 * Returns formatted events
 	 *
 	 * @access public
 	 * @return array
 	 */
-	public function data() {
+	public function events() {
 		$args = array(
 				    'post_type' => 'sp_event',
 				    'posts_per_page' => -1, // Retrieve all posts.
