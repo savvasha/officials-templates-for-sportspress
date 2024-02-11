@@ -40,21 +40,15 @@ class OTFS_Officials_Extra_Meta_Boxes {
 		$nationalities       = get_post_meta( $post->ID, 'sp_nationality', true );
 		$default_nationality = get_option( 'sportspress_default_nationality', true );
 		
+		if ( '' == $nationalities ) {
+			$nationalities = array();
+		}
+
 		if ( empty( $nationalities ) && $default_nationality ) {
 			if ( $default_nationality != '' ) {
 				$nationalities[] = $default_nationality;
 			}
 		}
-		
-		if ( taxonomy_exists( 'sp_duty' ) ) :
-			$duties    = get_the_terms( $post->ID, 'sp_duty' );
-			$duty_ids = array();
-			if ( $duties ) :
-				foreach ( $duties as $duty ) :
-					$duty_ids[] = $duty->term_id;
-				endforeach;
-			endif;
-		endif;
 
 		foreach ( $nationalities as $index => $nationality ) :
 
@@ -65,6 +59,16 @@ class OTFS_Officials_Extra_Meta_Boxes {
 				$nationalities[ $index ] = $nationality;
 			endif;
 		endforeach;
+
+		if ( taxonomy_exists( 'sp_duty' ) ) :
+			$duties    = get_the_terms( $post->ID, 'sp_duty' );
+			$duty_ids = array();
+			if ( $duties ) :
+				foreach ( $duties as $duty ) :
+					$duty_ids[] = $duty->term_id;
+				endforeach;
+			endif;
+		endif;
 	?>
 		<p><strong><?php esc_attr_e( 'Nationality', 'sportspress' ); ?></strong></p>
 		<p><select id="sp_nationality" name="sp_nationality[]" data-placeholder="<?php printf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Nationality', 'sportspress' ) ); ?>" class="widefat chosen-select
