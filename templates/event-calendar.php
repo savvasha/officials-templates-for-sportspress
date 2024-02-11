@@ -14,77 +14,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $wpdb, $m, $monthnum, $year, $wp_locale;
 
 $defaults = array(
-	'id'                   => null,
-	'status'               => 'default',
-	'format'               => 'default',
-	'date'                 => 'default',
-	'date_from'            => 'default',
-	'date_to'              => 'default',
-	'date_past'            => 'default',
-	'date_future'          => 'default',
-	'date_relative'        => 'default',
-	'day'                  => 'default',
-	'league'               => null,
-	'season'               => null,
-	'venue'                => null,
-	'team'                 => null,
-	'player'               => null,
+	'official_id'          => null,
 	'initial'              => true,
 	'caption_tag'          => 'caption',
-	'show_all_events_link' => false,
 	'override_global_date' => false,
 );
 
 extract( $defaults, EXTR_SKIP );
 
-$calendar = new SP_Calendar( $id );
-if ( $status != 'default' ) {
-	$calendar->status = $status;
-}
-if ( $format != 'default' ) {
-	$calendar->event_format = $format;
-}
-if ( $date != 'default' ) {
-	$calendar->date = $date;
-}
-if ( $date_from != 'default' ) {
-	$calendar->from = $date_from;
-}
-if ( $date_to != 'default' ) {
-	$calendar->to = $date_to;
-}
-if ( $date_past != 'default' ) {
-	$calendar->past = $date_past;
-}
-if ( $date_future != 'default' ) {
-	$calendar->future = $date_future;
-}
-if ( $date_relative != 'default' ) {
-	$calendar->relative = $date_relative;
-}
-if ( $day != 'default' ) {
-	$calendar->day = $day;
-}
-if ( $league ) {
-	$calendar->league = $league;
-}
-if ( $season ) {
-	$calendar->season = $season;
-}
-if ( $venue ) {
-	$calendar->venue = $venue;
-}
-if ( $team ) {
-	$calendar->team = $team;
-}
-if ( $player ) {
-	$calendar->player = $player;
-}
+$official = new OTFS_Officials( $official_id );
+
 if ( $override_global_date ) {
 	$year     = gmdate( 'Y', current_time( 'timestamp' ) );
 	$monthnum = gmdate( 'm', current_time( 'timestamp' ) );
 }
-$events = $calendar->data();
+$events = $official->data();
 
 if ( empty( $events ) ) {
 	$in = 'AND 1 = 0'; // False logic to prevent SQL error
@@ -296,10 +240,6 @@ if ( $pad != 0 && $pad != 7 ) {
 }
 
 $calendar_output .= "\n\t</tr>\n\t</tbody>\n\t</table>\n\t</div>";
-
-if ( $id && $show_all_events_link ) {
-	$calendar_output .= '<div class="sp-calendar-link sp-view-all-link"><a href="' . get_permalink( $id ) . '">' . esc_attr__( 'View all events', 'sportspress' ) . '</a></div>';
-}
 ?>
 <div class="sp-template sp-template-event-calendar">
 	<?php echo wp_kses_post( $calendar_output ); ?>
