@@ -45,7 +45,7 @@ $args = array(
 
 echo '<div class="sp-fixtures-results">';
 ob_start();
-sp_get_template( 'event-blocks.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+sp_get_template( 'otfs-event-blocks.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
 $fixtures = ob_get_clean();
 
 $args['title']  = esc_attr__( 'Results', 'sportspress' );
@@ -53,7 +53,7 @@ $args['status'] = 'publish';
 $args['order']  = 'DESC';
 
 ob_start();
-sp_get_template( 'event-blocks.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+sp_get_template( 'otfs-event-blocks.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
 $results = ob_get_clean();
 
 if ( false == $fixtures || false == $results ) {

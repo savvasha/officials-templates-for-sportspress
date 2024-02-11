@@ -35,6 +35,8 @@ $defaults = array(
 extract( $defaults, EXTR_SKIP );
 
 $official 	= new OTFS_Officials( $official_id );
+$official->status = $status;
+$official->order = $order;
 $data       = $official->data();
 $usecolumns = array();
 
@@ -119,13 +121,13 @@ if ( $title ) {
 						endforeach;
 					endif;
 
-					if ( 'day' === $calendar->orderby ) :
+					/*if ( 'day' === $calendar->orderby ) :
 						$event_group = get_post_meta( $event->ID, 'sp_day', true );
 						if ( ! isset( $group ) || $event_group !== $group ) :
 							$group = $event_group;
 							echo '<tr><th><strong class="sp-event-group-name">', esc_attr__( 'Match Day', 'sportspress' ), ' ', wp_kses_post( $group ), '</strong></th></tr>';
 						endif;
-					endif;
+					endif;*/
 					?>
 					<tr class="sp-row sp-post<?php echo ( $i % 2 == 0 ? ' alternate' : '' ); ?>" itemscope itemtype="http://schema.org/SportsEvent">
 						<td>

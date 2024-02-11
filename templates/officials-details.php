@@ -33,7 +33,6 @@ $official = new OTFS_Officials( $id );
 $nationalities = $official->nationalities( $id );
 
 $data = array();
-//$common = array();
 
 if ( $show_name ) :
 	$data[ esc_attr__( 'Name', 'sportspress' ) ] = get_the_title( $id );

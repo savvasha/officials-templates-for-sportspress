@@ -12,6 +12,12 @@
  */
 class OTFS_Officials extends SP_Custom_Post {
 
+	/** @var string The events status. */
+	public $status = 'any';
+
+	/** @var string The events ordering. */
+	public $order = 'DESC';
+
 	/**
 	 * Returns duties sorted by `sp_order`.
 	 *
@@ -53,6 +59,8 @@ class OTFS_Officials extends SP_Custom_Post {
 		$args = array(
 				    'post_type' => 'sp_event',
 				    'posts_per_page' => -1, // Retrieve all posts.
+				    'post_status' => array( 'publish', 'future' ),
+				    'order' => $this->order,
 				    'meta_query' => array(
 				        array(
 				            'key' => 'sp_officials',
@@ -61,6 +69,12 @@ class OTFS_Officials extends SP_Custom_Post {
 				        ),
 				    ),
 				);
+		if ( 'publish' == $this->status ) {
+			$args['post_status']    = 'publish';
+		}
+		if ( 'future' == $this->status ) {
+			$args['post_status']    = 'future';
+		}
 		$events = get_posts( $args );
 
 		return $events;

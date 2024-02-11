@@ -31,7 +31,8 @@ $defaults = array(
 
 extract( $defaults, EXTR_SKIP );
 
-$official = new OTFS_Officials( $official_id );
+$official   = new OTFS_Officials( $official_id );
+$official->order = $order;
 $data       = $official->data();
 $usecolumns = array();
 
