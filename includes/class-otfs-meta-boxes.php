@@ -29,7 +29,11 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	 */
 	public function add_meta_boxes() {
 		add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), array( $this, 'details' ), 'sp_official', 'side', 'default' );
-		add_meta_box( 'sp_statisticssdiv', __( 'Statistics', 'sportspress' ), array( $this, 'statistics' ), 'sp_official', 'advanced', 'default' );
+		if ( 'manual' == get_option( 'otfs_officials_columns', 'auto' ) ) {
+			add_meta_box( 'sp_columnsdiv', __( 'Columns', 'sportspress' ), array( $this, 'columns' ), 'sp_official', 'side', 'default' );
+		}
+		add_meta_box( 'sp_statisticssdiv', __( 'Statistics', 'sportspress' ), array( $this, 'statistics' ), 'sp_official', 'normal', 'default' );
+		
 	}
 
 	/**
@@ -134,10 +138,11 @@ class OTFS_Officials_Extra_Meta_Boxes {
 					'name'        => 'tax_input[sp_league][]',
 					'selected'    => $league_ids,
 					'values'      => 'term_id',
-					'placeholder' => sprintf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Leagues', 'sportspress' ) ),
+					//'placeholder' => sprintf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Leagues', 'sportspress' ) ),
 					'class'       => 'widefat',
 					'property'    => 'multiple',
 					'chosen'      => true,
+					'show_option_all'      => esc_attr__( 'Show all leagues', 'sportspress' ),
 				);
 				sp_dropdown_taxonomies( $args );
 				?>
@@ -153,10 +158,11 @@ class OTFS_Officials_Extra_Meta_Boxes {
 					'name'        => 'tax_input[sp_season][]',
 					'selected'    => $season_ids,
 					'values'      => 'term_id',
-					'placeholder' => sprintf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Seasons', 'sportspress' ) ),
+					//'placeholder' => sprintf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Seasons', 'sportspress' ) ),
 					'class'       => 'widefat',
 					'property'    => 'multiple',
 					'chosen'      => true,
+					'show_option_all'      => esc_attr__( 'Show all seasons', 'sportspress' ),
 				);
 				sp_dropdown_taxonomies( $args );
 				?>
@@ -165,17 +171,50 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	}
 
 	/**
-	 * Save meta boxes data.
+	 * Output the statistics metabox.
+	 */
+	public static function columns( $post ) {
+		$selected = (array) get_post_meta( $post->ID, 'sp_columns', true );
+		$tabs     = apply_filters( 'sportspress_officials_column_tabs', array( 'sp_performance', 'sp_statistic' ) );
+		?>
+		<div class="sp-instance">
+			<?php if ( $tabs ) { ?>
+			<ul id="sp_column-tabs" class="sp-tab-bar category-tabs">
+				<?php
+				foreach ( $tabs as $index => $post_type ) {
+					$object = get_post_type_object( $post_type );
+					?>
+				<li class="
+					<?php
+					if ( 0 == $index ) {
+						?>
+					tabs<?php } ?>"><a href="#<?php echo esc_attr( $post_type ); ?>-all"><?php echo esc_html( $object->labels->menu_name ); ?></a></li>
+				<?php } ?>
+			</ul>
+				<?php
+				foreach ( $tabs as $index => $post_type ) {
+					sp_column_checklist( $post->ID, $post_type, ( 0 == $index ? 'block' : 'none' ), $selected );
+				}
+				?>
+			<?php } ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Output the statistics metabox.
 	 */
 	public static function statistics( $post ) {
 		$official  = new OTFS_Officials( $post );
+		//TODO: If no league is selected, all leagues must be used. Or have an option to select ALL on official's metabox
 		$leagues = $official->get_terms_sorted_by_sp_order( 'sp_league' );
 		if ( is_array( $leagues ) ) {
 			$league_num = sizeof( $leagues );
 		} else {
 			$league_num = 0;
 		}
-		$show_career_totals = 'yes' === get_option( 'sportspress_player_show_career_total', 'no' ) ? true : false;
+
+		$show_career_totals = 'yes' === get_option( 'otfs_officials_show_career_total', 'no' ) ? true : false;
 
 		if ( $leagues ) {
 			// Loop through statistics for each league
@@ -185,7 +224,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 				<p><strong><?php echo esc_html( $league->name ); ?></strong></p>
 				<?php
 				list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( $league->term_id, true );
-				self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && $i == 0, true, $formats, $total_types );
+				self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && $i == 0, false, $formats, $total_types );
 				$i ++;
 			endforeach;
 			if ( $show_career_totals ) {
@@ -423,6 +462,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 		// Nationalities.
 		update_post_meta( $post_id, 'sp_nationality', sp_array_value( $_POST, 'sp_nationality', '' ) );
 		update_post_meta( $post_id, 'sp_statistics', sp_array_value( $_POST, 'sp_statistics', array(), 'text' ) );
+		update_post_meta( $post_id, 'sp_columns', sp_array_value( $_POST, 'sp_columns', array(), 'key' ) );
 	}
 }
 

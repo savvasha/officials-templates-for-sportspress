@@ -36,11 +36,18 @@ if ( ! defined( 'OTFS_PLUGIN_URL' ) ) {
 add_filter( 'sportspress_get_settings_pages', 'otfs_add_settings_page' );
 add_action( 'sportspress_init', 'otfs_add_officials_templates' );
 add_action( 'sportspress_include_post_type_handlers', 'otfs_include_post_type_handlers' );
+add_action( 'plugins_loaded', 'otfs_load_officials_class', 99 );
 
 /**
- * Include OTFS Officials class.
+ * Make sure that all plugins are loaded before extend SP_Custom_Post Class.
  */
-include_once( 'includes/class-otfs-officials.php' );
+function otfs_load_officials_class() {
+	// Exit if SportsPress is not installed and activated.
+	if ( class_exists( 'SP_Custom_Post' ) ) {
+		// Load needed class functions.
+		include_once( 'includes/class-otfs-officials.php' );
+	}	
+}
 
 /**
  * Add settings page.

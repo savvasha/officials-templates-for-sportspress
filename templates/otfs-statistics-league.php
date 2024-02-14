@@ -1,11 +1,10 @@
 <?php
 /**
- * Player Statistics for Single League
+ * Official Statistics for Single League.
  *
- * @author      ThemeBoy
- * @category    Admin
- * @package     SportsPress/Admin/Meta_Boxes
- * @version   2.5
+ * @author      savvasha
+ * @package     OTFS/Templates
+ * @version     1.0
  */
 
 // The first row should be column labels

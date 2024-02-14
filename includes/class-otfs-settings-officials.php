@@ -91,33 +91,31 @@ class SP_Settings_Officials extends SP_Settings_Page {
 							'checkboxgroup' => 'end',
 						),
 						array(
-						'title'         => esc_attr__( 'Birthday', 'sportspress' ),
-						'desc'          => esc_attr__( 'Display birthday', 'sportspress' ),
-						'id'            => 'sportspress_officials_show_birthday',
-						'default'       => 'no',
-						'type'          => 'checkbox',
-						'checkboxgroup' => 'start',
-					),
-
-					array(
-						'desc'          => esc_attr__( 'Display age', 'sportspress' ),
-						'id'            => 'sportspress_officials_show_age',
-						'default'       => 'no',
-						'type'          => 'checkbox',
-						'checkboxgroup' => 'end',
-					),
-					array(
-						'title'   => esc_attr__( 'Events', 'sportspress' ),
-						'id'      => 'otfs_officials_events_format',
-						'default' => 'title',
-						'type'    => 'select',
-						'options' => array(
-							'blocks'   => esc_attr__( 'Blocks', 'sportspress' ),
-							'calendar' => esc_attr__( 'Calendar', 'sportspress' ),
-							'list'     => esc_attr__( 'List', 'sportspress' ),
+							'title'         => esc_attr__( 'Birthday', 'sportspress' ),
+							'desc'          => esc_attr__( 'Display birthday', 'sportspress' ),
+							'id'            => 'sportspress_officials_show_birthday',
+							'default'       => 'no',
+							'type'          => 'checkbox',
+							'checkboxgroup' => 'start',
 						),
-					),
-
+						array(
+							'desc'          => esc_attr__( 'Display age', 'sportspress' ),
+							'id'            => 'sportspress_officials_show_age',
+							'default'       => 'no',
+							'type'          => 'checkbox',
+							'checkboxgroup' => 'end',
+						),
+						array(
+							'title'   => esc_attr__( 'Events', 'sportspress' ),
+							'id'      => 'otfs_officials_events_format',
+							'default' => 'title',
+							'type'    => 'select',
+							'options' => array(
+								'blocks'   => esc_attr__( 'Blocks', 'sportspress' ),
+								'calendar' => esc_attr__( 'Calendar', 'sportspress' ),
+								'list'     => esc_attr__( 'List', 'sportspress' ),
+							),
+						),
 					),
 					'officials'
 				),
@@ -126,9 +124,66 @@ class SP_Settings_Officials extends SP_Settings_Page {
 						'type' => 'sectionend',
 						'id'   => 'officials_options',
 					),
+				),
+				array(
+					array(
+						'title' => esc_attr__( 'Statistics', 'sportspress' ),
+						'type'  => 'title',
+						'desc'  => '',
+						'id'    => 'officials_statistic_options',
+					),
+
+					array(
+						'title'   => esc_attr__( 'Mode', 'sportspress' ),
+						'id'      => 'otfs_officials_statistics_mode',
+						'default' => 'values',
+						'type'    => 'radio',
+						'options' => array(
+							'values' => esc_attr__( 'Values', 'sportspress' ),
+							'icons'  => esc_attr__( 'Icons', 'sportspress' ),
+						),
+					),
+
+					array(
+						'title'   => esc_attr__( 'Columns', 'sportspress' ),
+						'id'      => 'otfs_officials_columns',
+						'default' => 'auto',
+						'type'    => 'radio',
+						'options' => array(
+							'auto'   => esc_attr__( 'Auto', 'sportspress' ),
+							'manual' => esc_attr__( 'Manual', 'sportspress' ),
+						),
+					),
+
+					array(
+						'title'         => esc_attr__( 'Display', 'sportspress' ),
+						'desc'          => esc_attr__( 'Total', 'sportspress' ),
+						'id'            => 'otfs_officials_show_total',
+						'default'       => 'no',
+						'type'          => 'checkbox',
+						'checkboxgroup' => 'start',
+					),
+
+					array(
+						'desc'          => esc_attr__( 'Career Total', 'sportspress' ),
+						'id'            => 'otfs_officials_show_career_total',
+						'default'       => 'no',
+						'type'          => 'checkbox',
+						'checkboxgroup' => 'end',
+					),
+				),
+				apply_filters(
+					'otfs_officials_statistic_options',
+					array()
+				),
+				array(
+					array(
+						'type' => 'sectionend',
+						'id'   => 'officials_statistic_options',
+					),
 				)
 			)
-		); // End official settings
+		); // End officials settings
 	}
 
 	/**
