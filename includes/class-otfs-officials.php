@@ -91,6 +91,14 @@ class OTFS_Officials extends SP_Custom_Post {
 	 */
 	public function stats( $league_id, $admin = false, $section = -1 ) {
 		$seasons = (array) $this->get_terms_sorted_by_sp_order( 'sp_season' );
+		if ( empty( $seasons ) ) {
+			$seasons = get_terms( array(
+						    	'taxonomy'   => 'sp_season',
+						    	'hide_empty' => true,
+							) 
+						);
+			usort( $seasons, 'sp_sort_terms' );
+		}
 		//TODO: Add metrics support to officials
 		$metrics = (array) get_post_meta( $this->ID, 'sp_metrics', true );
 		$stats   = (array) get_post_meta( $this->ID, 'sp_statistics', true );
