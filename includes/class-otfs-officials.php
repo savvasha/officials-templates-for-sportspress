@@ -233,7 +233,7 @@ class OTFS_Officials extends SP_Custom_Post {
 
 		// Initialize placeholders array
 		$placeholders = array();
-
+//TODO: AUTO-REMOVE SEASONS WITHOUT EVENTS
 		foreach ( $div_ids as $div_id ) :
 
 			$totals = array(
