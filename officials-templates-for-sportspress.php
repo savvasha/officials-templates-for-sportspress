@@ -37,6 +37,8 @@ add_filter( 'sportspress_get_settings_pages', 'otfs_add_settings_page' );
 add_action( 'sportspress_init', 'otfs_add_officials_templates' );
 add_action( 'sportspress_include_post_type_handlers', 'otfs_include_post_type_handlers' );
 add_action( 'plugins_loaded', 'otfs_load_officials_class', 99 );
+add_action( 'sportspress_meta_box_performance_details', 'otfs_add_visibility_option' );
+add_action( 'sportspress_process_sp_performance_meta', 'otfs_save_visibility_option', 15, 2 );
 
 /**
  * Make sure that all plugins are loaded before extend SP_Custom_Post Class.
@@ -76,4 +78,46 @@ if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
  */
 function otfs_include_post_type_handlers() {
 	include_once( 'includes/class-otfs-meta-boxes.php' );
+}
+
+/**
+ * Add visibility option to performances and statistics.
+ */
+function otfs_add_visibility_option( $post ) {
+	if ( 'auto' === get_option( 'otfs_officials_columns', 'auto' ) ) {
+		$otfs_visible = get_post_meta( $post->ID, 'otfs_visible', true );
+		if ( '' === $otfs_visible ) {
+			$otfs_visible = 1;
+		}
+			?>
+			<p>
+				<strong><?php esc_html_e( 'Visible at Officials Profile', 'otfs' ); ?></strong>
+				<i class="dashicons dashicons-editor-help sp-desc-tip" title="<?php esc_attr_e( 'Display in official profile?', 'otfs' ); ?>"></i>
+			</p>
+			<ul class="sp-visible-selector">
+				<li>
+					<label class="selectit">
+						<input name="otfs_visible" id="otfs_visible_yes" type="radio" value="1" <?php checked( $otfs_visible ); ?>>
+						<?php esc_html_e( 'Yes', 'sportspress' ); ?>
+					</label>
+				</li>
+				<li>
+					<label class="selectit">
+						<input name="otfs_visible" id="otfs_visible_no" type="radio" value="0" <?php checked( ! $otfs_visible ); ?>>
+						<?php esc_html_e( 'No', 'sportspress' ); ?>
+					</label>
+				</li>
+			</ul>
+			<?php
+	}
+
+}
+
+/**
+ * Save tournament selection to league table.
+ */
+function otfs_save_visibility_option( $post_id, $post ) {
+	if ( 'auto' === get_option( 'otfs_officials_columns', 'auto' ) ) {
+		update_post_meta( $post_id, 'otfs_visible', sp_array_value( $_POST, 'otfs_visible', 1, 'int' ) );
+	}
 }

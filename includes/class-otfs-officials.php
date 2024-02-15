@@ -90,8 +90,8 @@ class OTFS_Officials extends SP_Custom_Post {
 	 * @return array
 	 */
 	public function stats( $league_id, $admin = false, $section = -1 ) {
-		$seasons = (array) $this->get_terms_sorted_by_sp_order( 'sp_season' );
-		if ( empty( $seasons ) ) {
+		$seasons = $this->get_terms_sorted_by_sp_order( 'sp_season' );
+		if ( !is_array( $seasons ) ) {
 			$seasons = get_terms( array(
 						    	'taxonomy'   => 'sp_season',
 						    	'hide_empty' => true,
@@ -146,7 +146,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			if ( is_array( $posts ) ) {
 				foreach ( $posts as $post ) {
 					// Get visibility
-					$visible = get_post_meta( $post->ID, 'sp_visible', true );
+					$visible = get_post_meta( $post->ID, 'otfs_visible', true );
 					if ( '' === $visible || $visible ) {
 						$usecolumns[] = $post->post_name;
 					}
@@ -199,7 +199,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			if ( is_array( $posts ) ) {
 				foreach ( $posts as $post ) {
 					// Get visibility
-					$visible = get_post_meta( $post->ID, 'sp_visible', true );
+					$visible = get_post_meta( $post->ID, 'otfs_visible', true );
 					if ( '' === $visible || $visible ) {
 						$usecolumns[] = $post->post_name;
 					}

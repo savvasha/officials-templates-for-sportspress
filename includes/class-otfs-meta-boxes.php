@@ -420,7 +420,6 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	public static function save( $post_id ) {
 		global $wpdb;
 
-		// Nationalities.
 		update_post_meta( $post_id, 'sp_nationality', sp_array_value( $_POST, 'sp_nationality', '' ) );
 		update_post_meta( $post_id, 'sp_statistics', sp_array_value( $_POST, 'sp_statistics', array(), 'text' ) );
 		update_post_meta( $post_id, 'sp_columns', sp_array_value( $_POST, 'sp_columns', array(), 'key' ) );
