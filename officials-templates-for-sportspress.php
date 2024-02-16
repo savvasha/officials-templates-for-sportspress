@@ -38,7 +38,9 @@ add_action( 'sportspress_init', 'otfs_add_officials_templates' );
 add_action( 'sportspress_include_post_type_handlers', 'otfs_include_post_type_handlers' );
 add_action( 'plugins_loaded', 'otfs_load_officials_class', 99 );
 add_action( 'sportspress_meta_box_performance_details', 'otfs_add_visibility_option' );
+add_action( 'sportspress_meta_box_statistic_details', 'otfs_add_visibility_option' );
 add_action( 'sportspress_process_sp_performance_meta', 'otfs_save_visibility_option', 15, 2 );
+add_action( 'sportspress_process_sp_statistic_meta', 'otfs_save_visibility_option', 15, 2 );
 
 /**
  * Make sure that all plugins are loaded before extend SP_Custom_Post Class.
