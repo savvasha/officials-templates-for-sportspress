@@ -9,29 +9,28 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 /**
- * OTFS_Officials_Extra_Meta_Boxes
+ * OTFS_Meta_Boxes.
  */
-class OTFS_Officials_Extra_Meta_Boxes {
+class OTFS_Meta_Boxes {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct() {
-		// add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ), 10 );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 30 );
 		add_action( 'sportspress_process_sp_official_meta', array( $this, 'save' ) );
 	}
 
 	/**
-	 * Add Meta boxes
+	 * Add Meta boxes.
 	 */
 	public function add_meta_boxes() {
 		add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), array( $this, 'details' ), 'sp_official', 'side', 'default' );
-		if ( 'manual' == get_option( 'otfs_officials_columns', 'auto' ) ) {
+		if ( 'manual' === get_option( 'otfs_officials_columns', 'auto' ) ) {
 			add_meta_box( 'sp_columnsdiv', __( 'Columns', 'sportspress' ), array( $this, 'columns' ), 'sp_official', 'side', 'default' );
 		}
 		add_meta_box( 'sp_statisticssdiv', __( 'Statistics', 'sportspress' ), array( $this, 'statistics' ), 'sp_official', 'normal', 'default' );
@@ -39,27 +38,31 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	}
 
 	/**
-	 * Output the details metabox
+	 * Output the details metabox.
+	 *
+	 * @param object $post The current post object.
 	 */
 	public static function details( $post ) {
-		wp_nonce_field( 'sportspress_save_data', 'sportspress_meta_nonce' );
+		// Add nonce field.
+		wp_nonce_field( 'otfs_save_details_nonce', 'otfs_nonce' );
+
 		$continents          = SP()->countries->continents;
 		$nationalities       = get_post_meta( $post->ID, 'sp_nationality', true );
 		$default_nationality = get_option( 'sportspress_default_nationality', true );
 
-		if ( '' == $nationalities ) {
+		if ( '' === $nationalities ) {
 			$nationalities = array();
 		}
 
 		if ( empty( $nationalities ) && $default_nationality ) {
-			if ( $default_nationality != '' ) {
+			if ( '' !== $default_nationality ) {
 				$nationalities[] = $default_nationality;
 			}
 		}
 
 		foreach ( $nationalities as $index => $nationality ) :
 
-			if ( is_string( $nationality ) && 2 == strlen( $nationality ) ) :
+			if ( is_string( $nationality ) && 2 === strlen( $nationality ) ) :
 				$legacy                  = SP()->countries->legacy;
 				$nationality             = strtolower( $nationality );
 				$nationality             = sp_array_value( $legacy, $nationality, null );
@@ -99,15 +102,15 @@ class OTFS_Officials_Extra_Meta_Boxes {
 		?>
 		<p><strong><?php esc_attr_e( 'Nationality', 'sportspress' ); ?></strong></p>
 		<p><select id="sp_nationality" name="sp_nationality[]" data-placeholder="<?php printf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Nationality', 'sportspress' ) ); ?>" class="widefat chosen-select
-																							   <?php
-																								if ( is_rtl() ) :
-																									?>
-			 chosen-rtl<?php endif; ?>" multiple="multiple">
+		   <?php if ( is_rtl() ) { ?>
+			 chosen-rtl
+			<?php } ?>
+			" multiple="multiple">
 			<option value=""></option>
 			<?php foreach ( $continents as $continent => $countries ) : ?>
 				<optgroup label="<?php echo esc_attr( $continent ); ?>">
 					<?php foreach ( $countries as $code => $country ) : ?>
-						<option value="<?php echo esc_attr( $code ); ?>" <?php selected( in_array( $code, $nationalities ) ); ?>><?php echo esc_html( $country ); ?></option>
+						<option value="<?php echo esc_attr( $code ); ?>" <?php selected( in_array( $code, $nationalities, true ) ); ?>><?php echo esc_html( $country ); ?></option>
 					<?php endforeach; ?>
 				</optgroup>
 			<?php endforeach; ?>
@@ -144,7 +147,6 @@ class OTFS_Officials_Extra_Meta_Boxes {
 					'class'       => 'widefat',
 					'property'    => 'multiple',
 					'chosen'      => true,
-					// 'show_option_all'      => esc_attr__( 'Show all leagues', 'sportspress' ),
 				);
 				sp_dropdown_taxonomies( $args );
 				?>
@@ -164,7 +166,6 @@ class OTFS_Officials_Extra_Meta_Boxes {
 					'class'       => 'widefat',
 					'property'    => 'multiple',
 					'chosen'      => true,
-					// 'show_option_all'      => esc_attr__( 'Show all seasons', 'sportspress' ),
 				);
 				sp_dropdown_taxonomies( $args );
 				?>
@@ -175,8 +176,13 @@ class OTFS_Officials_Extra_Meta_Boxes {
 
 	/**
 	 * Output the statistics metabox.
+	 *
+	 * @param object $post The current post object.
 	 */
 	public static function columns( $post ) {
+		// Add nonce field.
+		wp_nonce_field( 'otfs_save_columns_nonce', 'otfs_nonce' );
+
 		$selected = (array) get_post_meta( $post->ID, 'sp_columns', true );
 		$tabs     = apply_filters( 'sportspress_officials_column_tabs', array( 'sp_performance', 'sp_statistic' ) );
 		?>
@@ -189,14 +195,14 @@ class OTFS_Officials_Extra_Meta_Boxes {
 					?>
 				<li class="
 					<?php
-					if ( 0 == $index ) {
+					if ( 0 === $index ) {
 						?>
 					tabs<?php } ?>"><a href="#<?php echo esc_attr( $post_type ); ?>-all"><?php echo esc_html( $object->labels->menu_name ); ?></a></li>
 				<?php } ?>
 			</ul>
 				<?php
 				foreach ( $tabs as $index => $post_type ) {
-					sp_column_checklist( $post->ID, $post_type, ( 0 == $index ? 'block' : 'none' ), $selected );
+					sp_column_checklist( $post->ID, $post_type, ( 0 === $index ? 'block' : 'none' ), $selected );
 				}
 				?>
 			<?php } ?>
@@ -206,14 +212,19 @@ class OTFS_Officials_Extra_Meta_Boxes {
 
 	/**
 	 * Output the statistics metabox.
+	 *
+	 * @param object $post The current post object.
 	 */
 	public static function statistics( $post ) {
+		// Add nonce field.
+		wp_nonce_field( 'otfs_save_statistics_nonce', 'otfs_nonce' );
+
 		$official = new OTFS_Officials( $post );
-		// TODO: If no league is selected, all leagues must be used. Or have an option to select ALL on official's metabox
+		// TODO: If no league is selected, all leagues must be used. Or have an option to select ALL on official's metabox.
 		$leagues = $official->get_terms_sorted_by_sp_order( 'sp_league' );
 
 		if ( is_array( $leagues ) ) {
-			$league_num = sizeof( $leagues );
+			$league_num = count( $leagues );
 		} else {
 			$league_num = 0;
 			$leagues    = get_terms(
@@ -228,14 +239,14 @@ class OTFS_Officials_Extra_Meta_Boxes {
 		$show_career_totals = 'yes' === get_option( 'otfs_officials_show_career_total', 'no' ) ? true : false;
 
 		if ( $leagues ) {
-			// Loop through statistics for each league
+			// Loop through statistics for each league.
 			$i = 0;
 			foreach ( $leagues as $league ) :
 				?>
 				<p><strong><?php echo esc_html( $league->name ); ?></strong></p>
 				<?php
 				list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( $league->term_id, true );
-				self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && $i == 0, false, $formats, $total_types );
+				self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && 0 === $i, false, $formats, $total_types );
 				$i ++;
 			endforeach;
 			if ( $show_career_totals ) {
@@ -249,9 +260,24 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	}
 
 	/**
-	 * Admin edit table
+	 * Admin edit table.
+	 *
+	 * @param mixed $id             The identifier.
+	 * @param mixed $league_id      The league identifier.
+	 * @param array $columns        An array defining the columns of the table.
+	 * @param array $data           An array containing the data for the table.
+	 * @param array $placeholders   An array containing placeholders for empty values.
+	 * @param array $merged         An array that is used for merging data.
+	 * @param array $leagues        An array of leagues.
+	 * @param bool  $has_checkboxes Boolean flag indicating whether checkboxes are present.
+	 * @param bool  $team_select    Boolean flag indicating whether team selection options are present.
+	 * @param array $formats        An array defining the format of each column (e.g., 'time' or 'number').
+	 * @param array $total_types    An array defining total types for each column.
 	 */
 	public static function table( $id = null, $league_id = null, $columns = array(), $data = array(), $placeholders = array(), $merged = array(), $leagues = array(), $has_checkboxes = false, $team_select = false, $formats = array(), $total_types = array() ) {
+		// Add nonce field.
+		wp_nonce_field( 'otfs_save_table_nonce', 'otfs_nonce' );
+
 		$readonly = false;
 		$buffer   = apply_filters(
 			'otfs_meta_box_officials_statistics_table_buffer',
@@ -268,7 +294,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 						<th><?php esc_attr_e( 'Season', 'sportspress' ); ?></th>
 						<?php
 						foreach ( $columns as $key => $label ) :
-							if ( $key == 'team' ) {
+							if ( 'team' === $key ) {
 								continue;
 							}
 							?>
@@ -285,7 +311,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 						</td>
 						<?php
 						foreach ( $columns as $column => $label ) :
-							if ( $column == 'team' ) {
+							if ( 'team' === $column ) {
 								continue;}
 							?>
 							<td>
@@ -293,7 +319,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 								$value       = sp_array_value( sp_array_value( $data, 0, array() ), $column, null );
 								$placeholder = sp_array_value( sp_array_value( $placeholders, 0, array() ), $column, 0 );
 
-								// Convert value and placeholder to time format
+								// Convert value and placeholder to time format.
 							if ( 'time' === sp_array_value( $formats, $column, 'number' ) ) {
 								$timeval     = sp_time_value( $value );
 								$placeholder = sp_time_value( $placeholder );
@@ -319,34 +345,26 @@ class OTFS_Officials_Extra_Meta_Boxes {
 					<?php
 					$i = 0;
 					foreach ( $data as $div_id => $div_stats ) :
-						if ( $div_id === 'statistics' ) {
+						if ( 'statistics' === $div_id ) {
 							continue;
 						}
-						if ( $div_id === 0 ) {
+						if ( 0 === $div_id ) {
 							continue;
 						}
 						$div = get_term( $div_id, 'sp_season' );
 						?>
 						<tr class="sp-row sp-post
 						<?php
-						if ( $i % 2 == 0 ) {
+						if ( 0 === $i % 2 ) {
 							echo ' alternate';}
 						?>
 						 <?php echo esc_attr( implode( ' ', apply_filters( 'otfs_meta_box_officials_statistics_row_classes', array(), $league_id, $div_id ) ) ); ?>" data-league="<?php echo (int) $league_id; ?>" data-season="<?php echo (int) $div_id; ?>">
 							<td>
 								<label>
 									<?php
-									/*
-									if ( ! apply_filters( 'sportspress_player_team_statistics', $league_id ) ) : ?>
-										<?php $value = sp_array_value( $leagues, $div_id, '-1' ); ?>
-										<input type="hidden" name="sp_leagues[<?php echo esc_attr( $league_id ); ?>][<?php echo esc_attr( $div_id ); ?>]" value="-1">
-										<input type="checkbox" name="sp_leagues[<?php echo esc_attr( $league_id ); ?>][<?php echo esc_attr( $div_id ); ?>]" value="1" <?php checked( $value ); ?>>
-									<?php endif; */
-									?>
-									<?php
 									if ( 0 === $div_id ) {
 										esc_attr_e( 'Total', 'sportspress' );
-									} elseif ( 'WP_Error' != get_class( $div ) ) {
+									} elseif ( 'WP_Error' !== get_class( $div ) ) {
 										$allowed_html = array(
 											'input' => array(
 												'type'     => array(),
@@ -380,7 +398,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 							?>
 							<?php
 							foreach ( $columns as $column => $label ) :
-								if ( $column == 'team' ) {
+								if ( 'team' === $column ) {
 									continue;}
 								?>
 								<td>
@@ -388,7 +406,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 									$value       = sp_array_value( sp_array_value( $data, $div_id, array() ), $column, null );
 									$placeholder = sp_array_value( sp_array_value( $placeholders, $div_id, array() ), $column, 0 );
 
-									// Convert value and placeholder to time format
+									// Convert value and placeholder to time format.
 								if ( 'time' === sp_array_value( $formats, $column, 'number' ) ) {
 									$timeval     = sp_time_value( $value );
 									$placeholder = sp_time_value( $placeholder );
@@ -423,8 +441,16 @@ class OTFS_Officials_Extra_Meta_Boxes {
 
 	/**
 	 * Save meta boxes data.
+	 *
+	 * @param int $post_id The post ID.
 	 */
 	public static function save( $post_id ) {
+		// Verify nonce.
+		$nonce = isset( $_POST['otfs_nonce'] ) ? sanitize_key( $_POST['otfs_nonce'] ) : '';
+
+		if ( ! wp_verify_nonce( $nonce, 'otfs_save_details_nonce' ) && ! wp_verify_nonce( $nonce, 'otfs_save_statistics_nonce' ) && ! wp_verify_nonce( $nonce, 'otfs_save_table_nonce' ) && ! wp_verify_nonce( $nonce, 'otfs_save_columns_nonce' ) ) {
+			return;
+		}
 		global $wpdb;
 
 		update_post_meta( $post_id, 'sp_nationality', sp_array_value( $_POST, 'sp_nationality', '' ) );
@@ -433,4 +459,4 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	}
 }
 
-new OTFS_Officials_Extra_Meta_Boxes();
+new OTFS_Meta_Boxes();
