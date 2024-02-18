@@ -157,11 +157,19 @@ class SP_Settings_Officials extends SP_Settings_Page {
 
 					array(
 						'title'         => esc_attr__( 'Display', 'sportspress' ),
+						'desc'          => esc_attr__( 'Per League', 'sportspress' ),
+						'id'            => 'otfs_officials_show_per_league',
+						'default'       => 'yes',
+						'type'          => 'checkbox',
+						'checkboxgroup' => 'start',
+					),
+
+					array(
 						'desc'          => esc_attr__( 'Total', 'sportspress' ),
 						'id'            => 'otfs_officials_show_total',
 						'default'       => 'no',
 						'type'          => 'checkbox',
-						'checkboxgroup' => 'start',
+						'checkboxgroup' => '',
 					),
 
 					array(

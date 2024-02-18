@@ -22,6 +22,7 @@ $official = new OTFS_Officials( $id );
 //var_dump($official->stats());
 
 $scrollable         = get_option( 'sportspress_enable_scrollable_tables', 'yes' ) == 'yes' ? true : false;
+$show_per_league    = 'yes' === get_option( 'otfs_officials_show_per_league', 'yes' ) ? true : false;
 $show_career_totals = 'yes' === get_option( 'otfs_officials_show_career_total', 'no' ) ? true : false;
 $leagues            = array_filter( (array) get_the_terms( $id, 'sp_league' ) );
 
@@ -44,18 +45,20 @@ $section_order = array( -1 => null );
 
 // Loop through statistics for each league
 if ( is_array( $leagues ) ) :
-	foreach ( $leagues as $league ) :
-		$caption = $league->name;
+	if ( $show_per_league ) :
+		foreach ( $leagues as $league ) :
+			$caption = $league->name;
 
-		$args = array(
-			'data'       => $official->stats( $league->term_id, false ),
-			'caption'    => $caption,
-			'scrollable' => $scrollable,
-			'league_id'  => $league->term_id,
-			'hide_teams' => true,
-		);
-		sp_get_template( 'otfs-statistics-league.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
-	endforeach;
+			$args = array(
+				'data'       => $official->stats( $league->term_id, false ),
+				'caption'    => $caption,
+				'scrollable' => $scrollable,
+				'league_id'  => $league->term_id,
+				'hide_teams' => true,
+			);
+			sp_get_template( 'otfs-statistics-league.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+		endforeach;
+	endif;
 
 	if ( $show_career_totals ) {
 		$caption = esc_attr__( 'Career Total', 'sportspress' );
