@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $defaults = array(
-	'official_id'      => null,
+	'official_id' => null,
 	'number'      => -1,
 	'link_teams'  => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
 	'link_events' => get_option( 'sportspress_link_events', 'yes' ) == 'yes' ? true : false,

@@ -19,7 +19,7 @@ if ( ! isset( $id ) ) {
 }
 
 $official = new OTFS_Officials( $id );
-//var_dump($official->stats());
+// var_dump($official->stats());
 
 $scrollable         = get_option( 'sportspress_enable_scrollable_tables', 'yes' ) == 'yes' ? true : false;
 $show_per_league    = 'yes' === get_option( 'otfs_officials_show_per_league', 'yes' ) ? true : false;
@@ -37,7 +37,7 @@ if ( ! function_exists( 'sortByOrder' ) ) {
 }
 usort( $leagues, 'sortByOrder' );
 
-$duties       = $official->duties();
+$duties          = $official->duties();
 $player_sections = array();
 
 // Determine order of sections

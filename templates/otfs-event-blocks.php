@@ -12,33 +12,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $defaults = array(
-	'status'               => 'default',
-	'format'               => 'default',
-	'official_id'          => null,
-	'number'               => -1,
-	'show_team_logo'       => get_option( 'sportspress_event_blocks_show_logos', 'yes' ) == 'yes' ? true : false,
-	'link_teams'           => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
-	'link_events'          => get_option( 'sportspress_link_events', 'yes' ) == 'yes' ? true : false,
-	'paginated'            => get_option( 'sportspress_event_blocks_paginated', 'yes' ) == 'yes' ? true : false,
-	'rows'                 => get_option( 'sportspress_event_blocks_rows', 5 ),
-	'orderby'              => 'default',
-	'order'                => 'default',
-	'columns'              => null,
-	'show_title'           => get_option( 'sportspress_event_blocks_show_title', 'no' ) == 'yes' ? true : false,
-	'show_league'          => get_option( 'sportspress_event_blocks_show_league', 'no' ) == 'yes' ? true : false,
-	'show_season'          => get_option( 'sportspress_event_blocks_show_season', 'no' ) == 'yes' ? true : false,
-	'show_matchday'        => get_option( 'sportspress_event_blocks_show_matchday', 'no' ) == 'yes' ? true : false,
-	'show_venue'           => get_option( 'sportspress_event_blocks_show_venue', 'no' ) == 'yes' ? true : false,
-	'hide_if_empty'        => false,
+	'status'         => 'default',
+	'format'         => 'default',
+	'official_id'    => null,
+	'number'         => -1,
+	'show_team_logo' => get_option( 'sportspress_event_blocks_show_logos', 'yes' ) == 'yes' ? true : false,
+	'link_teams'     => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
+	'link_events'    => get_option( 'sportspress_link_events', 'yes' ) == 'yes' ? true : false,
+	'paginated'      => get_option( 'sportspress_event_blocks_paginated', 'yes' ) == 'yes' ? true : false,
+	'rows'           => get_option( 'sportspress_event_blocks_rows', 5 ),
+	'orderby'        => 'default',
+	'order'          => 'default',
+	'columns'        => null,
+	'show_title'     => get_option( 'sportspress_event_blocks_show_title', 'no' ) == 'yes' ? true : false,
+	'show_league'    => get_option( 'sportspress_event_blocks_show_league', 'no' ) == 'yes' ? true : false,
+	'show_season'    => get_option( 'sportspress_event_blocks_show_season', 'no' ) == 'yes' ? true : false,
+	'show_matchday'  => get_option( 'sportspress_event_blocks_show_matchday', 'no' ) == 'yes' ? true : false,
+	'show_venue'     => get_option( 'sportspress_event_blocks_show_venue', 'no' ) == 'yes' ? true : false,
+	'hide_if_empty'  => false,
 );
 
 extract( $defaults, EXTR_SKIP );
 
-$official 	= new OTFS_Officials( $official_id );
+$official         = new OTFS_Officials( $official_id );
 $official->status = $status;
-$official->order = $order;
-$data       = $official->events();
-$usecolumns = array();
+$official->order  = $order;
+$data             = $official->events();
+$usecolumns       = array();
 
 if ( isset( $columns ) ) :
 	if ( is_array( $columns ) ) {
@@ -121,7 +121,8 @@ if ( $title ) {
 						endforeach;
 					endif;
 
-					/*if ( 'day' === $calendar->orderby ) :
+					/*
+					if ( 'day' === $calendar->orderby ) :
 						$event_group = get_post_meta( $event->ID, 'sp_day', true );
 						if ( ! isset( $group ) || $event_group !== $group ) :
 							$group = $event_group;

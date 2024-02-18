@@ -49,15 +49,15 @@ function otfs_load_officials_class() {
 	// Exit if SportsPress is not installed and activated.
 	if ( class_exists( 'SP_Custom_Post' ) ) {
 		// Load needed class functions.
-		include_once( 'includes/class-otfs-officials.php' );
-	}	
+		include_once 'includes/class-otfs-officials.php';
+	}
 }
 
 /**
  * Add settings page.
  */
 function otfs_add_settings_page( $settings = array() ) {
-	$settings[] = include( 'includes/class-otfs-settings-officials.php' );
+	$settings[] = include 'includes/class-otfs-settings-officials.php';
 	return $settings;
 }
 
@@ -65,21 +65,21 @@ function otfs_add_settings_page( $settings = array() ) {
  * Include required files used on the backend.
  */
 function otfs_add_officials_templates() {
-	include_once( 'includes/class-otfs-templates.php' );
+	include_once 'includes/class-otfs-templates.php';
 }
 
 /**
  * Include required files used on the frontend.
  */
 if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
-	include_once( 'includes/class-otfs-template-loader.php' );
+	include_once 'includes/class-otfs-template-loader.php';
 }
 
 /**
  * Conditonally load classes and functions only needed when viewing the post type.
  */
 function otfs_include_post_type_handlers() {
-	include_once( 'includes/class-otfs-meta-boxes.php' );
+	include_once 'includes/class-otfs-meta-boxes.php';
 }
 
 /**
@@ -91,7 +91,7 @@ function otfs_add_visibility_option( $post ) {
 		if ( '' === $otfs_visible ) {
 			$otfs_visible = 1;
 		}
-			?>
+		?>
 			<p>
 				<strong><?php esc_html_e( 'Visible at Officials Profile', 'otfs' ); ?></strong>
 				<i class="dashicons dashicons-editor-help sp-desc-tip" title="<?php esc_attr_e( 'Display in official profile?', 'otfs' ); ?>"></i>

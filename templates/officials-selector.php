@@ -43,7 +43,17 @@ if ( sizeof( $options ) > 1 ) :
 	?>
 	<div class="sp-template sp-template-official-selector sp-template-profile-selector">
 		<select class="sp-profile-selector sp-official-selector sp-selector-redirect">
-			<?php echo wp_kses( implode( $options ), array( 'option' => array( 'value' => array(), 'selected' => array() ) ) ); ?>
+			<?php
+			echo wp_kses(
+				implode( $options ),
+				array(
+					'option' => array(
+						'value'    => array(),
+						'selected' => array(),
+					),
+				)
+			);
+			?>
 		</select>
 	</div>
 	<?php

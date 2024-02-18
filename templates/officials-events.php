@@ -23,7 +23,7 @@ if ( 'calendar' === $format ) {
 	sp_get_template( 'otfs-event-calendar.php', array( 'official_id' => $id ), '', OTFS_PLUGIN_DIR . 'templates/' );
 } elseif ( 'list' === $format ) {
 	$args = array(
-		'official_id'       => $id,
+		'official_id'  => $id,
 		'title_format' => 'homeaway',
 		'time_format'  => 'separate',
 		'columns'      => array( 'event', 'time', 'results' ),

@@ -12,29 +12,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $defaults = array(
-	'official_id'          => null,
-	'number'               => -1,
-	'show_team_logo'       => get_option( 'sportspress_event_list_show_logos', 'no' ) == 'yes' ? true : false,
-	'link_events'          => get_option( 'sportspress_link_events', 'yes' ) == 'yes' ? true : false,
-	'link_teams'           => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
-	'link_venues'          => get_option( 'sportspress_link_venues', 'yes' ) == 'yes' ? true : false,
-	'responsive'           => get_option( 'sportspress_enable_responsive_tables', 'no' ) == 'yes' ? true : false,
-	'sortable'             => get_option( 'sportspress_enable_sortable_tables', 'yes' ) == 'yes' ? true : false,
-	'scrollable'           => get_option( 'sportspress_enable_scrollable_tables', 'yes' ) == 'yes' ? true : false,
-	'paginated'            => get_option( 'sportspress_event_list_paginated', 'yes' ) == 'yes' ? true : false,
-	'rows'                 => get_option( 'sportspress_event_list_rows', 10 ),
-	'order'                => 'default',
-	'columns'              => null,
-	'title_format'         => get_option( 'sportspress_event_list_title_format', 'title' ),
-	'time_format'          => get_option( 'sportspress_event_list_time_format', 'combined' ),
+	'official_id'    => null,
+	'number'         => -1,
+	'show_team_logo' => get_option( 'sportspress_event_list_show_logos', 'no' ) == 'yes' ? true : false,
+	'link_events'    => get_option( 'sportspress_link_events', 'yes' ) == 'yes' ? true : false,
+	'link_teams'     => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
+	'link_venues'    => get_option( 'sportspress_link_venues', 'yes' ) == 'yes' ? true : false,
+	'responsive'     => get_option( 'sportspress_enable_responsive_tables', 'no' ) == 'yes' ? true : false,
+	'sortable'       => get_option( 'sportspress_enable_sortable_tables', 'yes' ) == 'yes' ? true : false,
+	'scrollable'     => get_option( 'sportspress_enable_scrollable_tables', 'yes' ) == 'yes' ? true : false,
+	'paginated'      => get_option( 'sportspress_event_list_paginated', 'yes' ) == 'yes' ? true : false,
+	'rows'           => get_option( 'sportspress_event_list_rows', 10 ),
+	'order'          => 'default',
+	'columns'        => null,
+	'title_format'   => get_option( 'sportspress_event_list_title_format', 'title' ),
+	'time_format'    => get_option( 'sportspress_event_list_time_format', 'combined' ),
 );
 
 extract( $defaults, EXTR_SKIP );
 
-$official   = new OTFS_Officials( $official_id );
+$official        = new OTFS_Officials( $official_id );
 $official->order = $order;
-$data       = $official->events();
-$usecolumns = array();
+$data            = $official->events();
+$usecolumns      = array();
 
 if ( isset( $columns ) ) :
 	if ( is_array( $columns ) ) {
@@ -232,7 +232,16 @@ $identifier = uniqid( 'eventlist_' );
 						$date_html = '<a href="' . get_post_permalink( $event->ID, false, true ) . '" itemprop="url">' . $date_html . '</a>';
 					}
 
-						echo '<td class="data-date" itemprop="startDate" content="' . esc_attr( mysql2date( 'Y-m-d\TH:iP', $event->post_date ) ) . '" data-label="' . esc_attr__( 'Date', 'sportspress' ) . '">' . wp_kses( $date_html, array( 'a' => array( 'href' => array(), 'itemprop' => array() ), 'date' => array() ) ) . '</td>';
+						echo '<td class="data-date" itemprop="startDate" content="' . esc_attr( mysql2date( 'Y-m-d\TH:iP', $event->post_date ) ) . '" data-label="' . esc_attr__( 'Date', 'sportspress' ) . '">' . wp_kses(
+							$date_html,
+							array(
+								'a'    => array(
+									'href'     => array(),
+									'itemprop' => array(),
+								),
+								'date' => array(),
+							)
+						) . '</td>';
 
 						// Check if the reverse_teams option is selected and alter the teams order
 					if ( $reverse_teams ) {

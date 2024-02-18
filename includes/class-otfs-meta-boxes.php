@@ -2,13 +2,15 @@
 /**
  * OTFS Officials Extra Meta Boxes
  *
- * @author 		savvasha
- * @category 	Admin
- * @package		OTFS OFFICIALS
- * @version		1.0.0
+ * @author      savvasha
+ * @category    Admin
+ * @package     OTFS OFFICIALS
+ * @version     1.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 /**
  * OTFS_Officials_Extra_Meta_Boxes
@@ -19,7 +21,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	 * Constructor
 	 */
 	public function __construct() {
-		//add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ), 10 );
+		// add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ), 10 );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 30 );
 		add_action( 'sportspress_process_sp_official_meta', array( $this, 'save' ) );
 	}
@@ -33,7 +35,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 			add_meta_box( 'sp_columnsdiv', __( 'Columns', 'sportspress' ), array( $this, 'columns' ), 'sp_official', 'side', 'default' );
 		}
 		add_meta_box( 'sp_statisticssdiv', __( 'Statistics', 'sportspress' ), array( $this, 'statistics' ), 'sp_official', 'normal', 'default' );
-		
+
 	}
 
 	/**
@@ -41,10 +43,10 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	 */
 	public static function details( $post ) {
 		wp_nonce_field( 'sportspress_save_data', 'sportspress_meta_nonce' );
-		$continents = SP()->countries->continents;
+		$continents          = SP()->countries->continents;
 		$nationalities       = get_post_meta( $post->ID, 'sp_nationality', true );
 		$default_nationality = get_option( 'sportspress_default_nationality', true );
-		
+
 		if ( '' == $nationalities ) {
 			$nationalities = array();
 		}
@@ -66,7 +68,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 		endforeach;
 
 		if ( taxonomy_exists( 'sp_duty' ) ) :
-			$duties    = get_the_terms( $post->ID, 'sp_duty' );
+			$duties   = get_the_terms( $post->ID, 'sp_duty' );
 			$duty_ids = array();
 			if ( $duties ) :
 				foreach ( $duties as $duty ) :
@@ -94,7 +96,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 				endforeach;
 			endif;
 		endif;
-	?>
+		?>
 		<p><strong><?php esc_attr_e( 'Nationality', 'sportspress' ); ?></strong></p>
 		<p><select id="sp_nationality" name="sp_nationality[]" data-placeholder="<?php printf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Nationality', 'sportspress' ) ); ?>" class="widefat chosen-select
 																							   <?php
@@ -142,7 +144,7 @@ class OTFS_Officials_Extra_Meta_Boxes {
 					'class'       => 'widefat',
 					'property'    => 'multiple',
 					'chosen'      => true,
-					//'show_option_all'      => esc_attr__( 'Show all leagues', 'sportspress' ),
+					// 'show_option_all'      => esc_attr__( 'Show all leagues', 'sportspress' ),
 				);
 				sp_dropdown_taxonomies( $args );
 				?>
@@ -162,12 +164,13 @@ class OTFS_Officials_Extra_Meta_Boxes {
 					'class'       => 'widefat',
 					'property'    => 'multiple',
 					'chosen'      => true,
-					//'show_option_all'      => esc_attr__( 'Show all seasons', 'sportspress' ),
+					// 'show_option_all'      => esc_attr__( 'Show all seasons', 'sportspress' ),
 				);
 				sp_dropdown_taxonomies( $args );
 				?>
 			</p>
-	<?php }
+			<?php
+		}
 	}
 
 	/**
@@ -205,19 +208,20 @@ class OTFS_Officials_Extra_Meta_Boxes {
 	 * Output the statistics metabox.
 	 */
 	public static function statistics( $post ) {
-		$official  = new OTFS_Officials( $post );
-		//TODO: If no league is selected, all leagues must be used. Or have an option to select ALL on official's metabox
+		$official = new OTFS_Officials( $post );
+		// TODO: If no league is selected, all leagues must be used. Or have an option to select ALL on official's metabox
 		$leagues = $official->get_terms_sorted_by_sp_order( 'sp_league' );
 
 		if ( is_array( $leagues ) ) {
 			$league_num = sizeof( $leagues );
 		} else {
 			$league_num = 0;
-			$leagues = get_terms( array(
-						    	'taxonomy'   => 'sp_league',
-						    	'hide_empty' => true,
-							) 
-						);
+			$leagues    = get_terms(
+				array(
+					'taxonomy'   => 'sp_league',
+					'hide_empty' => true,
+				)
+			);
 			usort( $leagues, 'sp_sort_terms' );
 		}
 
@@ -331,27 +335,30 @@ class OTFS_Officials_Extra_Meta_Boxes {
 						 <?php echo esc_attr( implode( ' ', apply_filters( 'otfs_meta_box_officials_statistics_row_classes', array(), $league_id, $div_id ) ) ); ?>" data-league="<?php echo (int) $league_id; ?>" data-season="<?php echo (int) $div_id; ?>">
 							<td>
 								<label>
-									<?php /*if ( ! apply_filters( 'sportspress_player_team_statistics', $league_id ) ) : ?>
+									<?php
+									/*
+									if ( ! apply_filters( 'sportspress_player_team_statistics', $league_id ) ) : ?>
 										<?php $value = sp_array_value( $leagues, $div_id, '-1' ); ?>
 										<input type="hidden" name="sp_leagues[<?php echo esc_attr( $league_id ); ?>][<?php echo esc_attr( $div_id ); ?>]" value="-1">
 										<input type="checkbox" name="sp_leagues[<?php echo esc_attr( $league_id ); ?>][<?php echo esc_attr( $div_id ); ?>]" value="1" <?php checked( $value ); ?>>
-									<?php endif; */?>
+									<?php endif; */
+									?>
 									<?php
 									if ( 0 === $div_id ) {
 										esc_attr_e( 'Total', 'sportspress' );
 									} elseif ( 'WP_Error' != get_class( $div ) ) {
 										$allowed_html = array(
-															'input'      => array(
-																'type'  => array(),
-																'class' => array(),
-																'name' => array(),
-																'value' => array(),
-																'size' => array(),
-																'placeholder' => array(),
-																'id' => array(),
-																'readonly' => array(),
-															),
-														);
+											'input' => array(
+												'type'     => array(),
+												'class'    => array(),
+												'name'     => array(),
+												'value'    => array(),
+												'size'     => array(),
+												'placeholder' => array(),
+												'id'       => array(),
+												'readonly' => array(),
+											),
+										);
 										echo wp_kses( apply_filters( 'otfs_meta_box_officials_statistics_season_name', $div->name, $league_id, $div_id, $div_stats ), $allowed_html );
 									}
 									?>

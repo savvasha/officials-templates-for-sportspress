@@ -58,23 +58,23 @@ class OTFS_Officials extends SP_Custom_Post {
 	 */
 	public function events() {
 		$args = array(
-				    'post_type' => 'sp_event',
-				    'posts_per_page' => -1, // Retrieve all posts.
-				    'post_status' => array( 'publish', 'future' ),
-				    'order' => $this->order,
-				    'meta_query' => array(
-				        array(
-				            'key' => 'sp_officials',
-				            'value' => 'i:' . $this->ID . ';', // Format the search string to match the serialized array.
-				            'compare' => 'REGEXP',
-				        ),
-				    ),
-				);
+			'post_type'      => 'sp_event',
+			'posts_per_page' => -1, // Retrieve all posts.
+			'post_status'    => array( 'publish', 'future' ),
+			'order'          => $this->order,
+			'meta_query'     => array(
+				array(
+					'key'     => 'sp_officials',
+					'value'   => 'i:' . $this->ID . ';', // Format the search string to match the serialized array.
+					'compare' => 'REGEXP',
+				),
+			),
+		);
 		if ( 'publish' == $this->status ) {
-			$args['post_status']    = 'publish';
+			$args['post_status'] = 'publish';
 		}
 		if ( 'future' == $this->status ) {
-			$args['post_status']    = 'future';
+			$args['post_status'] = 'future';
 		}
 		$events = get_posts( $args );
 
@@ -91,15 +91,16 @@ class OTFS_Officials extends SP_Custom_Post {
 	 */
 	public function stats( $league_id, $admin = false, $section = -1 ) {
 		$seasons = $this->get_terms_sorted_by_sp_order( 'sp_season' );
-		if ( !is_array( $seasons ) ) {
-			$seasons = get_terms( array(
-						    	'taxonomy'   => 'sp_season',
-						    	'hide_empty' => true,
-							) 
-						);
+		if ( ! is_array( $seasons ) ) {
+			$seasons = get_terms(
+				array(
+					'taxonomy'   => 'sp_season',
+					'hide_empty' => true,
+				)
+			);
 			usort( $seasons, 'sp_sort_terms' );
 		}
-		//TODO: Add metrics support to officials
+		// TODO: Add metrics support to officials
 		$metrics = (array) get_post_meta( $this->ID, 'sp_metrics', true );
 		$stats   = (array) get_post_meta( $this->ID, 'sp_statistics', true );
 		$leagues = (array) sp_array_value( (array) get_post_meta( $this->ID, 'sp_leagues', true ), $league_id );
@@ -233,7 +234,7 @@ class OTFS_Officials extends SP_Custom_Post {
 
 		// Initialize placeholders array
 		$placeholders = array();
-//TODO: AUTO-REMOVE SEASONS WITHOUT EVENTS
+		// TODO: AUTO-REMOVE SEASONS WITHOUT EVENTS
 		foreach ( $div_ids as $div_id ) :
 
 			$totals = array(
@@ -246,27 +247,27 @@ class OTFS_Officials extends SP_Custom_Post {
 
 			// Get all events involving the official in current season.
 			$args = array(
-				    'post_type' => 'sp_event',
-				    'posts_per_page' => -1, // Retrieve all posts.
-				    'numberposts'    => -1,
-				    'post_status' => array( 'publish' ),
-				    'order'          => 'DESC',
-				    'meta_query' => array(
-				        array(
-				            'key' => 'sp_officials',
-				            'value' => 'i:' . $this->ID . ';', // Format the search string to match the serialized array.
-				            'compare' => 'REGEXP',
-				        ),
-					    array(
-							'key'     => 'sp_format',
-							'value'   => apply_filters( 'sportspress_competitive_event_formats', array( 'league' ) ),
-							'compare' => 'IN',
-						),
-				    ),
-					'tax_query'      => array(
-						'relation' => 'AND',
-					),				    
-				);
+				'post_type'      => 'sp_event',
+				'posts_per_page' => -1, // Retrieve all posts.
+				'numberposts'    => -1,
+				'post_status'    => array( 'publish' ),
+				'order'          => 'DESC',
+				'meta_query'     => array(
+					array(
+						'key'     => 'sp_officials',
+						'value'   => 'i:' . $this->ID . ';', // Format the search string to match the serialized array.
+						'compare' => 'REGEXP',
+					),
+					array(
+						'key'     => 'sp_format',
+						'value'   => apply_filters( 'sportspress_competitive_event_formats', array( 'league' ) ),
+						'compare' => 'IN',
+					),
+				),
+				'tax_query'      => array(
+					'relation' => 'AND',
+				),
+			);
 
 			if ( $league_id ) :
 				$args['tax_query'][] = array(
@@ -297,7 +298,7 @@ class OTFS_Officials extends SP_Custom_Post {
 				if ( $minutes === '' ) {
 					$minutes = get_option( 'sportspress_event_minutes', 90 );
 				}
-				//Increment events attended.
+				// Increment events attended.
 				$totals['eventsattended'] ++;
 
 				// Add all team performance
@@ -507,7 +508,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			$labels = array();
 
 			$labels['name'] = esc_attr__( 'Season', 'sportspress' );
-			//$labels['team'] = esc_attr__( 'Team', 'sportspress' );
+			// $labels['team'] = esc_attr__( 'Team', 'sportspress' );
 
 			if ( 'no' === get_option( 'otfs_officials_show_total', 'no' ) ) {
 				unset( $merged[-1] );

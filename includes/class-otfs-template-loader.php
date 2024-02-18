@@ -2,11 +2,11 @@
 /**
  * Officials Template Loader
  *
- * @class 		OTFS_Officials_Template_Loader
- * @version		1.0
- * @package		OTFS OFFICIALS
- * @category	Class
- * @author 		savvasha
+ * @class       OTFS_Officials_Template_Loader
+ * @version     1.0
+ * @package     OTFS OFFICIALS
+ * @category    Class
+ * @author      savvasha
  */
 class OTFS_Officials_Template_Loader {
 
@@ -160,13 +160,14 @@ class OTFS_Officials_Template_Loader {
 	}
 
 	public function officials_content( $content ) {
-		if ( is_singular( 'sp_official' ) )
-			//$sp_template_class = new SP_Template_Loader();
-			//$content = $sp_template_class->add_content( $content, 'officials', apply_filters( 'sportspress_official_content_priority', 10 ) );
+		if ( is_singular( 'sp_official' ) ) {
+			// $sp_template_class = new SP_Template_Loader();
+			// $content = $sp_template_class->add_content( $content, 'officials', apply_filters( 'sportspress_official_content_priority', 10 ) );
 			$content = self::add_content( $content, 'officials', apply_filters( 'sportspress_official_content_priority', 10 ) );
+		}
 		return $content;
 	}
 }
 
 new OTFS_Officials_Template_Loader();
-			
+

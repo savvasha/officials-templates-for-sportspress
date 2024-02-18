@@ -20,16 +20,16 @@ if ( ! isset( $id ) ) {
 
 $defaults = array(
 	'show_name'              => get_option( 'sportspress_officials_show_name', 'no' ) == 'yes' ? true : false,
-	'show_duties'         => get_option( 'sportspress_officials_show_duties', 'yes' ) == 'yes' ? true : false,
+	'show_duties'            => get_option( 'sportspress_officials_show_duties', 'yes' ) == 'yes' ? true : false,
 	'show_nationality'       => get_option( 'sportspress_officials_show_nationality', 'yes' ) == 'yes' ? true : false,
 	'show_nationality_flags' => get_option( 'sportspress_officials_show_flags', 'yes' ) == 'yes' ? true : false,
-	'show_birthday' => get_option( 'sportspress_officials_show_birthday', 'yes' ) == 'yes' ? true : false,
-	'show_age' => get_option( 'sportspress_officials_show_age', 'yes' ) == 'yes' ? true : false,
+	'show_birthday'          => get_option( 'sportspress_officials_show_birthday', 'yes' ) == 'yes' ? true : false,
+	'show_age'               => get_option( 'sportspress_officials_show_age', 'yes' ) == 'yes' ? true : false,
 );
 
 extract( $defaults, EXTR_SKIP );
 
-$official = new OTFS_Officials( $id );
+$official      = new OTFS_Officials( $id );
 $nationalities = $official->nationalities( $id );
 
 $data = array();
@@ -40,7 +40,7 @@ endif;
 
 if ( $show_nationality && $nationalities && is_array( $nationalities ) ) :
 	$countries = SP()->countries->countries;
-	$values = array();
+	$values    = array();
 	foreach ( $nationalities as $nationality ) :
 		if ( 2 == strlen( $nationality ) ) :
 			$legacy      = SP()->countries->legacy;
@@ -67,9 +67,9 @@ endif;
 if ( $show_birthday ) {
 	$data[ esc_attr__( 'Birthday', 'sportspress' ) ] = get_the_date( get_option( 'date_format' ), $id );
 }
-			
+
 if ( $show_age ) {
-	$sp_birthday_functions = new SportsPress_Birthdays();
+	$sp_birthday_functions                      = new SportsPress_Birthdays();
 	$data[ esc_attr__( 'Age', 'sportspress' ) ] = $sp_birthday_functions->get_age( get_the_date( 'm-d-Y', $id ) );
 }
 
