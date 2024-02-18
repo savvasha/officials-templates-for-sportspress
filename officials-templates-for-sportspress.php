@@ -55,6 +55,9 @@ function otfs_load_officials_class() {
 
 /**
  * Add settings page.
+ *
+ * @param array $settings An array of SportsPress settings pages.
+ * @return array
  */
 function otfs_add_settings_page( $settings = array() ) {
 	$settings[] = include 'includes/class-otfs-settings-officials.php';
@@ -84,8 +87,13 @@ function otfs_include_post_type_handlers() {
 
 /**
  * Add visibility option to performances and statistics.
+ *
+ * @param object $post The current post object.
  */
 function otfs_add_visibility_option( $post ) {
+	// Add nonce field.
+	wp_nonce_field( 'otfs_save_visibility_option_nonce', 'otfs_nonce' );
+
 	if ( 'auto' === get_option( 'otfs_officials_columns', 'auto' ) ) {
 		$otfs_visible = get_post_meta( $post->ID, 'otfs_visible', true );
 		if ( '' === $otfs_visible ) {
@@ -117,8 +125,18 @@ function otfs_add_visibility_option( $post ) {
 
 /**
  * Save tournament selection to league table.
+ *
+ * @param int    $post_id The post ID.
+ * @param object $post    The post object.
  */
 function otfs_save_visibility_option( $post_id, $post ) {
+	// Verify nonce.
+	$nonce = isset( $_POST['otfs_nonce'] ) ? sanitize_key( $_POST['otfs_nonce'] ) : '';
+
+	if ( ! wp_verify_nonce( $nonce, 'otfs_save_visibility_option_nonce' ) ) {
+		return;
+	}
+
 	if ( 'auto' === get_option( 'otfs_officials_columns', 'auto' ) ) {
 		update_post_meta( $post_id, 'otfs_visible', sp_array_value( $_POST, 'otfs_visible', 1, 'int' ) );
 	}

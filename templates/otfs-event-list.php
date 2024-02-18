@@ -8,20 +8,20 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 $defaults = array(
 	'official_id'    => null,
 	'number'         => -1,
-	'show_team_logo' => get_option( 'sportspress_event_list_show_logos', 'no' ) == 'yes' ? true : false,
-	'link_events'    => get_option( 'sportspress_link_events', 'yes' ) == 'yes' ? true : false,
-	'link_teams'     => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
-	'link_venues'    => get_option( 'sportspress_link_venues', 'yes' ) == 'yes' ? true : false,
-	'responsive'     => get_option( 'sportspress_enable_responsive_tables', 'no' ) == 'yes' ? true : false,
-	'sortable'       => get_option( 'sportspress_enable_sortable_tables', 'yes' ) == 'yes' ? true : false,
-	'scrollable'     => get_option( 'sportspress_enable_scrollable_tables', 'yes' ) == 'yes' ? true : false,
-	'paginated'      => get_option( 'sportspress_event_list_paginated', 'yes' ) == 'yes' ? true : false,
+	'show_team_logo' => get_option( 'sportspress_event_list_show_logos', 'no' ) === 'yes' ? true : false,
+	'link_events'    => get_option( 'sportspress_link_events', 'yes' ) === 'yes' ? true : false,
+	'link_teams'     => get_option( 'sportspress_link_teams', 'no' ) === 'yes' ? true : false,
+	'link_venues'    => get_option( 'sportspress_link_venues', 'yes' ) === 'yes' ? true : false,
+	'responsive'     => get_option( 'sportspress_enable_responsive_tables', 'no' ) === 'yes' ? true : false,
+	'sortable'       => get_option( 'sportspress_enable_sortable_tables', 'yes' ) === 'yes' ? true : false,
+	'scrollable'     => get_option( 'sportspress_enable_scrollable_tables', 'yes' ) === 'yes' ? true : false,
+	'paginated'      => get_option( 'sportspress_event_list_paginated', 'yes' ) === 'yes' ? true : false,
 	'rows'           => get_option( 'sportspress_event_list_rows', 10 ),
 	'order'          => 'default',
 	'columns'        => null,
@@ -45,7 +45,7 @@ if ( isset( $columns ) ) :
 endif;
 
 $labels = array();
-// Create a unique identifier based on the current time in microseconds
+// Create a unique identifier based on the current time in microseconds.
 $identifier = uniqid( 'eventlist_' );
 ?>
 <div class="sp-template sp-template-event-list">
@@ -75,10 +75,10 @@ $identifier = uniqid( 'eventlist_' );
 								echo '<th class="data-home">' . esc_attr__( 'Home', 'sportspress' ) . '</th>';
 							}
 
-							if ( 'combined' == $time_format && sp_column_active( $usecolumns, 'time' ) ) {
+							if ( 'combined' === $time_format && sp_column_active( $usecolumns, 'time' ) ) {
 								echo '<th class="data-time">' . esc_attr__( 'Time/Results', 'sportspress' ) . '</th>';
 								$labels[] = esc_attr__( 'Time/Results', 'sportspress' );
-							} elseif ( in_array( $time_format, array( 'separate', 'results' ) ) && sp_column_active( $usecolumns, 'results' ) ) {
+							} elseif ( in_array( $time_format, array( 'separate', 'results' ), true ) && sp_column_active( $usecolumns, 'results' ) ) {
 								echo '<th class="data-results">' . esc_attr__( 'Results', 'sportspress' ) . '</th>';
 							}
 
@@ -86,13 +86,13 @@ $identifier = uniqid( 'eventlist_' );
 								echo '<th class="data-away">' . esc_attr__( 'Away', 'sportspress' ) . '</th>';
 							}
 
-							if ( in_array( $time_format, array( 'separate', 'time' ) ) && sp_column_active( $usecolumns, 'time' ) ) {
+							if ( in_array( $time_format, array( 'separate', 'time' ), true ) && sp_column_active( $usecolumns, 'time' ) ) {
 								echo '<th class="data-time">' . esc_attr__( 'Time', 'sportspress' ) . '</th>';
 							}
 							break;
 						default:
 							if ( sp_column_active( $usecolumns, 'event' ) ) {
-								if ( $title_format == 'teams' ) {
+								if ( 'teams' === $title_format ) {
 									echo '<th class="data-teams">' . esc_attr__( 'Teams', 'sportspress' ) . '</th>';
 								} else {
 									echo '<th class="data-event">' . esc_attr__( 'Event', 'sportspress' ) . '</th>';
@@ -164,9 +164,9 @@ $identifier = uniqid( 'eventlist_' );
 						continue;
 					}
 
-					$teams  = get_post_meta( $event->ID, 'sp_team' );
-					$video  = get_post_meta( $event->ID, 'sp_video', true );
-					$status = get_post_meta( $event->ID, 'sp_status', true );
+					$teams     = get_post_meta( $event->ID, 'sp_team' );
+					$video     = get_post_meta( $event->ID, 'sp_video', true );
+					$sp_status = get_post_meta( $event->ID, 'sp_status', true );
 
 					$main_results = apply_filters( 'sportspress_event_list_main_results', sp_get_main_results( $event ), $event->ID );
 
@@ -209,8 +209,8 @@ $identifier = uniqid( 'eventlist_' );
 
 								$team_result = sp_array_value( $main_results, $team, null );
 
-								if ( $team_result != null ) :
-									if ( $usecolumns != null && ! in_array( 'time', $usecolumns ) ) :
+								if ( null !== $team_result ) :
+									if ( null !== $usecolumns && ! in_array( 'time', $usecolumns, true ) ) :
 										$team_output .= ' (' . $team_result . ')';
 									endif;
 								endif;
@@ -224,7 +224,7 @@ $identifier = uniqid( 'eventlist_' );
 						$teams_output .= '&mdash;';
 					endif;
 
-					echo '<tr class="sp-row sp-post' . ( $i % 2 == 0 ? ' alternate' : '' ) . ' sp-row-no-' . esc_attr( $i ) . '" itemscope itemtype="http://schema.org/SportsEvent">';
+					echo '<tr class="sp-row sp-post' . ( 0 === $i % 2 ? ' alternate' : '' ) . ' sp-row-no-' . esc_attr( $i ) . '" itemscope itemtype="http://schema.org/SportsEvent">';
 
 						$date_html = '<date>' . get_post_time( 'Y-m-d H:i:s', false, $event ) . '</date>' . apply_filters( 'sportspress_event_date', get_post_time( get_option( 'date_format' ), false, $event, true ), $event->ID );
 
@@ -243,7 +243,7 @@ $identifier = uniqid( 'eventlist_' );
 							)
 						) . '</td>';
 
-						// Check if the reverse_teams option is selected and alter the teams order
+						// Check if the reverse_teams option is selected and alter the teams order.
 					if ( $reverse_teams ) {
 						$teams_array = array_reverse( $teams_array, true );
 					}
@@ -255,8 +255,8 @@ $identifier = uniqid( 'eventlist_' );
 								echo '<td class="data-home' . esc_attr( $team_class ) . '" itemprop="competitor" itemscope itemtype="http://schema.org/SportsTeam" data-label="' . esc_attr__( 'Home', 'sportspress' ) . '">' . wp_kses_post( $team ) . '</td>';
 							}
 
-							if ( 'combined' == $time_format && sp_column_active( $usecolumns, 'time' ) ) {
-								echo '<td class="data-time ' . esc_attr( $status ) . '" data-label="' . esc_attr__( 'Time/Results', 'sportspress' ) . '">';
+							if ( 'combined' === $time_format && sp_column_active( $usecolumns, 'time' ) ) {
+								echo '<td class="data-time ' . esc_attr( $sp_status ) . '" data-label="' . esc_attr__( 'Time/Results', 'sportspress' ) . '">';
 								if ( $link_events ) {
 									echo '<a href="' . esc_url( get_post_permalink( $event->ID, false, true ) ) . '" itemprop="url">';
 								}
@@ -269,7 +269,7 @@ $identifier = uniqid( 'eventlist_' );
 										echo '</a>';
 									}
 									echo '</td>';
-							} elseif ( in_array( $time_format, array( 'separate', 'results' ) ) && sp_column_active( $usecolumns, 'results' ) ) {
+							} elseif ( in_array( $time_format, array( 'separate', 'results' ), true ) && sp_column_active( $usecolumns, 'results' ) ) {
 								echo '<td class="data-results" data-label="' . esc_attr__( 'Results', 'sportspress' ) . '">';
 								if ( $link_events ) {
 									echo '<a href="' . esc_url( get_post_permalink( $event->ID, false, true ) ) . '" itemprop="url">';
@@ -290,8 +290,8 @@ $identifier = uniqid( 'eventlist_' );
 								echo '<td class="data-away' . esc_attr( $team_class ) . '" itemprop="competitor" itemscope itemtype="http://schema.org/SportsTeam" data-label="' . esc_attr__( 'Away', 'sportspress' ) . '">' . wp_kses_post( $team ) . '</td>';
 							}
 
-							if ( in_array( $time_format, array( 'separate', 'time' ) ) && sp_column_active( $usecolumns, 'time' ) ) {
-								echo '<td class="data-time ' . esc_attr( $status ) . '" data-label="' . esc_attr__( 'Time', 'sportspress' ) . '">';
+							if ( in_array( $time_format, array( 'separate', 'time' ), true ) && sp_column_active( $usecolumns, 'time' ) ) {
+								echo '<td class="data-time ' . esc_attr( $sp_status ) . '" data-label="' . esc_attr__( 'Time', 'sportspress' ) . '">';
 								if ( $link_events ) {
 									echo '<a href="' . esc_url( get_post_permalink( $event->ID, false, true ) ) . '" itemprop="url">';
 								}
@@ -304,7 +304,7 @@ $identifier = uniqid( 'eventlist_' );
 							break;
 						default:
 							if ( sp_column_active( $usecolumns, 'event' ) ) {
-								if ( $title_format == 'teams' ) {
+								if ( 'teams' === $title_format ) {
 									echo '<td class="data-event data-teams" data-label="' . esc_attr__( 'Teams', 'sportspress' ) . '">' . wp_kses_post( $teams_output ) . '</td>';
 								} else {
 									$title_html = implode( ' ', $team_logos ) . ' ' . $event->post_title;
@@ -318,7 +318,7 @@ $identifier = uniqid( 'eventlist_' );
 							switch ( $time_format ) {
 								case 'separate':
 									if ( sp_column_active( $usecolumns, 'time' ) ) {
-										echo '<td class="data-time ' . esc_attr( $status ) . '" data-label="' . esc_attr__( 'Time', 'sportspress' ) . '">';
+										echo '<td class="data-time ' . esc_attr( $sp_status ) . '" data-label="' . esc_attr__( 'Time', 'sportspress' ) . '">';
 										if ( $link_events ) {
 											echo '<a href="' . esc_url( get_post_permalink( $event->ID, false, true ) ) . '" itemprop="url">';
 										}
@@ -346,7 +346,7 @@ $identifier = uniqid( 'eventlist_' );
 									break;
 								case 'time':
 									if ( sp_column_active( $usecolumns, 'time' ) ) {
-										echo '<td class="data-time ' . esc_attr( $status ) . '" data-label="' . esc_attr__( 'Time', 'sportspress' ) . '">';
+										echo '<td class="data-time ' . esc_attr( $sp_status ) . '" data-label="' . esc_attr__( 'Time', 'sportspress' ) . '">';
 										if ( $link_events ) {
 											echo '<a href="' . esc_url( get_post_permalink( $event->ID, false, true ) ) . '" itemprop="url">';
 										}
@@ -376,7 +376,7 @@ $identifier = uniqid( 'eventlist_' );
 									break;
 								default:
 									if ( sp_column_active( $usecolumns, 'time' ) ) {
-										echo '<td class="data-time ' . esc_attr( $status ) . '" data-label="' . esc_attr__( 'Time/Results', 'sportspress' ) . '">';
+										echo '<td class="data-time ' . esc_attr( $sp_status ) . '" data-label="' . esc_attr__( 'Time/Results', 'sportspress' ) . '">';
 										if ( $link_events ) {
 											echo '<a href="' . esc_url( get_post_permalink( $event->ID, false, true ) ) . '" itemprop="url">';
 										}
@@ -443,8 +443,8 @@ $identifier = uniqid( 'eventlist_' );
 								elseif ( has_post_thumbnail( $event->ID ) ) :
 									echo '<div class="dashicons dashicons-camera"></div>';
 								endif;
-								if ( $event->post_content !== null ) :
-									if ( $event->post_status == 'publish' ) :
+								if ( null !== $event->post_content ) :
+									if ( 'publish' === $event->post_status ) :
 										esc_attr_e( 'Recap', 'sportspress' );
 									else :
 										esc_attr_e( 'Preview', 'sportspress' );
@@ -460,7 +460,7 @@ $identifier = uniqid( 'eventlist_' );
 						if ( sp_column_active( $usecolumns, 'day' ) ) :
 							echo '<td class="data-day" data-label="' . esc_attr__( 'Match Day', 'sportspress' ) . '">';
 							$day = get_post_meta( $event->ID, 'sp_day', true );
-							if ( '' == $day ) {
+							if ( '' === $day ) {
 								echo '-';
 							} else {
 								echo wp_kses_post( $day );
@@ -478,10 +478,4 @@ $identifier = uniqid( 'eventlist_' );
 			</tbody>
 		</table>
 	</div>
-	<?php
-	// If responsive tables are enabled then load the inline css code
-	if ( $responsive ) {
-		// sportspress_responsive_tables_css( $identifier );
-	}
-	?>
 </div>
