@@ -13,20 +13,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $wpdb, $m, $monthnum, $year, $wp_locale;
 
-$defaults = array(
-	'official_id'          => null,
-	'initial'              => true,
-	'caption_tag'          => 'caption',
-	'override_global_date' => false,
-);
-
-extract( $defaults, EXTR_SKIP );
+$official_id          = null;
+$initial              = true;
+$caption_tag          = 'caption';
+$override_global_date = false;
+$today                = current_time( 'mysql' );
 
 $official = new OTFS_Officials( $official_id );
 
 if ( $override_global_date ) {
-	$year     = gmdate( 'Y', current_time( 'timestamp' ) );
-	$monthnum = gmdate( 'm', current_time( 'timestamp' ) );
+	$year     = gmdate( 'Y', strtotime( $today ) );
+	$monthnum = gmdate( 'm', strtotime( $today ) );
 }
 $events = $official->events();
 
@@ -61,12 +58,12 @@ if ( ! empty( $monthnum ) && ! empty( $year ) ) {
 		$thismonth = '' . zeroise( intval( substr( $m, 4, 2 ) ), 2 );
 	}
 } else {
-	$thisyear  = gmdate( 'Y', current_time( 'timestamp' ) );
-	$thismonth = gmdate( 'm', current_time( 'timestamp' ) );
+	$thisyear  = gmdate( 'Y', strtotime( $today ) );
+	$thismonth = gmdate( 'm', strtotime( $today ) );
 }
 
 $unixmonth = mktime( 0, 0, 0, $thismonth, 1, $thisyear );
-$last_day  = date( 't', $unixmonth );
+$last_day  = gmdate( 't', $unixmonth );
 
 // Get the next and previous month and year with at least one post
 $previous = $wpdb->get_row(
@@ -93,7 +90,7 @@ $calendar_caption = _x( '%1$s %2$s', 'calendar caption', 'sportspress' );
 $calendar_output  = '
 <div class="sp-calendar-wrapper">
 <table id="wp-calendar" class="sp-calendar sp-event-calendar sp-data-table">
-<caption class="sp-table-caption">' . ( $caption_tag == 'caption' ? '' : '<' . $caption_tag . '>' ) . sprintf( $calendar_caption, $wp_locale->get_month( $thismonth ), date( 'Y', $unixmonth ) ) . ( $caption_tag == 'caption' ? '' : '</' . $caption_tag . '>' ) . '</caption>
+<caption class="sp-table-caption">' . ( 'caption' === $caption_tag ? '' : '<' . $caption_tag . '>' ) . sprintf( $calendar_caption, $wp_locale->get_month( $thismonth ), gmdate( 'Y', $unixmonth ) ) . ( 'caption' === $caption_tag ? '' : '</' . $caption_tag . '>' ) . '</caption>
 <thead>
 <tr>';
 
@@ -104,7 +101,7 @@ for ( $wdcount = 0; $wdcount <= 6; $wdcount++ ) {
 }
 
 foreach ( $myweek as $wd ) {
-	$day_name         = ( true == $initial ) ? $wp_locale->get_weekday_initial( $wd ) : $wp_locale->get_weekday_abbrev( $wd );
+	$day_name         = ( true === $initial ) ? $wp_locale->get_weekday_initial( $wd ) : $wp_locale->get_weekday_abbrev( $wd );
 	$wd               = esc_attr( $wd );
 	$calendar_output .= "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
 }
@@ -122,7 +119,7 @@ if ( $previous ) {
 			'sp_year'  => $previous->year,
 			'sp_month' => $previous->month,
 		)
-	) . '" title="' . esc_attr( sprintf( _x( '%1$s %2$s', 'calendar caption', 'sportspress' ), $wp_locale->get_month( $previous->month ), date( 'Y', mktime( 0, 0, 0, $previous->month, 1, $previous->year ) ) ) ) . '">&laquo; ' . $wp_locale->get_month_abbrev( $wp_locale->get_month( $previous->month ) ) . '</a></td>';
+	) . '" title="' . esc_attr( sprintf( _x( '%1$s %2$s', 'calendar caption', 'sportspress' ), $wp_locale->get_month( $previous->month ), gmdate( 'Y', mktime( 0, 0, 0, $previous->month, 1, $previous->year ) ) ) ) . '">&laquo; ' . $wp_locale->get_month_abbrev( $wp_locale->get_month( $previous->month ) ) . '</a></td>';
 } else {
 	$calendar_output .= "\n\t\t" . '<td colspan="3" id="prev" class="pad">&nbsp;</td>';
 }
@@ -135,7 +132,7 @@ if ( $next ) {
 			'sp_year'  => $next->year,
 			'sp_month' => $next->month,
 		)
-	) . '" title="' . esc_attr( sprintf( _x( '%1$s %2$s', 'calendar caption', 'sportspress' ), $wp_locale->get_month( $next->month ), date( 'Y', mktime( 0, 0, 0, $next->month, 1, $next->year ) ) ) ) . '">' . $wp_locale->get_month_abbrev( $wp_locale->get_month( $next->month ) ) . ' &raquo;</a></td>';
+	) . '" title="' . esc_attr( sprintf( _x( '%1$s %2$s', 'calendar caption', 'sportspress' ), $wp_locale->get_month( $next->month ), gmdate( 'Y', mktime( 0, 0, 0, $next->month, 1, $next->year ) ) ) ) . '">' . $wp_locale->get_month_abbrev( $wp_locale->get_month( $next->month ) ) . ' &raquo;</a></td>';
 } else {
 	$calendar_output .= "\n\t\t" . '<td colspan="3" id="next" class="pad">&nbsp;</td>';
 }
@@ -197,12 +194,12 @@ if ( $ak_post_titles ) {
 }
 
 // See how much we should pad in the beginning
-$pad = calendar_week_mod( date( 'w', $unixmonth ) - $week_begins );
-if ( 0 != $pad ) {
+$pad = calendar_week_mod( gmdate( 'w', $unixmonth ) - $week_begins );
+if ( 0 !== $pad ) {
 	$calendar_output .= "\n\t\t" . '<td colspan="' . esc_attr( $pad ) . '" class="pad">&nbsp;</td>';
 }
 
-$daysinmonth = intval( date( 't', $unixmonth ) );
+$daysinmonth = intval( gmdate( 't', $unixmonth ) );
 for ( $day = 1; $day <= $daysinmonth; ++$day ) {
 	if ( isset( $newrow ) && $newrow ) {
 		$calendar_output .= "\n\t</tr>\n\t<tr>\n\t\t";
@@ -212,7 +209,7 @@ for ( $day = 1; $day <= $daysinmonth; ++$day ) {
 	$day_has_posts = array_key_exists( $day, $daywithpost );
 	$td_properties = '';
 
-	if ( $day == gmdate( 'j', current_time( 'timestamp' ) ) && $thismonth == gmdate( 'm', current_time( 'timestamp' ) ) && $thisyear == gmdate( 'Y', current_time( 'timestamp' ) ) ) {
+	if ( gmdate( 'j', strtotime( $today ) ) === $day && gmdate( 'm', strtotime( $today ) ) === $thismonth && gmdate( 'Y', strtotime( $today ) ) === $thisyear ) {
 		$td_properties .= ' id="today" class="sp-highlight"';
 	}
 
@@ -229,13 +226,13 @@ for ( $day = 1; $day <= $daysinmonth; ++$day ) {
 	}
 	$calendar_output .= '</td>';
 
-	if ( 6 == calendar_week_mod( date( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins ) ) {
+	if ( 6 === (int) calendar_week_mod( gmdate( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins ) ) {
 		$newrow = true;
 	}
 }
 
-$pad = 7 - calendar_week_mod( date( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins );
-if ( $pad != 0 && $pad != 7 ) {
+$pad = 7 - calendar_week_mod( gmdate( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins );
+if ( 0 !== $pad && 7 !== $pad ) {
 	$calendar_output .= "\n\t\t" . '<td class="pad" colspan="' . esc_attr( $pad ) . '">&nbsp;</td>';
 }
 
