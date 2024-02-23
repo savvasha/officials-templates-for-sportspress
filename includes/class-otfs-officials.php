@@ -1,8 +1,6 @@
 <?php
 /**
- * Officials Class
- *
- * The OTFS officials class handles individual official data.
+ * OTFS Officials Class
  *
  * @class       OTFS_Officials
  * @version     1.0.0
@@ -41,7 +39,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			return array();
 		}
 		foreach ( $nationalities as $nationality ) :
-			if ( 2 == strlen( $nationality ) ) :
+			if ( 2 === strlen( $nationality ) ) :
 				$legacy      = SP()->countries->legacy;
 				$nationality = strtolower( $nationality );
 				$nationality = sp_array_value( $legacy, $nationality, null );
@@ -70,10 +68,10 @@ class OTFS_Officials extends SP_Custom_Post {
 				),
 			),
 		);
-		if ( 'publish' == $this->status ) {
+		if ( 'publish' === $this->status ) {
 			$args['post_status'] = 'publish';
 		}
-		if ( 'future' == $this->status ) {
+		if ( 'future' === $this->status ) {
 			$args['post_status'] = 'future';
 		}
 		$events = get_posts( $args );
@@ -105,7 +103,7 @@ class OTFS_Officials extends SP_Custom_Post {
 		$stats   = (array) get_post_meta( $this->ID, 'sp_statistics', true );
 		$leagues = (array) sp_array_value( (array) get_post_meta( $this->ID, 'sp_leagues', true ), $league_id );
 		uksort( $leagues, 'sp_sort_terms' );
-		$manual_columns = 'manual' == get_option( 'otfs_officials_columns', 'auto' ) ? true : false;
+		$manual_columns = 'manual' === get_option( 'otfs_officials_columns', 'auto' ) ? true : false;
 
 		$season_ids   = array_filter( wp_list_pluck( $seasons, 'term_id' ) );
 		$season_order = array_flip( $season_ids );
@@ -160,9 +158,9 @@ class OTFS_Officials extends SP_Custom_Post {
 		$formats            = array();
 
 		foreach ( $posts as $post ) :
-			if ( get_option( 'otfs_officials_statistics_mode', 'values' ) == 'icons' ) {
+			if ( get_option( 'otfs_officials_statistics_mode', 'values' ) === 'icons' ) {
 				$icon = apply_filters( 'sportspress_event_performance_icons', '', $post->ID, 1 );
-				if ( $icon != '' ) {
+				if ( '' !== $icon ) {
 					$performance_labels[ $post->post_name ] = $icon;
 				} else {
 					if ( has_post_thumbnail( $post ) ) {
@@ -295,7 +293,7 @@ class OTFS_Officials extends SP_Custom_Post {
 				$team_performance = (array) get_post_meta( $event->ID, 'sp_players', true );
 				$timeline         = (array) get_post_meta( $event->ID, 'sp_timeline', true );
 				$minutes          = get_post_meta( $event->ID, 'sp_minutes', true );
-				if ( $minutes === '' ) {
+				if ( '' === $minutes ) {
 					$minutes = get_option( 'sportspress_event_minutes', 90 );
 				}
 				// Increment events attended.
@@ -349,9 +347,9 @@ class OTFS_Officials extends SP_Custom_Post {
 		$stats = array();
 
 		foreach ( $posts as $post ) :
-			if ( get_option( 'otfs_officials_statistics_mode', 'values' ) == 'icons' ) {
+			if ( get_option( 'otfs_officials_statistics_mode', 'values' ) === 'icons' ) {
 				$icon = apply_filters( 'sportspress_event_performance_icons', '', $post->ID, 1 );
-				if ( $icon != '' ) {
+				if ( '' !== $icon ) {
 					$stats[ $post->post_name ] = $icon;
 				} else {
 					if ( has_post_thumbnail( $post ) ) {
@@ -371,7 +369,7 @@ class OTFS_Officials extends SP_Custom_Post {
 
 		foreach ( $placeholders as $season_id => $season_data ) :
 
-			if ( 0 == $season_id ) {
+			if ( 0 === $season_id ) {
 				continue;
 			}
 
@@ -385,7 +383,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			foreach ( $season_data as $key => $value ) :
 
 				// Use static data if key exists and value is not empty, else use placeholder
-				if ( array_key_exists( $season_id, $data ) && array_key_exists( $key, $data[ $season_id ] ) && $data[ $season_id ][ $key ] != '' ) :
+				if ( array_key_exists( $season_id, $data ) && array_key_exists( $key, $data[ $season_id ] ) && '' !== $data[ $season_id ][ $key ] ) :
 					$value = $data[ $season_id ][ $key ];
 				endif;
 
@@ -417,7 +415,7 @@ class OTFS_Officials extends SP_Custom_Post {
 				if ( array_key_exists( $post->post_name, $columns ) ) {
 					$column_order[ $post->post_name ] = $columns[ $post->post_name ];
 				}
-				if ( in_array( $post->post_name, $usecolumns ) ) {
+				if ( in_array( $post->post_name, $usecolumns, true ) ) {
 					$usecolumn_order[] = $post->post_name;
 				}
 
@@ -449,7 +447,7 @@ class OTFS_Officials extends SP_Custom_Post {
 				continue;
 			}
 			foreach ( $stats as $key => $value ) :
-				if ( in_array( $key, array( 'name', 'team' ) ) ) {
+				if ( in_array( $key, array( 'name', 'team' ), true ) ) {
 					continue;
 				}
 				$value          = floatval( $value );
@@ -486,7 +484,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			$labels = array();
 			if ( is_array( $usecolumns ) ) :
 				foreach ( $usecolumns as $key ) :
-					if ( $key == 'team' ) :
+					if ( 'team' === $key ) :
 						$labels[ $key ] = esc_attr__( 'Team', 'sportspress' );
 					elseif ( array_key_exists( $key, $columns ) ) :
 						$labels[ $key ] = $columns[ $key ];
@@ -499,7 +497,7 @@ class OTFS_Officials extends SP_Custom_Post {
 		else :
 			if ( is_array( $usecolumns ) ) :
 				foreach ( $columns as $key => $label ) :
-					if ( ! in_array( $key, $usecolumns ) ) :
+					if ( ! in_array( $key, $usecolumns, true ) ) :
 						unset( $columns[ $key ] );
 					endif;
 				endforeach;
@@ -515,7 +513,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			}
 
 			// Convert to time notation
-			if ( in_array( 'time', $formats ) ) :
+			if ( in_array( 'time', $formats, true ) ) :
 				foreach ( $merged as $season => $season_performance ) :
 					foreach ( $season_performance as $performance_key => $performance_value ) :
 

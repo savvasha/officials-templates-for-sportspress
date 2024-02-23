@@ -1,14 +1,15 @@
 <?php
 /**
- * Officials Template Loader
+ * OTFS Officials Template Loader
  *
- * @class       OTFS_Officials_Template_Loader
- * @version     1.0
- * @package     OTFS OFFICIALS
+ * @class       OTFS_Template_Loader
+ * @version     1.0.0
+ * @package     OTFS/Classes
  * @category    Class
- * @author      savvasha
+ * @author      SavvasHa
  */
-class OTFS_Officials_Template_Loader {
+
+class OTFS_Template_Loader {
 
 	/**
 	 * Constructor
@@ -52,7 +53,7 @@ class OTFS_Officials_Template_Loader {
 		$templates = apply_filters( 'sportspress_' . $type . '_templates', $templates );
 
 		// Split templates into sections and tabs
-		$slice = array_search( 'tabs', array_keys( $templates ) );
+		$slice = array_search( 'tabs', array_keys( $templates ), true );
 		if ( $slice ) {
 			$section_templates = array_slice( $templates, 0, $slice );
 			$tab_templates     = array_slice( $templates, $slice );
@@ -169,5 +170,5 @@ class OTFS_Officials_Template_Loader {
 	}
 }
 
-new OTFS_Officials_Template_Loader();
+new OTFS_Template_Loader();
 

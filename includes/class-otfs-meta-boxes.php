@@ -2,10 +2,11 @@
 /**
  * OTFS Officials Extra Meta Boxes
  *
- * @author      savvasha
- * @category    Admin
- * @package     OTFS OFFICIALS
+ * @class       OTFS_Meta_Boxes
  * @version     1.0.0
+ * @package     OTFS/Classes
+ * @category    Class
+ * @author      SavvasHa
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -102,8 +103,8 @@ class OTFS_Meta_Boxes {
 		?>
 		<p><strong><?php esc_attr_e( 'Nationality', 'sportspress' ); ?></strong></p>
 		<p><select id="sp_nationality" name="sp_nationality[]" data-placeholder="<?php printf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Nationality', 'sportspress' ) ); ?>" class="widefat chosen-select
-		   <?php if ( is_rtl() ) { ?>
-			 chosen-rtl
+		<?php if ( is_rtl() ) { ?>
+			chosen-rtl
 			<?php } ?>
 			" multiple="multiple">
 			<option value=""></option>
@@ -115,7 +116,6 @@ class OTFS_Meta_Boxes {
 				</optgroup>
 			<?php endforeach; ?>
 		</select></p>
-		
 		<?php if ( taxonomy_exists( 'sp_duty' ) ) { ?>
 			<p><strong><?php esc_attr_e( 'Duties', 'sportspress' ); ?></strong></p>
 			<p>
@@ -358,7 +358,7 @@ class OTFS_Meta_Boxes {
 						if ( 0 === $i % 2 ) {
 							echo ' alternate';}
 						?>
-						 <?php echo esc_attr( implode( ' ', apply_filters( 'otfs_meta_box_officials_statistics_row_classes', array(), $league_id, $div_id ) ) ); ?>" data-league="<?php echo (int) $league_id; ?>" data-season="<?php echo (int) $div_id; ?>">
+						<?php echo esc_attr( implode( ' ', apply_filters( 'otfs_meta_box_officials_statistics_row_classes', array(), $league_id, $div_id ) ) ); ?>" data-league="<?php echo (int) $league_id; ?>" data-season="<?php echo (int) $div_id; ?>">
 							<td>
 								<label>
 									<?php

@@ -1,12 +1,12 @@
 <?php
 /**
- * Officials Template Class (Extends the SP_Templates class)
+ * OTFS Templates Class (Extends the SP_Templates class)
  *
  * @class       OTFS_Templates
- * @version     1.0
- * @package     OTFS OFFICIALS
+ * @version     1.0.0
+ * @package     OTFS/Classes
  * @category    Class
- * @author      savvasha
+ * @author      SavvasHa
  */
 
 if ( ! class_exists( 'SP_Templates' ) || ! defined( 'ABSPATH' ) ) {

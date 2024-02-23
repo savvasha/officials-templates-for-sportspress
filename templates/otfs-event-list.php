@@ -11,25 +11,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$defaults = array(
-	'official_id'    => null,
-	'number'         => -1,
-	'show_team_logo' => get_option( 'sportspress_event_list_show_logos', 'no' ) === 'yes' ? true : false,
-	'link_events'    => get_option( 'sportspress_link_events', 'yes' ) === 'yes' ? true : false,
-	'link_teams'     => get_option( 'sportspress_link_teams', 'no' ) === 'yes' ? true : false,
-	'link_venues'    => get_option( 'sportspress_link_venues', 'yes' ) === 'yes' ? true : false,
-	'responsive'     => get_option( 'sportspress_enable_responsive_tables', 'no' ) === 'yes' ? true : false,
-	'sortable'       => get_option( 'sportspress_enable_sortable_tables', 'yes' ) === 'yes' ? true : false,
-	'scrollable'     => get_option( 'sportspress_enable_scrollable_tables', 'yes' ) === 'yes' ? true : false,
-	'paginated'      => get_option( 'sportspress_event_list_paginated', 'yes' ) === 'yes' ? true : false,
-	'rows'           => get_option( 'sportspress_event_list_rows', 10 ),
-	'order'          => 'default',
-	'columns'        => null,
-	'title_format'   => get_option( 'sportspress_event_list_title_format', 'title' ),
-	'time_format'    => get_option( 'sportspress_event_list_time_format', 'combined' ),
-);
-
-extract( $defaults, EXTR_SKIP );
+$official_id    = null;
+$number         = -1;
+$show_team_logo = get_option( 'sportspress_event_list_show_logos', 'no' ) === 'yes' ? true : false;
+$link_events    = get_option( 'sportspress_link_events', 'yes' ) === 'yes' ? true : false;
+$link_teams     = get_option( 'sportspress_link_teams', 'no' ) === 'yes' ? true : false;
+$link_venues    = get_option( 'sportspress_link_venues', 'yes' ) === 'yes' ? true : false;
+$responsive     = get_option( 'sportspress_enable_responsive_tables', 'no' ) === 'yes' ? true : false;
+$sortable       = get_option( 'sportspress_enable_sortable_tables', 'yes' ) === 'yes' ? true : false;
+$scrollable     = get_option( 'sportspress_enable_scrollable_tables', 'yes' ) === 'yes' ? true : false;
+$paginated      = get_option( 'sportspress_event_list_paginated', 'yes' ) === 'yes' ? true : false;
+$rows           = get_option( 'sportspress_event_list_rows', 10 );
+$order          = 'default';
+$columns        = null;
+$title_format   = get_option( 'sportspress_event_list_title_format', 'title' );
+$time_format    = get_option( 'sportspress_event_list_time_format', 'combined' );
 
 $official        = new OTFS_Officials( $official_id );
 $official->order = $order;
@@ -54,16 +50,16 @@ $identifier = uniqid( 'eventlist_' );
 																	<?php
 																	if ( $paginated ) {
 																		?>
-			 sp-paginated-table
-																		 <?php
+			sp-paginated-table
+																		<?php
 																	} if ( $sortable ) {
 																		?>
-			 sp-sortable-table
-																		 <?php
+			sp-sortable-table
+																		<?php
 																	} if ( $responsive ) {
 																												echo ' sp-responsive-table ' . esc_attr( $identifier ); } if ( $scrollable ) {
 																		?>
-													 sp-scrollable-table <?php } ?>" data-sp-rows="<?php echo esc_attr( $rows ); ?>">
+													sp-scrollable-table <?php } ?>" data-sp-rows="<?php echo esc_attr( $rows ); ?>">
 			<thead>
 				<tr>
 					<?php

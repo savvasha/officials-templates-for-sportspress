@@ -1,23 +1,24 @@
 <?php
 /**
- * SportsPress Officials Settings
+ * OTFS Officials Settings
  *
+ * @class       OTFS_Settings_Officials
+ * @version     1.0.0
+ * @package     OTFS/Classes
+ * @category    Class
  * @author      SavvasHa
- * @category    Admin
- * @package     SportsPress Officials
- * @version     1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( ! class_exists( 'SP_Settings_Officials' ) ) :
+if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 
 	/**
-	 * SP_Settings_Officials
+	 * OTFS_Settings_Officials
 	 */
-	class SP_Settings_Officials extends SP_Settings_Page {
+	class OTFS_Settings_Officials extends SP_Settings_Page {
 
 		/**
 		 * Constructor
@@ -207,4 +208,4 @@ if ( ! class_exists( 'SP_Settings_Officials' ) ) :
 
 endif;
 
-return new SP_Settings_Officials();
+return new OTFS_Settings_Officials();

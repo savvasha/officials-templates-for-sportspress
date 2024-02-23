@@ -19,9 +19,8 @@ if ( ! isset( $id ) ) {
 }
 
 $official = new OTFS_Officials( $id );
-// var_dump($official->stats());
 
-$scrollable         = get_option( 'sportspress_enable_scrollable_tables', 'yes' ) == 'yes' ? true : false;
+$scrollable         = 'yes' === get_option( 'sportspress_enable_scrollable_tables', 'yes' ) ? true : false;
 $show_per_league    = 'yes' === get_option( 'otfs_officials_show_per_league', 'yes' ) ? true : false;
 $show_career_totals = 'yes' === get_option( 'otfs_officials_show_career_total', 'no' ) ? true : false;
 $leagues            = array_filter( (array) get_the_terms( $id, 'sp_league' ) );
@@ -30,12 +29,12 @@ $leagues            = array_filter( (array) get_the_terms( $id, 'sp_league' ) );
 foreach ( $leagues as $key => $league ) {
 	$leagues[ $key ]->sp_order = get_term_meta( $league->term_id, 'sp_order', true );
 }
-if ( ! function_exists( 'sortByOrder' ) ) {
-	function sortByOrder( $a, $b ) {
+if ( ! function_exists( 'sort_by_order' ) ) {
+	function sort_by_order( $a, $b ) {
 		return (int) $a->sp_order - (int) $b->sp_order;
 	}
 }
-usort( $leagues, 'sortByOrder' );
+usort( $leagues, 'sort_by_order' );
 
 $duties          = $official->duties();
 $player_sections = array();

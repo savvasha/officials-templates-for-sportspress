@@ -11,19 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-$defaults = array(
-	'official_id' => null,
-	'number'      => -1,
-	'link_teams'  => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
-	'link_events' => get_option( 'sportspress_link_events', 'yes' ) == 'yes' ? true : false,
-	'paginated'   => get_option( 'sportspress_event_blocks_paginated', 'yes' ) == 'yes' ? true : false,
-	'rows'        => get_option( 'sportspress_event_blocks_rows', 5 ),
-	'show_league' => get_option( 'sportspress_event_blocks_show_league', 'no' ) == 'yes' ? true : false,
-	'show_season' => get_option( 'sportspress_event_blocks_show_season', 'no' ) == 'yes' ? true : false,
-	'show_venue'  => get_option( 'sportspress_event_blocks_show_venue', 'no' ) == 'yes' ? true : false,
-);
-
-extract( $defaults, EXTR_SKIP );
+$official_id = null;
+$number      = -1;
+$link_teams  = 'yes' === get_option( 'sportspress_link_teams', 'no' ) ? true : false;
+$link_events = 'yes' === get_option( 'sportspress_link_events', 'yes' ) ? true : false;
+$paginated   = 'yes' === get_option( 'sportspress_event_blocks_paginated', 'yes' ) ? true : false;
+$rows        = get_option( 'sportspress_event_blocks_rows', 5 );
+$show_league = 'yes' === get_option( 'sportspress_event_blocks_show_league', 'no' ) ? true : false;
+$show_season = 'yes' === get_option( 'sportspress_event_blocks_show_season', 'no' ) ? true : false;
+$show_venue  = 'yes' === get_option( 'sportspress_event_blocks_show_venue', 'no' ) ? true : false;
 
 $args = array(
 	'title'                => esc_attr__( 'Fixtures', 'sportspress' ),
@@ -56,7 +52,7 @@ ob_start();
 sp_get_template( 'otfs-event-blocks.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
 $results = ob_get_clean();
 
-if ( false == $fixtures || false == $results ) {
+if ( false === $fixtures || false === $results ) {
 
 	echo $fixtures; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $results; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

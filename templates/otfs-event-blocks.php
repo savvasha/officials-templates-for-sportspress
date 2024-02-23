@@ -11,28 +11,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-$defaults = array(
-	'status'         => 'default',
-	'format'         => 'default',
-	'official_id'    => null,
-	'number'         => -1,
-	'show_team_logo' => get_option( 'sportspress_event_blocks_show_logos', 'yes' ) == 'yes' ? true : false,
-	'link_teams'     => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
-	'link_events'    => get_option( 'sportspress_link_events', 'yes' ) == 'yes' ? true : false,
-	'paginated'      => get_option( 'sportspress_event_blocks_paginated', 'yes' ) == 'yes' ? true : false,
-	'rows'           => get_option( 'sportspress_event_blocks_rows', 5 ),
-	'orderby'        => 'default',
-	'order'          => 'default',
-	'columns'        => null,
-	'show_title'     => get_option( 'sportspress_event_blocks_show_title', 'no' ) == 'yes' ? true : false,
-	'show_league'    => get_option( 'sportspress_event_blocks_show_league', 'no' ) == 'yes' ? true : false,
-	'show_season'    => get_option( 'sportspress_event_blocks_show_season', 'no' ) == 'yes' ? true : false,
-	'show_matchday'  => get_option( 'sportspress_event_blocks_show_matchday', 'no' ) == 'yes' ? true : false,
-	'show_venue'     => get_option( 'sportspress_event_blocks_show_venue', 'no' ) == 'yes' ? true : false,
-	'hide_if_empty'  => false,
-);
-
-extract( $defaults, EXTR_SKIP );
+$status         = 'default';
+$format         = 'default';
+$official_id    = null;
+$number         = -1;
+$show_team_logo = 'yes' === get_option( 'sportspress_event_blocks_show_logos', 'yes' ) ? true : false;
+$link_teams     = 'yes' === get_option( 'sportspress_link_teams', 'no' ) ? true : false;
+$link_events    = 'yes' === get_option( 'sportspress_link_events', 'yes' ) ? true : false;
+$paginated      = 'yes' === get_option( 'sportspress_event_blocks_paginated', 'yes' ) ? true : false;
+$rows           = get_option( 'sportspress_event_blocks_rows', 5 );
+$orderby        = 'default';
+$order          = 'default';
+$columns        = null;
+$show_title     = 'yes' === get_option( 'sportspress_event_blocks_show_title', 'no' ) ? true : false;
+$show_league    = 'yes' === get_option( 'sportspress_event_blocks_show_league', 'no' ) ? true : false;
+$show_season    = 'yes' === get_option( 'sportspress_event_blocks_show_season', 'no' ) ? true : false;
+$show_matchday  = 'yes' === get_option( 'sportspress_event_blocks_show_matchday', 'no' ) ? true : false;
+$show_venue     = 'yes' === get_option( 'sportspress_event_blocks_show_venue', 'no' ) ? true : false;
+$hide_if_empty  = false;
 
 $official         = new OTFS_Officials( $official_id );
 $official->status = $status;
@@ -71,7 +67,7 @@ if ( $title ) {
 		<?php
 		if ( $paginated ) {
 			?>
-			 sp-paginated-table<?php } ?>" data-sp-rows="<?php echo esc_attr( $rows ); ?>">
+			sp-paginated-table<?php } ?>" data-sp-rows="<?php echo esc_attr( $rows ); ?>">
 			<thead><tr><th></th></tr></thead> <?php // Required for DataTables ?>
 			<tbody>
 				<?php
@@ -120,17 +116,8 @@ if ( $title ) {
 							$logos[] = $logo;
 						endforeach;
 					endif;
-
-					/*
-					if ( 'day' === $calendar->orderby ) :
-						$event_group = get_post_meta( $event->ID, 'sp_day', true );
-						if ( ! isset( $group ) || $event_group !== $group ) :
-							$group = $event_group;
-							echo '<tr><th><strong class="sp-event-group-name">', esc_attr__( 'Match Day', 'sportspress' ), ' ', wp_kses_post( $group ), '</strong></th></tr>';
-						endif;
-					endif;*/
 					?>
-					<tr class="sp-row sp-post<?php echo ( $i % 2 == 0 ? ' alternate' : '' ); ?>" itemscope itemtype="http://schema.org/SportsEvent">
+					<tr class="sp-row sp-post<?php echo ( 0 === $i % 2 ? ' alternate' : '' ); ?>" itemscope itemtype="http://schema.org/SportsEvent">
 						<td>
 							<?php do_action( 'sportspress_event_blocks_before', $event, $usecolumns ); ?>
 							<?php echo wp_kses_post( implode( ' ', $logos ) ); ?>
@@ -139,7 +126,7 @@ if ( $title ) {
 							</time>
 							<?php
 							if ( $show_matchday ) :
-								$matchday = get_post_meta( $event->ID, 'sp_day', true ); if ( $matchday != '' ) :
+								$matchday = get_post_meta( $event->ID, 'sp_day', true ); if ( '' !== $matchday ) :
 									?>
 								<div class="sp-event-matchday">(<?php echo wp_kses_post( $matchday ); ?>)</div>
 															<?php
