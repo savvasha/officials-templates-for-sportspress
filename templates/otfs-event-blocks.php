@@ -1,10 +1,10 @@
 <?php
 /**
- * Event Blocks
+ * Based on SporsPress Event Blocks
  *
- * @author      ThemeBoy
- * @package     SportsPress/Templates
- * @version   2.7.9
+ * @author      savvasha
+ * @package     OTFS/Templates
+ * @version     1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
