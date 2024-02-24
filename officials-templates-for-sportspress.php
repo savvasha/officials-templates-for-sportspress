@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Officials Templates for SportsPress
  * Description: Add templates to Officials pages
- * Version: 1.0.0
+ * Version: 1.0
  * Author: Savvas
  * Author URI: https://savvasha.com
  * Requires at least: 5.3
