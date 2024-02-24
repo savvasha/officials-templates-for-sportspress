@@ -115,7 +115,6 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 								'type'    => 'select',
 								'options' => array(
 									'blocks'   => esc_attr__( 'Blocks', 'sportspress' ),
-									'calendar' => esc_attr__( 'Calendar', 'sportspress' ),
 									'list'     => esc_attr__( 'List', 'sportspress' ),
 								),
 							),
