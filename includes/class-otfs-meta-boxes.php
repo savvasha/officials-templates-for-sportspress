@@ -102,7 +102,12 @@ class OTFS_Meta_Boxes {
 		endif;
 		?>
 		<p><strong><?php esc_attr_e( 'Nationality', 'sportspress' ); ?></strong></p>
-		<p><select id="sp_nationality" name="sp_nationality[]" data-placeholder="<?php printf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Nationality', 'sportspress' ) ); ?>" class="widefat chosen-select
+		<p><select id="sp_nationality" name="sp_nationality[]" data-placeholder="
+		<?php
+		// Translators: This is the label for the Nationality dropdown.
+		printf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Nationality', 'sportspress' ) );
+		?>
+		" class="widefat chosen-select
 		<?php if ( is_rtl() ) { ?>
 			chosen-rtl
 			<?php } ?>
@@ -125,6 +130,7 @@ class OTFS_Meta_Boxes {
 				'name'        => 'tax_input[sp_duty][]',
 				'selected'    => $duty_ids,
 				'values'      => 'term_id',
+				// Translators: This is the label for the Duties dropdown.
 				'placeholder' => sprintf( esc_attr__( 'Select %s', 'sportspress' ), esc_attr__( 'Duties', 'sportspress' ) ),
 				'class'       => 'widefat',
 				'property'    => 'multiple',
@@ -143,6 +149,7 @@ class OTFS_Meta_Boxes {
 					'name'        => 'tax_input[sp_league][]',
 					'selected'    => $league_ids,
 					'values'      => 'term_id',
+					// Translators: This is the label for the Leagues dropdown.
 					'placeholder' => sprintf( esc_attr__( 'Show all %s', 'sportspress' ), esc_attr__( 'Leagues', 'sportspress' ) ),
 					'class'       => 'widefat',
 					'property'    => 'multiple',
@@ -162,6 +169,7 @@ class OTFS_Meta_Boxes {
 					'name'        => 'tax_input[sp_season][]',
 					'selected'    => $season_ids,
 					'values'      => 'term_id',
+					// Translators: This is the label for the Seasons dropdown.
 					'placeholder' => sprintf( esc_attr__( 'Show all %s', 'sportspress' ), esc_attr__( 'Seasons', 'sportspress' ) ),
 					'class'       => 'widefat',
 					'property'    => 'multiple',
