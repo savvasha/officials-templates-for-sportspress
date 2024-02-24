@@ -8,14 +8,14 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 if ( get_option( 'sportspress_officials_show_details', 'yes' ) === 'no' ) {
 	return;
 }
 
-if ( ! isset( $id ) ) {
-	$id = get_the_ID();
+if ( ! isset( $official_id ) ) {
+	$official_id = get_the_ID();
 }
 
 $show_name              = get_option( 'sportspress_officials_show_name', 'no' ) === 'yes' ? true : false;
@@ -25,13 +25,13 @@ $show_nationality_flags = get_option( 'sportspress_officials_show_flags', 'yes' 
 $show_birthday          = get_option( 'sportspress_officials_show_birthday', 'yes' ) === 'yes' ? true : false;
 $show_age               = get_option( 'sportspress_officials_show_age', 'yes' ) === 'yes' ? true : false;
 
-$official      = new OTFS_Officials( $id );
-$nationalities = $official->nationalities( $id );
+$official      = new OTFS_Officials( $official_id );
+$nationalities = $official->nationalities( $official_id );
 
 $data = array();
 
 if ( $show_name ) :
-	$data[ esc_attr__( 'Name', 'sportspress' ) ] = get_the_title( $id );
+	$data[ esc_attr__( 'Name', 'sportspress' ) ] = get_the_title( $official_id );
 endif;
 
 if ( $show_nationality && $nationalities && is_array( $nationalities ) ) :
@@ -50,7 +50,7 @@ if ( $show_nationality && $nationalities && is_array( $nationalities ) ) :
 endif;
 
 if ( $show_duties ) :
-	$duties = $official->duties( $id );
+	$duties = $official->duties( $official_id );
 	if ( $duties && is_array( $duties ) ) :
 		$duty_names = array();
 		foreach ( $duties as $duty ) :
@@ -61,15 +61,15 @@ if ( $show_duties ) :
 endif;
 
 if ( $show_birthday ) {
-	$data[ esc_attr__( 'Birthday', 'sportspress' ) ] = get_the_date( get_option( 'date_format' ), $id );
+	$data[ esc_attr__( 'Birthday', 'sportspress' ) ] = get_the_date( get_option( 'date_format' ), $official_id );
 }
 
 if ( $show_age ) {
 	$sp_birthday_functions                      = new SportsPress_Birthdays();
-	$data[ esc_attr__( 'Age', 'sportspress' ) ] = $sp_birthday_functions->get_age( get_the_date( 'm-d-Y', $id ) );
+	$data[ esc_attr__( 'Age', 'sportspress' ) ] = $sp_birthday_functions->get_age( get_the_date( 'm-d-Y', $official_id ) );
 }
 
-$data = apply_filters( 'sportspress_officials_details', $data, $id );
+$data = apply_filters( 'sportspress_officials_details', $data, $official_id );
 
 if ( empty( $data ) ) {
 	return;

@@ -9,6 +9,9 @@
  * @author      SavvasHa
  */
 
+/**
+ * OTFS_Template_Loader
+ */
 class OTFS_Template_Loader {
 
 	/**
@@ -18,21 +21,31 @@ class OTFS_Template_Loader {
 		add_filter( 'the_content', array( $this, 'officials_content' ) );
 	}
 
+	/**
+	 * Add content based on type, position, and caption.
+	 *
+	 * @param string $content  The original content.
+	 * @param string $type     The type of content.
+	 * @param int    $position The position of the content.
+	 * @param string $caption  The caption for the content.
+	 *
+	 * @return string Modified content.
+	 */
 	public function add_content( $content, $type, $position = 10, $caption = null ) {
 		if ( ! defined( 'ABSPATH' ) ) {
-			exit; // Exit if accessed directly
+			exit; // Exit if accessed directly.
 		}
 		if ( ! in_the_loop() ) {
-			return; // Return if not in main loop
+			return; // Return if not in main loop.
 		}
 
-		// Return password form if required
+		// Return password form if required.
 		if ( post_password_required() ) {
 			echo get_the_password_form(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return;
 		}
 
-		// Prepend caption to content if given
+		// Prepend caption to content if given.
 		if ( $content ) {
 			if ( $caption ) {
 				$content = '<h3 class="sp-post-caption">' . $caption . '</h3>' . $content;
@@ -41,18 +54,18 @@ class OTFS_Template_Loader {
 			$content = '<div class="sp-post-content">' . $content . '</div>';
 		}
 
-		// Get layout setting
+		// Get layout setting.
 		$layout = (array) get_option( 'sportspress_' . $type . '_template_order', array() );
 
-		// Get templates
+		// Get templates.
 		$templates = SP()->templates->$type;
 
-		// Combine layout setting with available templates
+		// Combine layout setting with available templates.
 		$templates = array_merge( array_flip( $layout ), $templates );
 
 		$templates = apply_filters( 'sportspress_' . $type . '_templates', $templates );
 
-		// Split templates into sections and tabs
+		// Split templates into sections and tabs.
 		$slice = array_search( 'tabs', array_keys( $templates ), true );
 		if ( $slice ) {
 			$section_templates = array_slice( $templates, 0, $slice );
@@ -64,13 +77,13 @@ class OTFS_Template_Loader {
 
 		ob_start();
 
-		// Before template hook
+		// Before template hook.
 		do_action( 'sportspress_before_single_' . $type );
 
-		// Loop through sections
+		// Loop through sections.
 		if ( ! empty( $section_templates ) ) {
 			foreach ( $section_templates as $key => $template ) {
-				// Ignore templates that are unavailable or that have been turned off
+				// Ignore templates that are unavailable or that have been turned off.
 				if ( ! is_array( $template ) ) {
 					continue;
 				}
@@ -81,11 +94,11 @@ class OTFS_Template_Loader {
 					continue;
 				}
 
-				// Render the template
+				// Render the template.
 				echo '<div class="sp-section-content sp-section-content-' . esc_attr( $key ) . '">';
 				if ( 'content' === $key ) {
 					echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					// Template content hook
+					// Template content hook.
 					do_action( 'sportspress_single_' . $type . '_content' );
 				} else {
 					call_user_func( $template['action'] );
@@ -94,7 +107,7 @@ class OTFS_Template_Loader {
 			}
 		}
 
-		// After template hook
+		// After template hook.
 		do_action( 'sportspress_after_single_' . $type );
 
 		$ob = ob_get_clean();
@@ -106,7 +119,7 @@ class OTFS_Template_Loader {
 			$tab_content = '';
 
 			foreach ( $tab_templates as $key => $template ) {
-				// Ignore templates that are unavailable or that have been turned off
+				// Ignore templates that are unavailable or that have been turned off.
 				if ( ! is_array( $template ) ) {
 					continue;
 				}
@@ -117,7 +130,7 @@ class OTFS_Template_Loader {
 					continue;
 				}
 
-				// Put tab content into buffer
+				// Put tab content into buffer.
 				ob_start();
 				if ( 'content' === $key ) {
 					echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -126,21 +139,21 @@ class OTFS_Template_Loader {
 				}
 				$buffer = ob_get_clean();
 
-				// Trim whitespace from buffer
+				// Trim whitespace from buffer.
 				$buffer = trim( $buffer );
 
-				// Continue if tab content is empty
+				// Continue if tab content is empty.
 				if ( empty( $buffer ) ) {
 					continue;
 				}
 
-				// Get template label
+				// Get template label.
 				$label = sp_array_value( $template, 'label', $template['title'] );
 
-				// Add to tabs
+				// Add to tabs.
 				$tabs .= '<li class="sp-tab-menu-item' . ( 0 === $i ? ' sp-tab-menu-item-active' : '' ) . '"><a href="#sp-tab-content-' . $key . '" data-sp-tab="' . $key . '">' . apply_filters( 'gettext', $label, $label, 'sportspress' ) . '</a></li>';
 
-				// Render the template
+				// Render the template.
 				$tab_content .= '<div class="sp-tab-content sp-tab-content-' . $key . '" id="sp-tab-content-' . $key . '"' . ( 0 === $i ? ' style="display: block;"' : '' ) . '>' . $buffer . '</div>';
 
 				$i++;
@@ -160,6 +173,15 @@ class OTFS_Template_Loader {
 		return $ob;
 	}
 
+	/**
+	 * Filter the content for single sp_official posts.
+	 *
+	 * This function modifies the content for single sp_official posts by adding
+	 * specific content based on the SportsPress configuration and settings.
+	 *
+	 * @param string $content The original content.
+	 * @return string Modified content for single sp_official posts.
+	 */
 	public function officials_content( $content ) {
 		if ( is_singular( 'sp_official' ) ) {
 			// $sp_template_class = new SP_Template_Loader();

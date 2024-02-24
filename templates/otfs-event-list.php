@@ -22,13 +22,13 @@ $sortable       = get_option( 'sportspress_enable_sortable_tables', 'yes' ) === 
 $scrollable     = get_option( 'sportspress_enable_scrollable_tables', 'yes' ) === 'yes' ? true : false;
 $paginated      = get_option( 'sportspress_event_list_paginated', 'yes' ) === 'yes' ? true : false;
 $rows           = get_option( 'sportspress_event_list_rows', 10 );
-$order          = 'default';
+$otfs_order     = 'default';
 $columns        = null;
 $title_format   = get_option( 'sportspress_event_list_title_format', 'title' );
 $time_format    = get_option( 'sportspress_event_list_time_format', 'combined' );
 
 $official        = new OTFS_Officials( $official_id );
-$official->order = $order;
+$official->order = $otfs_order;
 $data            = $official->events();
 $usecolumns      = array();
 

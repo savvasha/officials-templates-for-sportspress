@@ -8,47 +8,41 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 global $wpdb, $m, $monthnum, $year, $wp_locale;
 
-$official_id          = null;
-$initial              = true;
-$caption_tag          = 'caption';
-$override_global_date = false;
-$today                = current_time( 'mysql' );
+$official_id = null;
+$initial     = true;
+$caption_tag = 'caption';
+$today       = current_time( 'mysql' );
 
 $official = new OTFS_Officials( $official_id );
-
-if ( $override_global_date ) {
-	$year     = gmdate( 'Y', strtotime( $today ) );
-	$monthnum = gmdate( 'm', strtotime( $today ) );
-}
-$events = $official->events();
+$events   = $official->events();
 
 if ( empty( $events ) ) {
-	$in = 'AND 1 = 0'; // False logic to prevent SQL error
+	$in = 'AND 1 = 0'; // False logic to prevent SQL error.
 } else {
 	$event_ids = wp_list_pluck( $events, 'ID' );
 	$in        = 'AND ID IN (' . implode( ', ', $event_ids ) . ')';
 }
 
-// week_begins = 0 stands for Sunday
+// week_begins = 0 stands for Sunday.
 $week_begins = intval( get_option( 'start_of_week' ) );
 
-// Get year and month from query vars
-$year     = isset( $_GET['sp_year'] ) ? sanitize_text_field( wp_unslash( $_GET['sp_year'] ) ) : $year;
-$monthnum = isset( $_GET['sp_month'] ) ? sanitize_text_field( wp_unslash( $_GET['sp_month'] ) ) : $monthnum;
+// Get year and month from query vars.
+$otfs_year     = isset( $_GET['sp_year'] ) ? sanitize_text_field( wp_unslash( $_GET['sp_year'] ) ) : $year;
+$otfs_monthnum = isset( $_GET['sp_month'] ) ? sanitize_text_field( wp_unslash( $_GET['sp_month'] ) ) : $monthnum;
 
-// Let's figure out when we are
-if ( ! empty( $monthnum ) && ! empty( $year ) ) {
-	$thismonth = '' . zeroise( intval( $monthnum ), 2 );
-	$thisyear  = '' . intval( $year );
+// Let's figure out when we are.
+if ( ! empty( $otfs_monthnum ) && ! empty( $otfs_year ) ) {
+	$thismonth = '' . zeroise( intval( $otfs_monthnum ), 2 );
+	$thisyear  = '' . intval( $otfs_year );
 } elseif ( ! empty( $w ) ) {
-	// We need to get the month from MySQL
+	// We need to get the month from MySQL.
 	$thisyear  = '' . intval( substr( $m, 0, 4 ) );
-	$d         = ( ( $w - 1 ) * 7 ) + 6; // it seems MySQL's weeks disagree with PHP's
+	$d         = ( ( $w - 1 ) * 7 ) + 6; // it seems MySQL's weeks disagree with PHP's.
 	$thismonth = $wpdb->get_var( "SELECT DATE_FORMAT((DATE_ADD('{$thisyear}0101', INTERVAL $d DAY) ), '%m')" );
 } elseif ( ! empty( $m ) ) {
 	$thisyear = '' . intval( substr( $m, 0, 4 ) );
@@ -65,7 +59,7 @@ if ( ! empty( $monthnum ) && ! empty( $year ) ) {
 $unixmonth = mktime( 0, 0, 0, $thismonth, 1, $thisyear );
 $last_day  = gmdate( 't', $unixmonth );
 
-// Get the next and previous month and year with at least one post
+// Get the next and previous month and year with at least one post.
 $previous = $wpdb->get_row(
 	"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 	FROM $wpdb->posts
@@ -144,7 +138,7 @@ $calendar_output .= '
 <tbody>
 <tr>';
 
-// Get days with posts
+// Get days with posts.
 $dayswithposts = $wpdb->get_results(
 	"SELECT DAYOFMONTH(post_date), ID
 	FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
@@ -185,7 +179,7 @@ if ( $ak_post_titles ) {
 		if ( empty( $ak_titles_for_day[ 'day_' . $ak_post_title->dom ] ) ) {
 			$ak_titles_for_day[ 'day_' . $ak_post_title->dom ] = '';
 		}
-		if ( empty( $ak_titles_for_day[ "$ak_post_title->dom" ] ) ) { // first one
+		if ( empty( $ak_titles_for_day[ "$ak_post_title->dom" ] ) ) { // first one.
 			$ak_titles_for_day[ "$ak_post_title->dom" ] = $post_title;
 		} else {
 			$ak_titles_for_day[ "$ak_post_title->dom" ] .= $ak_title_separator . $post_title;
@@ -193,7 +187,7 @@ if ( $ak_post_titles ) {
 	}
 }
 
-// See how much we should pad in the beginning
+// See how much we should pad in the beginning.
 $pad = calendar_week_mod( gmdate( 'w', $unixmonth ) - $week_begins );
 if ( 0 !== $pad ) {
 	$calendar_output .= "\n\t\t" . '<td colspan="' . esc_attr( $pad ) . '" class="pad">&nbsp;</td>';
@@ -220,7 +214,7 @@ for ( $day = 1; $day <= $daysinmonth; ++$day ) {
 	$calendar_output .= '<td' . $td_properties . '>';
 
 	if ( $day_has_posts ) { // any posts today?
-		$calendar_output .= '<a data-tooltip data-options="disable_for_touch:true" class="has-tip" href="' . ( sizeof( $daywithpost[ $day ] ) > 1 ? add_query_arg( array( 'post_type' => 'sp_event' ), get_day_link( $thisyear, $thismonth, $day ) ) . '" title="' . sprintf( esc_attr__( '%s events', 'sportspress' ), ( sizeof( $daywithpost[ $day ] ) ) ) : get_post_permalink( $daywithpost[ $day ][0], false, true ) . '" title="' . esc_attr( $ak_titles_for_day[ $day ] ) ) . "\" itemprop=\"url\">$day</a>";
+		$calendar_output .= '<a data-tooltip data-options="disable_for_touch:true" class="has-tip" href="' . ( count( $daywithpost[ $day ] ) > 1 ? add_query_arg( array( 'post_type' => 'sp_event' ), get_day_link( $thisyear, $thismonth, $day ) ) . '" title="' . sprintf( esc_attr__( '%s events', 'sportspress' ), ( count( $daywithpost[ $day ] ) ) ) : get_post_permalink( $daywithpost[ $day ][0], false, true ) . '" title="' . esc_attr( $ak_titles_for_day[ $day ] ) ) . "\" itemprop=\"url\">$day</a>";
 	} else {
 		$calendar_output .= $day;
 	}

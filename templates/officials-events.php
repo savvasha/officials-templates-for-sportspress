@@ -8,22 +8,22 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 if ( get_option( 'sportspress_officials_show_events', 'yes' ) === 'no' ) {
 	return;
 }
 
-if ( ! isset( $id ) ) {
-	$id = get_the_ID();
+if ( ! isset( $official_id ) ) {
+	$official_id = get_the_ID();
 }
 
 $format = get_option( 'otfs_officials_events_format', 'list' );
 if ( 'calendar' === $format ) {
-	sp_get_template( 'otfs-event-calendar.php', array( 'official_id' => $id ), '', OTFS_PLUGIN_DIR . 'templates/' );
+	sp_get_template( 'otfs-event-calendar.php', array( 'official_id' => $official_id ), '', OTFS_PLUGIN_DIR . 'templates/' );
 } elseif ( 'list' === $format ) {
 	$args = array(
-		'official_id'  => $id,
+		'official_id'  => $official_id,
 		'title_format' => 'homeaway',
 		'time_format'  => 'separate',
 		'columns'      => array( 'event', 'time', 'results' ),
@@ -32,5 +32,5 @@ if ( 'calendar' === $format ) {
 	$args = apply_filters( 'otfs_official_events_list_args', $args );
 	sp_get_template( 'otfs-event-list.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
 } else {
-	sp_get_template( 'otfs-event-fixtures-results.php', array( 'official_id' => $id ), '', OTFS_PLUGIN_DIR . 'templates/' );
+	sp_get_template( 'otfs-event-fixtures-results.php', array( 'official_id' => $official_id ), '', OTFS_PLUGIN_DIR . 'templates/' );
 }

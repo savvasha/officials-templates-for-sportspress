@@ -10,9 +10,12 @@
  */
 
 if ( ! class_exists( 'SP_Templates' ) || ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
+/**
+ * OTFS_Templates
+ */
 class OTFS_Templates {
 
 	/**
@@ -22,7 +25,7 @@ class OTFS_Templates {
 	 * @return void
 	 */
 	public function __construct() {
-		// Add your custom template values here
+		// Add your custom template values here.
 		SP()->templates->officials = array_merge(
 			apply_filters(
 				'sportspress_before_officials_template',
@@ -78,7 +81,7 @@ class OTFS_Templates {
 	}
 
 	/**
-	 * Output otfs Officials Templates.
+	 * Output otfs Officials Selector template.
 	 *
 	 * @access public
 	 * @return void
@@ -86,18 +89,53 @@ class OTFS_Templates {
 	public function sportspress_output_officials_selector() {
 		sp_get_template( 'officials-selector.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
+
+	/**
+	 * Output otfs Officials Photo template.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function sportspress_output_officials_photo() {
 		sp_get_template( 'officials-photo.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
+
+	/**
+	 * Output otfs Officials Details template.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function sportspress_output_officials_details() {
 		sp_get_template( 'officials-details.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
+
+	/**
+	 * Output otfs Officials Content template.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function sportspress_output_officials_content() {
 		sp_get_template( 'officials-content.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
+
+	/**
+	 * Output otfs Officials Events template.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function sportspress_output_officials_events() {
 		sp_get_template( 'officials-events.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
+
+	/**
+	 * Output otfs Officials Statistics template.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function sportspress_output_officials_statistics() {
 		sp_get_template( 'officials-statistics.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}

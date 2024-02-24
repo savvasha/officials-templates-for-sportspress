@@ -8,10 +8,10 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
-$status         = 'default';
+$otfs_status    = 'default';
 $format         = 'default';
 $official_id    = null;
 $number         = -1;
@@ -20,19 +20,19 @@ $link_teams     = 'yes' === get_option( 'sportspress_link_teams', 'no' ) ? true 
 $link_events    = 'yes' === get_option( 'sportspress_link_events', 'yes' ) ? true : false;
 $paginated      = 'yes' === get_option( 'sportspress_event_blocks_paginated', 'yes' ) ? true : false;
 $rows           = get_option( 'sportspress_event_blocks_rows', 5 );
-$orderby        = 'default';
-$order          = 'default';
-$columns        = null;
-$show_title     = 'yes' === get_option( 'sportspress_event_blocks_show_title', 'no' ) ? true : false;
-$show_league    = 'yes' === get_option( 'sportspress_event_blocks_show_league', 'no' ) ? true : false;
-$show_season    = 'yes' === get_option( 'sportspress_event_blocks_show_season', 'no' ) ? true : false;
-$show_matchday  = 'yes' === get_option( 'sportspress_event_blocks_show_matchday', 'no' ) ? true : false;
-$show_venue     = 'yes' === get_option( 'sportspress_event_blocks_show_venue', 'no' ) ? true : false;
-$hide_if_empty  = false;
+// $orderby        = 'default';
+$otfs_order    = 'default';
+$columns       = null;
+$show_title    = 'yes' === get_option( 'sportspress_event_blocks_show_title', 'no' ) ? true : false;
+$show_league   = 'yes' === get_option( 'sportspress_event_blocks_show_league', 'no' ) ? true : false;
+$show_season   = 'yes' === get_option( 'sportspress_event_blocks_show_season', 'no' ) ? true : false;
+$show_matchday = 'yes' === get_option( 'sportspress_event_blocks_show_matchday', 'no' ) ? true : false;
+$show_venue    = 'yes' === get_option( 'sportspress_event_blocks_show_venue', 'no' ) ? true : false;
+$hide_if_empty = false;
 
 $official         = new OTFS_Officials( $official_id );
-$official->status = $status;
-$official->order  = $order;
+$official->status = $otfs_status;
+$official->order  = $otfs_order;
 $data             = $official->events();
 $usecolumns       = array();
 
@@ -48,17 +48,17 @@ if ( $hide_if_empty && empty( $data ) ) {
 	return false;
 }
 
-if ( $show_title && false === $title && $id ) :
+if ( $show_title && false === $otfs_title && $id ) :
 	$caption = $calendar->caption;
 	if ( $caption ) {
-		$title = $caption;
+		$otfs_title = $caption;
 	} else {
-		$title = get_the_title( $id );
+		$otfs_title = get_the_title( $id );
 	}
 endif;
 
-if ( $title ) {
-	echo '<h4 class="sp-table-caption">' . wp_kses_post( $title ) . '</h4>';
+if ( $otfs_title ) {
+	echo '<h4 class="sp-table-caption">' . wp_kses_post( $otfs_title ) . '</h4>';
 }
 ?>
 <div class="sp-template sp-template-event-blocks">
@@ -68,7 +68,7 @@ if ( $title ) {
 		if ( $paginated ) {
 			?>
 			sp-paginated-table<?php } ?>" data-sp-rows="<?php echo esc_attr( $rows ); ?>">
-			<thead><tr><th></th></tr></thead> <?php // Required for DataTables ?>
+			<thead><tr><th></th></tr></thead> <?php // Required for DataTables. ?>
 			<tbody>
 				<?php
 				$i = 0;

@@ -8,18 +8,18 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 if ( get_option( 'sportspress_officials_show_content', 'yes' ) === 'no' ) {
 	return;
 }
 
-if ( ! isset( $id ) ) {
-	$id = get_the_ID();
+if ( ! isset( $official_id ) ) {
+	$official_id = get_the_ID();
 }
 
-$post    = get_post( $id );
-$content = $post->post_content;
+$otfs_post = get_post( $official_id );
+$content   = $otfs_post->post_content;
 if ( $content ) {
 	?>
 	<div class="sp-post-content">

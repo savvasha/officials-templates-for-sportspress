@@ -1,6 +1,6 @@
 <?php
 /**
- * OTFS Officials Class
+ * OTFS Officials Class File
  *
  * @class       OTFS_Officials
  * @version     1.0.0
@@ -9,12 +9,25 @@
  * @author      SavvasHa
  */
 
+/**
+ * OTFS_Officials
+ */
 class OTFS_Officials extends SP_Custom_Post {
 
-	/** @var string The events status. */
+	/**
+	 * Status.
+	 *
+	 * @since 1.0.0
+	 * @var string $status The events status.
+	 */
 	public $status = 'any';
 
-	/** @var string The events ordering. */
+	/**
+	 * Order.
+	 *
+	 * @since 1.0.0
+	 * @var string $order The events ordering.
+	 */
 	public $order = 'DESC';
 
 	/**
@@ -49,7 +62,7 @@ class OTFS_Officials extends SP_Custom_Post {
 	}
 
 	/**
-	 * Returns formatted events
+	 * Returns formatted events.
 	 *
 	 * @access public
 	 * @return array
@@ -80,14 +93,14 @@ class OTFS_Officials extends SP_Custom_Post {
 	}
 
 	/**
-	 * Returns formatted stats
+	 * Returns formatted stats.
 	 *
 	 * @access public
-	 * @param int  $league_id
-	 * @param bool $admin
+	 * @param int  $league_id The ID of the league.
+	 * @param bool $admin     Optional. Whether the request is from an admin context. Defaults to false.
 	 * @return array
 	 */
-	public function stats( $league_id, $admin = false, $section = -1 ) {
+	public function stats( $league_id, $admin = false ) {
 		$seasons = $this->get_terms_sorted_by_sp_order( 'sp_season' );
 		if ( ! is_array( $seasons ) ) {
 			$seasons = get_terms(
@@ -98,7 +111,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			);
 			usort( $seasons, 'sp_sort_terms' );
 		}
-		// TODO: Add metrics support to officials
+		// TODO: Add metrics support to officials.
 		$metrics = (array) get_post_meta( $this->ID, 'sp_metrics', true );
 		$stats   = (array) get_post_meta( $this->ID, 'sp_statistics', true );
 		$leagues = (array) sp_array_value( (array) get_post_meta( $this->ID, 'sp_leagues', true ), $league_id );
@@ -144,7 +157,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			$usecolumns = array();
 			if ( is_array( $posts ) ) {
 				foreach ( $posts as $post ) {
-					// Get visibility
+					// Get visibility.
 					$visible = get_post_meta( $post->ID, 'otfs_visible', true );
 					if ( '' === $visible || $visible ) {
 						$usecolumns[] = $post->post_name;
@@ -197,7 +210,7 @@ class OTFS_Officials extends SP_Custom_Post {
 		} else {
 			if ( is_array( $posts ) ) {
 				foreach ( $posts as $post ) {
-					// Get visibility
+					// Get visibility.
 					$visible = get_post_meta( $post->ID, 'otfs_visible', true );
 					if ( '' === $visible || $visible ) {
 						$usecolumns[] = $post->post_name;
@@ -230,9 +243,9 @@ class OTFS_Officials extends SP_Custom_Post {
 		// Get equations from statistic variables.
 		$equations = sp_get_var_equations( 'sp_statistic' );
 
-		// Initialize placeholders array
+		// Initialize placeholders array.
 		$placeholders = array();
-		// TODO: AUTO-REMOVE SEASONS WITHOUT EVENTS
+		// TODO: AUTO-REMOVE SEASONS WITHOUT EVENTS.
 		foreach ( $div_ids as $div_id ) :
 
 			$totals = array(
@@ -287,7 +300,7 @@ class OTFS_Officials extends SP_Custom_Post {
 
 			$events = get_posts( $args );
 
-			// Event loop
+			// Event loop.
 			foreach ( $events as $i => $event ) :
 				$results          = (array) get_post_meta( $event->ID, 'sp_results', true );
 				$team_performance = (array) get_post_meta( $event->ID, 'sp_players', true );
@@ -299,7 +312,7 @@ class OTFS_Officials extends SP_Custom_Post {
 				// Increment events attended.
 				$totals['eventsattended'] ++;
 
-				// Add all team performance
+				// Add all team performance.
 				foreach ( $team_performance as $team_id => $players ) :
 					if ( is_array( $players ) ) :
 						foreach ( $players as $player_performance ) {
@@ -321,7 +334,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			// Add metrics to totals.
 			$totals = array_merge( $metrics, $totals );
 
-			// Generate array of placeholder values for each league
+			// Generate array of placeholder values for each league.
 			$placeholders[ $div_id ] = array();
 			foreach ( $equations as $key => $value ) :
 				$placeholders[ $div_id ][ $key ] = sp_solve( $value['equation'], $totals, $value['precision'] );
@@ -333,7 +346,7 @@ class OTFS_Officials extends SP_Custom_Post {
 
 		endforeach;
 
-		// Get labels by section
+		// Get labels by section.
 		$args = array(
 			'post_type'      => 'sp_statistic',
 			'numberposts'    => 100,
@@ -375,14 +388,14 @@ class OTFS_Officials extends SP_Custom_Post {
 
 			$season_name = sp_array_value( $season_names, (int) $season_id, '&nbsp;' );
 
-			// Add season name to row
+			// Add season name to row.
 			$merged[ $season_id ] = array(
 				'name' => $season_name,
 			);
 
 			foreach ( $season_data as $key => $value ) :
 
-				// Use static data if key exists and value is not empty, else use placeholder
+				// Use static data if key exists and value is not empty, else use placeholder.
 				if ( array_key_exists( $season_id, $data ) && array_key_exists( $key, $data[ $season_id ] ) && '' !== $data[ $season_id ][ $key ] ) :
 					$value = $data[ $season_id ][ $key ];
 				endif;
@@ -441,7 +454,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			'team' => '-',
 		);
 
-		// Add values from all seasons for total-based statistics
+		// Add values from all seasons for total-based statistics.
 		foreach ( $merged as $season => $stats ) :
 			if ( ! is_array( $stats ) ) {
 				continue;
@@ -456,7 +469,7 @@ class OTFS_Officials extends SP_Custom_Post {
 			endforeach;
 		endforeach;
 
-		// Calculate average-based statistics from performance
+		// Calculate average-based statistics from performance.
 		foreach ( $posts as $post ) {
 			$type = get_post_meta( $post->ID, 'sp_type', 'total' );
 			if ( 'average' !== $type ) {
@@ -506,18 +519,17 @@ class OTFS_Officials extends SP_Custom_Post {
 			$labels = array();
 
 			$labels['name'] = esc_attr__( 'Season', 'sportspress' );
-			// $labels['team'] = esc_attr__( 'Team', 'sportspress' );
 
 			if ( 'no' === get_option( 'otfs_officials_show_total', 'no' ) ) {
 				unset( $merged[-1] );
 			}
 
-			// Convert to time notation
+			// Convert to time notation.
 			if ( in_array( 'time', $formats, true ) ) :
 				foreach ( $merged as $season => $season_performance ) :
 					foreach ( $season_performance as $performance_key => $performance_value ) :
 
-						// Continue if not time format
+						// Continue if not time format.
 						if ( 'time' !== sp_array_value( $formats, $performance_key ) ) {
 							continue;
 						}
@@ -535,11 +547,9 @@ class OTFS_Officials extends SP_Custom_Post {
 	}
 
 	/**
-	 * Returns formatted data for all leagues
+	 * Returns formatted data for all leagues.
 	 *
 	 * @access public
-	 * @param int  $league_id
-	 * @param bool $admin
 	 * @return array
 	 */
 	public function statistics() {
