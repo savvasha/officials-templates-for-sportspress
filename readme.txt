@@ -11,12 +11,12 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-Officials Templates for SportsPress is a WordPress plugin that enhances the Officials feature of SportsPress by adding custom template functions. These functions allow you to easily display and customize officials' details on your sports website.
+Officials Templates for SportsPress is a WordPress plugin that enhances the Official profile on SportsPress by adding custom template functions. These functions allow you to easily display and customize official's details on your sports website.
 
 == Features ==
 
 - **Custom Template Functions:** Introduces a set of template functions for displaying officials' information.
-- **Enhanced Officials Management:** Adds flexibility to the Officials feature in SportsPress.
+- **Enhanced Officials Management:** Adds the ability to show several details of an Official (i.e. Nationality, Age etc)
 - **Responsive Design:** Ensures officials' templates look great on all devices.
 - **Easy Integration:** Seamlessly integrates with SportsPress for straightforward implementation.
 
