@@ -23,7 +23,7 @@ class OTFS_Meta_Boxes {
 	 */
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 30 );
-		add_action( 'sportspress_process_sp_official_meta', array( $this, 'save' ) );
+		add_action( 'sportspress_process_sp_official_meta', array( $this, 'save' ), 90, 2 );
 	}
 
 	/**
@@ -45,7 +45,7 @@ class OTFS_Meta_Boxes {
 	 */
 	public static function details( $post ) {
 		// Add nonce field.
-		wp_nonce_field( 'otfs_save_details_nonce', 'otfs_nonce' );
+		wp_nonce_field( 'sportspress_save_data', 'sportspress_meta_nonce' );
 
 		$continents          = SP()->countries->continents;
 		$nationalities       = get_post_meta( $post->ID, 'sp_nationality', true );
@@ -181,7 +181,7 @@ class OTFS_Meta_Boxes {
 	 */
 	public static function columns( $post ) {
 		// Add nonce field.
-		wp_nonce_field( 'otfs_save_columns_nonce', 'otfs_nonce' );
+		wp_nonce_field( 'sportspress_save_data', 'sportspress_meta_nonce' );
 
 		$selected = (array) get_post_meta( $post->ID, 'sp_columns', true );
 		$tabs     = apply_filters( 'sportspress_officials_column_tabs', array( 'sp_performance', 'sp_statistic' ) );
@@ -217,11 +217,10 @@ class OTFS_Meta_Boxes {
 	 */
 	public static function statistics( $post ) {
 		// Add nonce field.
-		wp_nonce_field( 'otfs_save_statistics_nonce', 'otfs_nonce' );
+		wp_nonce_field( 'sportspress_save_data', 'sportspress_meta_nonce' );
 
 		$official = new OTFS_Officials( $post );
-		// TODO: If no league is selected, all leagues must be used. Or have an option to select ALL on official's metabox.
-		$leagues = $official->get_terms_sorted_by_sp_order( 'sp_league' );
+		$leagues  = $official->get_terms_sorted_by_sp_order( 'sp_league' );
 
 		if ( is_array( $leagues ) ) {
 			$league_num = count( $leagues );
@@ -276,7 +275,7 @@ class OTFS_Meta_Boxes {
 	 */
 	public static function table( $id = null, $league_id = null, $columns = array(), $data = array(), $placeholders = array(), $merged = array(), $leagues = array(), $has_checkboxes = false, $team_select = false, $formats = array(), $total_types = array() ) {
 		// Add nonce field.
-		wp_nonce_field( 'otfs_save_table_nonce', 'otfs_nonce' );
+		wp_nonce_field( 'sportspress_save_data', 'sportspress_meta_nonce' );
 
 		$readonly = false;
 		$buffer   = apply_filters(
@@ -394,7 +393,7 @@ class OTFS_Meta_Boxes {
 								'total_types'    => $total_types,
 								'buffer'         => $buffer,
 							);
-							list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types, $buffer ) = array_values( apply_filters( 'otfs_meta_box_officials_statistics_collection', $collection, $id, $league_id, $div_id, $value ) );
+							list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types, $buffer ) = array_values( apply_filters( 'otfs_meta_box_officials_statistics_collection', $collection, $id, $league_id, $div_id ) );
 							?>
 							<?php
 							foreach ( $columns as $column => $label ) :
@@ -442,17 +441,14 @@ class OTFS_Meta_Boxes {
 	/**
 	 * Save meta boxes data.
 	 *
-	 * @param int $post_id The post ID.
+	 * @param int    $post_id The post ID.
+	 * @param object $post The post object.
 	 */
-	public static function save( $post_id ) {
-		// Verify nonce.
-		$nonce = isset( $_POST['otfs_nonce'] ) ? sanitize_key( $_POST['otfs_nonce'] ) : '';
-
-		if ( ! wp_verify_nonce( $nonce, 'otfs_save_details_nonce' ) && ! wp_verify_nonce( $nonce, 'otfs_save_statistics_nonce' ) && ! wp_verify_nonce( $nonce, 'otfs_save_table_nonce' ) && ! wp_verify_nonce( $nonce, 'otfs_save_columns_nonce' ) ) {
+	public static function save( $post_id, $post ) {
+		// Check nonce.
+		if ( empty( $_POST['sportspress_meta_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['sportspress_meta_nonce'] ), 'sportspress_save_data' ) ) {
 			return;
 		}
-		global $wpdb;
-
 		update_post_meta( $post_id, 'sp_nationality', sp_array_value( $_POST, 'sp_nationality', '' ) );
 		update_post_meta( $post_id, 'sp_statistics', sp_array_value( $_POST, 'sp_statistics', array(), 'text' ) );
 		update_post_meta( $post_id, 'sp_columns', sp_array_value( $_POST, 'sp_columns', array(), 'key' ) );

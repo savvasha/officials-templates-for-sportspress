@@ -114,8 +114,8 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 								'default' => 'title',
 								'type'    => 'select',
 								'options' => array(
-									'blocks'   => esc_attr__( 'Blocks', 'sportspress' ),
-									'list'     => esc_attr__( 'List', 'sportspress' ),
+									'blocks' => esc_attr__( 'Blocks', 'sportspress' ),
+									'list'   => esc_attr__( 'List', 'sportspress' ),
 								),
 							),
 						),

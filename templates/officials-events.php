@@ -19,7 +19,7 @@ if ( ! isset( $official_id ) ) {
 }
 
 $format = get_option( 'otfs_officials_events_format', 'list' );
-if ( 'list' === $format  ) {
+if ( 'list' === $format ) {
 	$args = array(
 		'official_id'  => $official_id,
 		'title_format' => 'homeaway',

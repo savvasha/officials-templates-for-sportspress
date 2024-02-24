@@ -11,24 +11,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$otfs_status    = 'default';
-$format         = 'default';
-$official_id    = null;
-$number         = -1;
+$otfs_status    = isset( $otfs_status ) ? $otfs_status : 'default';
+$format         = isset( $format ) ? $format : 'default';
+$official_id    = isset( $official_id ) ? $official_id : null;
+$number         = isset( $number ) ? $number : -1;
+$otfs_order     = isset( $otfs_order ) ? $otfs_order : 'default';
+$otfs_orderby   = isset( $otfs_orderby ) ? $otfs_orderby : 'default';
+$columns        = isset( $columns ) ? $columns : null;
+$hide_if_empty  = isset( $hide_if_empty ) ? $hide_if_empty : false;
 $show_team_logo = 'yes' === get_option( 'sportspress_event_blocks_show_logos', 'yes' ) ? true : false;
 $link_teams     = 'yes' === get_option( 'sportspress_link_teams', 'no' ) ? true : false;
 $link_events    = 'yes' === get_option( 'sportspress_link_events', 'yes' ) ? true : false;
 $paginated      = 'yes' === get_option( 'sportspress_event_blocks_paginated', 'yes' ) ? true : false;
 $rows           = get_option( 'sportspress_event_blocks_rows', 5 );
-// $orderby        = 'default';
-$otfs_order    = 'default';
-$columns       = null;
-$show_title    = 'yes' === get_option( 'sportspress_event_blocks_show_title', 'no' ) ? true : false;
-$show_league   = 'yes' === get_option( 'sportspress_event_blocks_show_league', 'no' ) ? true : false;
-$show_season   = 'yes' === get_option( 'sportspress_event_blocks_show_season', 'no' ) ? true : false;
-$show_matchday = 'yes' === get_option( 'sportspress_event_blocks_show_matchday', 'no' ) ? true : false;
-$show_venue    = 'yes' === get_option( 'sportspress_event_blocks_show_venue', 'no' ) ? true : false;
-$hide_if_empty = false;
+$show_title     = 'yes' === get_option( 'sportspress_event_blocks_show_title', 'no' ) ? true : false;
+$show_league    = 'yes' === get_option( 'sportspress_event_blocks_show_league', 'no' ) ? true : false;
+$show_season    = 'yes' === get_option( 'sportspress_event_blocks_show_season', 'no' ) ? true : false;
+$show_matchday  = 'yes' === get_option( 'sportspress_event_blocks_show_matchday', 'no' ) ? true : false;
+$show_venue     = 'yes' === get_option( 'sportspress_event_blocks_show_venue', 'no' ) ? true : false;
 
 $official         = new OTFS_Officials( $official_id );
 $official->status = $otfs_status;
