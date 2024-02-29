@@ -229,7 +229,7 @@ class OTFS_Meta_Boxes {
 
 		$official = new OTFS_Officials( $post );
 		$leagues  = $official->get_terms_sorted_by_sp_order( 'sp_league' );
-
+		// If no Leagues are selected by the user, then all Leagues should be included.
 		if ( is_array( $leagues ) ) {
 			$league_num = count( $leagues );
 		} else {

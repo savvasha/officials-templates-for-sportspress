@@ -25,6 +25,16 @@ $show_per_league    = 'yes' === get_option( 'otfs_officials_show_per_league', 'y
 $show_career_totals = 'yes' === get_option( 'otfs_officials_show_career_total', 'no' ) ? true : false;
 $leagues            = array_filter( (array) get_the_terms( $official_id, 'sp_league' ) );
 
+// If no Leagues are selected by the user, then all Leagues should be included.
+if ( count( $leagues ) < 1 ) {
+	$leagues    = get_terms(
+		array(
+			'taxonomy'   => 'sp_league',
+			'hide_empty' => true,
+		)
+	);
+}
+
 // Sort Leagues by User Defined Order (PHP5.2 supported).
 foreach ( $leagues as $key => $league ) {
 	$leagues[ $key ]->sp_order = get_term_meta( $league->term_id, 'sp_order', true );

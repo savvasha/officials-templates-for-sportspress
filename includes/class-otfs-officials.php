@@ -102,6 +102,7 @@ class OTFS_Officials extends SP_Custom_Post {
 	 */
 	public function stats( $league_id, $admin = false ) {
 		$seasons = $this->get_terms_sorted_by_sp_order( 'sp_season' );
+		// If no Seasons are selected by the user, then all Seasons should be included.
 		if ( ! is_array( $seasons ) ) {
 			$seasons = get_terms(
 				array(
