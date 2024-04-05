@@ -98,7 +98,7 @@ if ( $otfs_title ) {
 					if ( $show_team_logo ) :
 						$j = 0;
 						foreach ( $teams as $team ) :
-							$j++;
+							++$j;
 							$team_name = get_the_title( $team );
 							if ( has_post_thumbnail( $team ) ) :
 								$logo = get_the_post_thumbnail( $team, 'sportspress-fit-icon', array( 'itemprop' => 'logo' ) );
@@ -180,7 +180,7 @@ endif;
 						</td>
 					</tr>
 					<?php
-					$i++;
+					++$i;
 				endforeach;
 				?>
 			</tbody>

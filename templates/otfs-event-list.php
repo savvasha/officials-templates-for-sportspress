@@ -468,7 +468,7 @@ $identifier = uniqid( 'eventlist_' );
 
 						echo '</tr>';
 
-						$i++;
+						++$i;
 				endforeach;
 				?>
 			</tbody>

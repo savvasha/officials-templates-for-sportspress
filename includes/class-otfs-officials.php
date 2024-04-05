@@ -176,13 +176,11 @@ class OTFS_Officials extends SP_Custom_Post {
 				$icon = apply_filters( 'sportspress_event_performance_icons', '', $post->ID, 1 );
 				if ( '' !== $icon ) {
 					$performance_labels[ $post->post_name ] = $icon;
-				} else {
-					if ( has_post_thumbnail( $post ) ) {
+				} elseif ( has_post_thumbnail( $post ) ) {
 						$icon                                   = get_the_post_thumbnail( $post, 'sportspress-fit-mini', array( 'title' => sp_get_singular_name( $post ) ) );
 						$performance_labels[ $post->post_name ] = apply_filters( 'sportspress_event_performance_icons', $icon, $post->ID, 1 );
-					} else {
-						$performance_labels[ $post->post_name ] = $post->post_title;
-					}
+				} else {
+					$performance_labels[ $post->post_name ] = $post->post_title;
 				}
 			} else {
 				$performance_labels[ $post->post_name ] = $post->post_title;
@@ -208,14 +206,12 @@ class OTFS_Officials extends SP_Custom_Post {
 		if ( $manual_columns ) {
 			$usecolumns = array_merge( $usecolumns, (array) get_post_meta( $this->ID, 'sp_columns', true ) );
 			$usecolumns = array_filter( $usecolumns );
-		} else {
-			if ( is_array( $posts ) ) {
-				foreach ( $posts as $post ) {
-					// Get visibility.
-					$visible = get_post_meta( $post->ID, 'otfs_visible', true );
-					if ( '' === $visible || $visible ) {
-						$usecolumns[] = $post->post_name;
-					}
+		} elseif ( is_array( $posts ) ) {
+			foreach ( $posts as $post ) {
+				// Get visibility.
+				$visible = get_post_meta( $post->ID, 'otfs_visible', true );
+				if ( '' === $visible || $visible ) {
+					$usecolumns[] = $post->post_name;
 				}
 			}
 		}
@@ -311,7 +307,7 @@ class OTFS_Officials extends SP_Custom_Post {
 					$minutes = get_option( 'sportspress_event_minutes', 90 );
 				}
 				// Increment events attended.
-				$totals['eventsattended'] ++;
+				++$totals['eventsattended'];
 
 				// Add all team performance.
 				foreach ( $team_performance as $team_id => $players ) :
@@ -329,7 +325,7 @@ class OTFS_Officials extends SP_Custom_Post {
 						unset( $results[ $team_id ] );
 					endif;
 				endforeach;
-				$i++;
+				++$i;
 			endforeach;
 
 			// Add metrics to totals.
@@ -365,13 +361,11 @@ class OTFS_Officials extends SP_Custom_Post {
 				$icon = apply_filters( 'sportspress_event_performance_icons', '', $post->ID, 1 );
 				if ( '' !== $icon ) {
 					$stats[ $post->post_name ] = $icon;
-				} else {
-					if ( has_post_thumbnail( $post ) ) {
+				} elseif ( has_post_thumbnail( $post ) ) {
 						$icon                      = get_the_post_thumbnail( $post, 'sportspress-fit-mini', array( 'title' => sp_get_singular_name( $post ) ) );
 						$stats[ $post->post_name ] = apply_filters( 'sportspress_event_performance_icons', $icon, $post->ID, 1 );
-					} else {
-						$stats[ $post->post_name ] = $post->post_title;
-					}
+				} else {
+					$stats[ $post->post_name ] = $post->post_title;
 				}
 			} else {
 				$stats[ $post->post_name ] = $post->post_title;
@@ -566,5 +560,4 @@ class OTFS_Officials extends SP_Custom_Post {
 
 		return $statistics;
 	}
-
 }

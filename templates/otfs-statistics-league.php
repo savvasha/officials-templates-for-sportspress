@@ -46,7 +46,7 @@ foreach ( $data as $season_id => $row ) :
 
 	$output .= '</tr>';
 
-	$i++;
+	++$i;
 
 endforeach;
 

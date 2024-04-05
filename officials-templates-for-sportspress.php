@@ -4,9 +4,9 @@
  * Description: Add templates to Officials pages
  * Version: 1.0
  * Author: Savvas
- * Author URI: https://savvasha.com
+ * Author URI: https://profiles.wordpress.org/savvasha/
  * Requires at least: 5.3
- * Requires PHP: 7.0
+ * Requires PHP: 7.2
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl.html
  *
@@ -90,7 +90,7 @@ function otfs_include_post_type_handlers() {
  *
  * @param object $post The current post object.
  */
-function otfs_add_visibility_option( $post ) {
+function otfs_add_visibility_option( $post ): void {
 	// Add nonce field.
 	wp_nonce_field( 'otfs_save_visibility_option_nonce', 'otfs_nonce' );
 
@@ -101,7 +101,7 @@ function otfs_add_visibility_option( $post ) {
 		}
 		?>
 			<p>
-				<strong><?php esc_html_e( 'Visible at Officials Profile', 'otfs' ); ?></strong>
+				<strong><?php esc_html_e( 'Visible at Official Profiles', 'otfs' ); ?></strong>
 				<i class="dashicons dashicons-editor-help sp-desc-tip" title="<?php esc_attr_e( 'Display in official profile?', 'otfs' ); ?>"></i>
 			</p>
 			<ul class="sp-visible-selector">
@@ -120,7 +120,6 @@ function otfs_add_visibility_option( $post ) {
 			</ul>
 			<?php
 	}
-
 }
 
 /**
@@ -129,7 +128,7 @@ function otfs_add_visibility_option( $post ) {
  * @param int    $post_id The post ID.
  * @param object $post    The post object.
  */
-function otfs_save_visibility_option( $post_id, $post ) {
+function otfs_save_visibility_option( $post_id, $post ): void {
 	// Verify nonce.
 	$nonce = isset( $_POST['otfs_nonce'] ) ? sanitize_key( $_POST['otfs_nonce'] ) : '';
 
@@ -138,6 +137,8 @@ function otfs_save_visibility_option( $post_id, $post ) {
 	}
 
 	if ( 'auto' === get_option( 'otfs_officials_columns', 'auto' ) ) {
-		update_post_meta( $post_id, 'otfs_visible', sp_array_value( $_POST, 'otfs_visible', 1, 'int' ) );
+		if ( isset( $_POST['otfs_visible'] ) ) {
+			update_post_meta( $post_id, 'otfs_visible', intval( $_POST['otfs_visible'] ) );
+		}
 	}
 }

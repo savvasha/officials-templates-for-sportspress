@@ -156,7 +156,7 @@ class OTFS_Template_Loader {
 				// Render the template.
 				$tab_content .= '<div class="sp-tab-content sp-tab-content-' . $key . '" id="sp-tab-content-' . $key . '"' . ( 0 === $i ? ' style="display: block;"' : '' ) . '>' . $buffer . '</div>';
 
-				$i++;
+				++$i;
 			}
 
 			$ob .= '<div class="sp-tab-group">';
@@ -184,8 +184,6 @@ class OTFS_Template_Loader {
 	 */
 	public function officials_content( $content ) {
 		if ( is_singular( 'sp_official' ) ) {
-			// $sp_template_class = new SP_Template_Loader();
-			// $content = $sp_template_class->add_content( $content, 'officials', apply_filters( 'sportspress_official_content_priority', 10 ) );
 			$content = self::add_content( $content, 'officials', apply_filters( 'sportspress_official_content_priority', 10 ) );
 		}
 		return $content;
