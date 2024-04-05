@@ -101,8 +101,8 @@ function otfs_add_visibility_option( $post ): void {
 		}
 		?>
 			<p>
-				<strong><?php esc_html_e( 'Visible at Official Profiles', 'otfs' ); ?></strong>
-				<i class="dashicons dashicons-editor-help sp-desc-tip" title="<?php esc_attr_e( 'Display in official profile?', 'otfs' ); ?>"></i>
+				<strong><?php esc_html_e( 'Visible at Official Profiles', 'officials-templates-for-sportspress' ); ?></strong>
+				<i class="dashicons dashicons-editor-help sp-desc-tip" title="<?php esc_attr_e( 'Display in official profiles?', 'officials-templates-for-sportspress' ); ?>"></i>
 			</p>
 			<ul class="sp-visible-selector">
 				<li>

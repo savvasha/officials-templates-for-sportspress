@@ -27,7 +27,7 @@ $leagues            = array_filter( (array) get_the_terms( $official_id, 'sp_lea
 
 // If no Leagues are selected by the user, then all Leagues should be included.
 if ( count( $leagues ) < 1 ) {
-	$leagues    = get_terms(
+	$leagues = get_terms(
 		array(
 			'taxonomy'   => 'sp_league',
 			'hide_empty' => true,
@@ -39,7 +39,7 @@ if ( count( $leagues ) < 1 ) {
 foreach ( $leagues as $key => $league ) {
 	$leagues[ $key ]->sp_order = get_term_meta( $league->term_id, 'sp_order', true );
 }
-if ( ! function_exists( 'sort_by_order' ) ) {
+if ( ! function_exists( 'otfs_sort_by_order' ) ) {
 	/**
 	 * Sorts an array of objects based on the 'sp_order' property.
 	 *
@@ -53,11 +53,11 @@ if ( ! function_exists( 'sort_by_order' ) ) {
 	 *             a positive value if $a->sp_order is greater than $b->sp_order,
 	 *             and 0 if they are equal.
 	 */
-	function sort_by_order( $a, $b ) {
+	function otfs_sort_by_order( $a, $b ) {
 		return (int) $a->sp_order - (int) $b->sp_order;
 	}
 }
-usort( $leagues, 'sort_by_order' );
+usort( $leagues, 'otfs_sort_by_order' );
 
 $duties          = $official->duties();
 $player_sections = array();

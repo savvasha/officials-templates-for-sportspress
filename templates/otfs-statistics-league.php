@@ -7,6 +7,10 @@
  * @version     1.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 // The first row should be column labels.
 $labels = $data[0];
 

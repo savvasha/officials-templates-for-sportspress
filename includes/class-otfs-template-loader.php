@@ -9,6 +9,10 @@
  * @author      SavvasHa
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * OTFS_Template_Loader
  */
