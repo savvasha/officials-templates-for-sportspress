@@ -41,7 +41,7 @@ class OTFS_Template_Loader {
 
 		// Return password form if required.
 		if ( post_password_required() ) {
-			echo get_the_password_form(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo esc_html( get_the_password_form() );
 			return;
 		}
 
@@ -97,7 +97,7 @@ class OTFS_Template_Loader {
 				// Render the template.
 				echo '<div class="sp-section-content sp-section-content-' . esc_attr( $key ) . '">';
 				if ( 'content' === $key ) {
-					echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo wp_kses_post( $content );
 					// Template content hook.
 					do_action( 'sportspress_single_' . $type . '_content' );
 				} else {
@@ -133,7 +133,7 @@ class OTFS_Template_Loader {
 				// Put tab content into buffer.
 				ob_start();
 				if ( 'content' === $key ) {
-					echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo wp_kses_post( $content );
 				} else {
 					call_user_func( $template['action'] );
 				}
@@ -191,4 +191,3 @@ class OTFS_Template_Loader {
 }
 
 new OTFS_Template_Loader();
-

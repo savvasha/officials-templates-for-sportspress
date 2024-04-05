@@ -54,17 +54,17 @@ $results = ob_get_clean();
 
 if ( false === $fixtures || false === $results ) {
 
-	echo $fixtures; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo $results; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo wp_kses_post( $fixtures );
+	echo wp_kses_post( $results );
 
 } else {
 
 	echo '<div class="sp-widget-align-left">';
-	echo $fixtures; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo wp_kses_post( $fixtures );
 	echo '</div>';
 
 	echo '<div class="sp-widget-align-right">';
-	echo $results; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo wp_kses_post( $results );
 	echo '</div>';
 }
 

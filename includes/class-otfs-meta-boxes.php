@@ -35,7 +35,6 @@ class OTFS_Meta_Boxes {
 			add_meta_box( 'sp_columnsdiv', __( 'Columns', 'sportspress' ), array( $this, 'columns' ), 'sp_official', 'side', 'default' );
 		}
 		add_meta_box( 'sp_statisticssdiv', __( 'Statistics', 'sportspress' ), array( $this, 'statistics' ), 'sp_official', 'normal', 'default' );
-
 	}
 
 	/**
@@ -335,7 +334,7 @@ class OTFS_Meta_Boxes {
 							if ( $readonly ) {
 								echo $value ? esc_html( $value ) : esc_html( $placeholder );
 							} elseif ( 'time' === sp_array_value( $formats, $column, 'number' ) ) {
-									echo '<input class="sp-convert-time-input" type="text" name="sp_times[' . esc_attr( $league_id ) . '][0][' . esc_attr( $column ) . ']" value="' . ( '' === $value ? '' : esc_attr( $timeval ) ) . '" placeholder="' . esc_attr( $placeholder ) . '"' . ( $readonly ? ' disabled="disabled"' : '' ) . '  />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+									echo '<input class="sp-convert-time-input" type="text" name="sp_times[' . esc_attr( $league_id ) . '][0][' . esc_attr( $column ) . ']" value="' . ( '' === $value ? '' : esc_attr( $timeval ) ) . '" placeholder="' . esc_attr( $placeholder ) . '"' . ( $readonly ? ' disabled="disabled"' : '' ) . '  />';
 									echo '<input class="sp-convert-time-output" type="hidden" name="sp_statistics[' . esc_attr( $league_id ) . '][0][' . esc_attr( $column ) . ']" value="' . esc_attr( $value ) . '" data-sp-format="' . esc_attr( sp_array_value( $formats, $column, 'number' ) ) . '" data-sp-total-type="' . esc_attr( sp_array_value( $total_types, $column, 'total' ) ) . '" />';
 							} else {
 								echo '<input type="text" name="sp_statistics[' . esc_attr( $league_id ) . '][0][' . esc_attr( $column ) . ']" value="' . esc_attr( $value ) . '" placeholder="' . esc_attr( $placeholder ) . '"' . ( $readonly ? ' disabled="disabled"' : '' ) . ' data-sp-format="' . esc_attr( sp_array_value( $formats, $column, 'number' ) ) . '" data-sp-total-type="' . esc_attr( sp_array_value( $total_types, $column, 'total' ) ) . '" />';
@@ -420,7 +419,7 @@ class OTFS_Meta_Boxes {
 								if ( $readonly ) {
 									echo $timeval ? esc_html( $timeval ) : esc_html( $placeholder );
 								} elseif ( 'time' === sp_array_value( $formats, $column, 'number' ) ) {
-										echo '<input class="sp-convert-time-input" type="text" name="sp_times[' . esc_attr( $league_id ) . '][' . esc_attr( $div_id ) . '][' . esc_attr( $column ) . ']" value="' . ( '' === $value ? '' : esc_attr( $timeval ) ) . '" placeholder="' . esc_attr( $placeholder ) . '"' . ( $readonly ? ' disabled="disabled"' : '' ) . ' data-column="' . esc_attr( $column ) . '" />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+										echo '<input class="sp-convert-time-input" type="text" name="sp_times[' . esc_attr( $league_id ) . '][' . esc_attr( $div_id ) . '][' . esc_attr( $column ) . ']" value="' . ( '' === $value ? '' : esc_attr( $timeval ) ) . '" placeholder="' . esc_attr( $placeholder ) . '"' . ( $readonly ? ' disabled="disabled"' : '' ) . ' data-column="' . esc_attr( $column ) . '" />';
 										echo '<input class="sp-convert-time-output" type="hidden" name="sp_statistics[' . esc_attr( $league_id ) . '][' . esc_attr( $div_id ) . '][' . esc_attr( $column ) . ']" value="' . esc_attr( $value ) . '" />';
 								} else {
 									echo '<input type="text" name="sp_statistics[' . esc_attr( $league_id ) . '][' . esc_attr( $div_id ) . '][' . esc_attr( $column ) . ']" value="' . esc_attr( $value ) . '" placeholder="' . esc_attr( $placeholder ) . '"' . ( $readonly ? ' disabled="disabled"' : '' ) . ' data-column="' . esc_attr( $column ) . '" />';
@@ -457,7 +456,7 @@ class OTFS_Meta_Boxes {
 			update_post_meta( $post_id, 'sp_nationality', array_map( 'sanitize_key', $_POST['sp_nationality'] ) );
 		}
 		if ( isset( $_POST['sp_statistics'] ) ) {
-			update_post_meta( $post_id, 'sp_statistics', map_deep( $_POST['sp_statistics'], 'wp_kses_post' ) );
+			update_post_meta( $post_id, 'sp_statistics', map_deep( wp_unslash( $_POST['sp_statistics'] ), 'wp_kses_post' ) );
 		}
 		if ( isset( $_POST['sp_columns'] ) ) {
 			update_post_meta( $post_id, 'sp_columns', array_map( 'sanitize_key', $_POST['sp_columns'] ) );
