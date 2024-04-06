@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name: Officials Templates for SportsPress
+ * Requires Plugins: sportspress
  * Description: Add templates to Officials pages
  * Version: 1.0
  * Author: Savvas
