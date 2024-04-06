@@ -25,32 +25,31 @@ class OTFS_Templates {
 	 * @return void
 	 */
 	public function __construct() {
-		// Add your custom template values here.
 		SP()->templates->officials = array_merge(
 			apply_filters(
-				'sportspress_before_officials_template',
+				'otfs_before_officials_template',
 				array(
 					'selector' => array(
 						'title'   => esc_attr__( 'Dropdown', 'sportspress' ),
-						'option'  => 'sportspress_officials_show_selector',
-						'action'  => array( $this, 'sportspress_output_officials_selector' ),
+						'option'  => 'otfs_officials_show_selector',
+						'action'  => array( $this, 'otfs_output_officials_selector' ),
 						'default' => 'yes',
 					),
 					'photo'    => array(
 						'title'   => esc_attr__( 'Photo', 'sportspress' ),
-						'option'  => 'sportspress_officials_show_photo',
-						'action'  => array( $this, 'sportspress_output_officials_photo' ),
+						'option'  => 'otfs_officials_show_photo',
+						'action'  => array( $this, 'otfs_output_officials_photo' ),
 						'default' => 'yes',
 					),
 					'details'  => array(
 						'title'   => esc_attr__( 'Details', 'sportspress' ),
-						'option'  => 'sportspress_officials_show_details',
-						'action'  => array( $this, 'sportspress_output_officials_details' ),
+						'option'  => 'otfs_officials_show_details',
+						'action'  => array( $this, 'otfs_output_officials_details' ),
 						'default' => 'yes',
 					),
 					'excerpt'  => array(
 						'title'   => esc_attr__( 'Excerpt', 'sportspress' ),
-						'option'  => 'sportspress_officials_show_excerpt',
+						'option'  => 'otfs_officials_show_excerpt',
 						'action'  => 'sportspress_output_post_excerpt',
 						'default' => 'yes',
 					),
@@ -59,24 +58,24 @@ class OTFS_Templates {
 			array(
 				'content'    => array(
 					'title'   => esc_attr__( 'Profile', 'sportspress' ),
-					'option'  => 'sportspress_officials_show_content',
-					'action'  => array( $this, 'sportspress_output_officials_content' ),
+					'option'  => 'otfs_officials_show_content',
+					'action'  => array( $this, 'otfs_output_officials_content' ),
 					'default' => 'yes',
 				),
 				'events'     => array(
 					'title'   => esc_attr__( 'Events', 'sportspress' ),
-					'option'  => 'sportspress_officials_show_events',
-					'action'  => array( $this, 'sportspress_output_officials_events' ),
+					'option'  => 'otfs_officials_show_events',
+					'action'  => array( $this, 'otfs_output_officials_events' ),
 					'default' => 'yes',
 				),
 				'statistics' => array(
 					'title'   => esc_attr__( 'Statistics', 'sportspress' ),
-					'option'  => 'sportspress_officials_show_statistics',
-					'action'  => array( $this, 'sportspress_output_officials_statistics' ),
+					'option'  => 'otfs_officials_show_statistics',
+					'action'  => array( $this, 'otfs_output_officials_statistics' ),
 					'default' => 'yes',
 				),
 			),
-			apply_filters( 'sportspress_after_officials_template', array() )
+			apply_filters( 'otfs_after_officials_template', array() )
 		);
 	}
 
@@ -86,7 +85,7 @@ class OTFS_Templates {
 	 * @access public
 	 * @return void
 	 */
-	public function sportspress_output_officials_selector() {
+	public function otfs_output_officials_selector() {
 		sp_get_template( 'officials-selector.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
 
@@ -96,7 +95,7 @@ class OTFS_Templates {
 	 * @access public
 	 * @return void
 	 */
-	public function sportspress_output_officials_photo() {
+	public function otfs_output_officials_photo() {
 		sp_get_template( 'officials-photo.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
 
@@ -106,7 +105,7 @@ class OTFS_Templates {
 	 * @access public
 	 * @return void
 	 */
-	public function sportspress_output_officials_details() {
+	public function otfs_output_officials_details() {
 		sp_get_template( 'officials-details.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
 
@@ -116,7 +115,7 @@ class OTFS_Templates {
 	 * @access public
 	 * @return void
 	 */
-	public function sportspress_output_officials_content() {
+	public function otfs_output_officials_content() {
 		sp_get_template( 'officials-content.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
 
@@ -126,7 +125,7 @@ class OTFS_Templates {
 	 * @access public
 	 * @return void
 	 */
-	public function sportspress_output_officials_events() {
+	public function otfs_output_officials_events() {
 		sp_get_template( 'officials-events.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
 
@@ -136,7 +135,7 @@ class OTFS_Templates {
 	 * @access public
 	 * @return void
 	 */
-	public function sportspress_output_officials_statistics() {
+	public function otfs_output_officials_statistics() {
 		sp_get_template( 'officials-statistics.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
 }

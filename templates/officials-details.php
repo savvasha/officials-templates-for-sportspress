@@ -10,7 +10,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-if ( get_option( 'sportspress_officials_show_details', 'yes' ) === 'no' ) {
+if ( get_option( 'otfs_officials_show_details', 'yes' ) === 'no' ) {
 	return;
 }
 
@@ -18,12 +18,12 @@ if ( ! isset( $official_id ) ) {
 	$official_id = get_the_ID();
 }
 
-$show_name              = get_option( 'sportspress_officials_show_name', 'no' ) === 'yes' ? true : false;
-$show_duties            = get_option( 'sportspress_officials_show_duties', 'yes' ) === 'yes' ? true : false;
-$show_nationality       = get_option( 'sportspress_officials_show_nationality', 'yes' ) === 'yes' ? true : false;
-$show_nationality_flags = get_option( 'sportspress_officials_show_flags', 'yes' ) === 'yes' ? true : false;
-$show_birthday          = get_option( 'sportspress_officials_show_birthday', 'yes' ) === 'yes' ? true : false;
-$show_age               = get_option( 'sportspress_officials_show_age', 'yes' ) === 'yes' ? true : false;
+$show_name              = get_option( 'otfs_officials_show_name', 'no' ) === 'yes' ? true : false;
+$show_duties            = get_option( 'otfs_officials_show_duties', 'yes' ) === 'yes' ? true : false;
+$show_nationality       = get_option( 'otfs_officials_show_nationality', 'yes' ) === 'yes' ? true : false;
+$show_nationality_flags = get_option( 'otfs_officials_show_flags', 'yes' ) === 'yes' ? true : false;
+$show_birthday          = get_option( 'otfs_officials_show_birthday', 'yes' ) === 'yes' ? true : false;
+$show_age               = get_option( 'otfs_officials_show_age', 'yes' ) === 'yes' ? true : false;
 
 $official      = new OTFS_Officials( $official_id );
 $nationalities = $official->nationalities( $official_id );
@@ -69,7 +69,7 @@ if ( $show_age ) {
 	$data[ esc_attr__( 'Age', 'sportspress' ) ] = $sp_birthday_functions->get_age( get_the_date( 'm-d-Y', $official_id ) );
 }
 
-$data = apply_filters( 'sportspress_officials_details', $data, $official_id );
+$data = apply_filters( 'otfs_officials_details', $data, $official_id );
 
 if ( empty( $data ) ) {
 	return;

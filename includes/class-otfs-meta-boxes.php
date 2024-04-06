@@ -191,7 +191,7 @@ class OTFS_Meta_Boxes {
 		wp_nonce_field( 'sportspress_save_data', 'sportspress_meta_nonce' );
 
 		$selected = (array) get_post_meta( $post->ID, 'sp_columns', true );
-		$tabs     = apply_filters( 'sportspress_officials_column_tabs', array( 'sp_performance', 'sp_statistic' ) );
+		$tabs     = apply_filters( 'otfs_officials_column_tabs', array( 'sp_performance', 'sp_statistic' ) );
 		?>
 		<div class="sp-instance">
 			<?php if ( $tabs ) { ?>

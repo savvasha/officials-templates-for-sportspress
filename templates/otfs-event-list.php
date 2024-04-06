@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $official_id    = isset( $official_id ) ? $official_id : null;
 $number         = isset( $number ) ? $number : -1;
+$otfs_order     = isset( $otfs_order ) ? $otfs_order : 'default';
+$columns        = isset( $columns ) ? $columns : null;
 $show_team_logo = get_option( 'sportspress_event_list_show_logos', 'no' ) === 'yes' ? true : false;
 $link_events    = get_option( 'sportspress_link_events', 'yes' ) === 'yes' ? true : false;
 $link_teams     = get_option( 'sportspress_link_teams', 'no' ) === 'yes' ? true : false;
@@ -22,8 +24,6 @@ $sortable       = get_option( 'sportspress_enable_sortable_tables', 'yes' ) === 
 $scrollable     = get_option( 'sportspress_enable_scrollable_tables', 'yes' ) === 'yes' ? true : false;
 $paginated      = get_option( 'sportspress_event_list_paginated', 'yes' ) === 'yes' ? true : false;
 $rows           = get_option( 'sportspress_event_list_rows', 10 );
-$otfs_order     = isset( $otfs_order ) ? $otfs_order : 'default';
-$columns        = isset( $columns ) ? $columns : null;
 $title_format   = get_option( 'sportspress_event_list_title_format', 'title' );
 $time_format    = get_option( 'sportspress_event_list_time_format', 'combined' );
 

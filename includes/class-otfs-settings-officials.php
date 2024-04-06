@@ -64,7 +64,7 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 							array(
 								'title'   => esc_attr__( 'Link', 'sportspress' ),
 								'desc'    => esc_attr__( 'Link officials', 'sportspress' ),
-								'id'      => 'sportspress_link_officials',
+								'id'      => 'otfs_link_officials',
 								'default' => 'yes',
 								'type'    => 'checkbox',
 							),
@@ -72,7 +72,7 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 							array(
 								'title'         => esc_attr__( 'Details', 'sportspress' ),
 								'desc'          => esc_attr__( 'Name', 'sportspress' ),
-								'id'            => 'sportspress_officials_show_name',
+								'id'            => 'otfs_officials_show_name',
 								'default'       => 'no',
 								'type'          => 'checkbox',
 								'checkboxgroup' => 'start',
@@ -80,7 +80,7 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 
 							array(
 								'desc'          => esc_attr__( 'Nationality', 'sportspress' ),
-								'id'            => 'sportspress_officials_show_nationality',
+								'id'            => 'otfs_officials_show_nationality',
 								'default'       => 'yes',
 								'type'          => 'checkbox',
 								'checkboxgroup' => '',
@@ -88,7 +88,7 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 
 							array(
 								'desc'          => esc_attr__( 'Duties', 'sportspress' ),
-								'id'            => 'sportspress_officials_show_duties',
+								'id'            => 'otfs_officials_show_duties',
 								'default'       => 'yes',
 								'type'          => 'checkbox',
 								'checkboxgroup' => 'end',
@@ -96,14 +96,14 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 							array(
 								'title'         => esc_attr__( 'Birthday', 'sportspress' ),
 								'desc'          => esc_attr__( 'Display birthday', 'sportspress' ),
-								'id'            => 'sportspress_officials_show_birthday',
+								'id'            => 'otfs_officials_show_birthday',
 								'default'       => 'no',
 								'type'          => 'checkbox',
 								'checkboxgroup' => 'start',
 							),
 							array(
 								'desc'          => esc_attr__( 'Display age', 'sportspress' ),
-								'id'            => 'sportspress_officials_show_age',
+								'id'            => 'otfs_officials_show_age',
 								'default'       => 'no',
 								'type'          => 'checkbox',
 								'checkboxgroup' => 'end',

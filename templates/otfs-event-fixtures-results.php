@@ -13,10 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $official_id = isset( $official_id ) ? $official_id : null;
 $number      = isset( $number ) ? $number : -1;
+$rows        = get_option( 'sportspress_event_blocks_rows', 5 );
 $link_teams  = 'yes' === get_option( 'sportspress_link_teams', 'no' ) ? true : false;
 $link_events = 'yes' === get_option( 'sportspress_link_events', 'yes' ) ? true : false;
 $paginated   = 'yes' === get_option( 'sportspress_event_blocks_paginated', 'yes' ) ? true : false;
-$rows        = get_option( 'sportspress_event_blocks_rows', 5 );
 $show_league = 'yes' === get_option( 'sportspress_event_blocks_show_league', 'no' ) ? true : false;
 $show_season = 'yes' === get_option( 'sportspress_event_blocks_show_season', 'no' ) ? true : false;
 $show_venue  = 'yes' === get_option( 'sportspress_event_blocks_show_venue', 'no' ) ? true : false;

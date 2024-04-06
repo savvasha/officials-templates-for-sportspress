@@ -19,11 +19,11 @@ $otfs_order     = isset( $otfs_order ) ? $otfs_order : 'default';
 $otfs_orderby   = isset( $otfs_orderby ) ? $otfs_orderby : 'default';
 $columns        = isset( $columns ) ? $columns : null;
 $hide_if_empty  = isset( $hide_if_empty ) ? $hide_if_empty : false;
+$rows           = get_option( 'sportspress_event_blocks_rows', 5 );
 $show_team_logo = 'yes' === get_option( 'sportspress_event_blocks_show_logos', 'yes' ) ? true : false;
 $link_teams     = 'yes' === get_option( 'sportspress_link_teams', 'no' ) ? true : false;
 $link_events    = 'yes' === get_option( 'sportspress_link_events', 'yes' ) ? true : false;
 $paginated      = 'yes' === get_option( 'sportspress_event_blocks_paginated', 'yes' ) ? true : false;
-$rows           = get_option( 'sportspress_event_blocks_rows', 5 );
 $show_title     = 'yes' === get_option( 'sportspress_event_blocks_show_title', 'no' ) ? true : false;
 $show_league    = 'yes' === get_option( 'sportspress_event_blocks_show_league', 'no' ) ? true : false;
 $show_season    = 'yes' === get_option( 'sportspress_event_blocks_show_season', 'no' ) ? true : false;
@@ -169,9 +169,6 @@ endif;
 															endif;
 endif;
 							?>
-							<?php if ( ! $show_venue || ! $venues ) : ?>
-								<div style="display:none;" class="sp-event-venue" itemprop="location" itemscope itemtype="http://schema.org/Place"><div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?php esc_attr_e( 'N/A', 'sportspress' ); ?></div></div>
-							<?php endif; ?>
 							<h4 class="sp-event-title" itemprop="name">
 								<?php echo wp_kses_post( sp_add_link( $event->post_title, $permalink, $link_events ) ); ?>
 							</h4>
