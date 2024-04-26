@@ -182,7 +182,7 @@ class OTFS_Meta_Boxes {
 	}
 
 	/**
-	 * Output the statistics metabox.
+	 * Output the columns metabox.
 	 *
 	 * @param object $post The current post object.
 	 */
@@ -242,19 +242,22 @@ class OTFS_Meta_Boxes {
 			usort( $leagues, 'sp_sort_terms' );
 		}
 
+		$show_per_league    = 'yes' === get_option( 'otfs_officials_show_per_league', 'yes' ) ? true : false;
 		$show_career_totals = 'yes' === get_option( 'otfs_officials_show_career_total', 'no' ) ? true : false;
 
 		if ( $leagues ) {
-			// Loop through statistics for each league.
-			$i = 0;
-			foreach ( $leagues as $league ) :
-				?>
-				<p><strong><?php echo esc_html( $league->name ); ?></strong></p>
-				<?php
-				list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( $league->term_id, true );
-				self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && 0 === $i, false, $formats, $total_types );
-				++$i;
-			endforeach;
+			if ( $show_per_league ) {
+				// Loop through statistics for each league.
+				$i = 0;
+				foreach ( $leagues as $league ) :
+					?>
+					<p><strong><?php echo esc_html( $league->name ); ?></strong></p>
+					<?php
+					list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( $league->term_id, true );
+					self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && 0 === $i, false, $formats, $total_types );
+					++$i;
+				endforeach;
+			}
 			if ( $show_career_totals ) {
 				?>
 				<p><strong><?php esc_attr_e( 'Career Total', 'sportspress' ); ?></strong></p>
