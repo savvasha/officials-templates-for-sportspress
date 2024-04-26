@@ -1,13 +1,15 @@
 === Officials Templates for SportsPress ===
 Contributors: savvasha
 Donate link: https://bit.ly/3NLUtMh
-Tags: sportspress, officials, templates
+Tags: sportspress, officials, templates, profile, sports 
 Requires at least: 5.3
-Requires PHP: 7.2
+Requires PHP: 7.4
 Tested up to: 6.5
-Stable tag: 1.0
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+This plugin enhances the Official profile on SportsPress by adding custom template functions.
 
 == Description ==
 
@@ -47,10 +49,11 @@ Once activated, the plugin automatically enables an Officials Settings tab at `S
 
 == Changelog ==
 
-= 1.0 =
-* Initial release.
+= 1.2 =
+* TWEAK: Support more serialized string schemas.
 
-== Upgrade Notice ==
+= 1.1 =
+* FIX: Template togle buttons are not working.
 
 = 1.0 =
 * Initial release.
@@ -59,6 +62,9 @@ Once activated, the plugin automatically enables an Officials Settings tab at `S
 
 = Why my Official profile shows no stats? =
 Make sure you assigned the corresponding Leagues and Seasons to your Official profile.
+
+= I am not able to add any official. What should I do? =
+Make sure you have enabled the `Officials` module of SportsPress at `SportsPress->Settings->Modules->Players & Staff`.
 
 == Support ==
 

@@ -1,0 +1,4 @@
+*.zip
+vendor/
+composer.json
+composer.lock

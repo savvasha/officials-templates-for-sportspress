@@ -31,25 +31,25 @@ class OTFS_Templates {
 				array(
 					'selector' => array(
 						'title'   => esc_attr__( 'Dropdown', 'sportspress' ),
-						'option'  => 'otfs_officials_show_selector',
+						'option'  => 'sportspress_officials_show_selector',
 						'action'  => array( $this, 'otfs_output_officials_selector' ),
 						'default' => 'yes',
 					),
 					'photo'    => array(
 						'title'   => esc_attr__( 'Photo', 'sportspress' ),
-						'option'  => 'otfs_officials_show_photo',
+						'option'  => 'sportspress_officials_show_photo',
 						'action'  => array( $this, 'otfs_output_officials_photo' ),
 						'default' => 'yes',
 					),
 					'details'  => array(
 						'title'   => esc_attr__( 'Details', 'sportspress' ),
-						'option'  => 'otfs_officials_show_details',
+						'option'  => 'sportspress_officials_show_details',
 						'action'  => array( $this, 'otfs_output_officials_details' ),
 						'default' => 'yes',
 					),
 					'excerpt'  => array(
 						'title'   => esc_attr__( 'Excerpt', 'sportspress' ),
-						'option'  => 'otfs_officials_show_excerpt',
+						'option'  => 'sportspress_officials_show_excerpt',
 						'action'  => 'sportspress_output_post_excerpt',
 						'default' => 'yes',
 					),
@@ -58,19 +58,19 @@ class OTFS_Templates {
 			array(
 				'content'    => array(
 					'title'   => esc_attr__( 'Profile', 'sportspress' ),
-					'option'  => 'otfs_officials_show_content',
+					'option'  => 'sportspress_officials_show_content',
 					'action'  => array( $this, 'otfs_output_officials_content' ),
 					'default' => 'yes',
 				),
 				'events'     => array(
 					'title'   => esc_attr__( 'Events', 'sportspress' ),
-					'option'  => 'otfs_officials_show_events',
+					'option'  => 'sportspress_officials_show_events',
 					'action'  => array( $this, 'otfs_output_officials_events' ),
 					'default' => 'yes',
 				),
 				'statistics' => array(
 					'title'   => esc_attr__( 'Statistics', 'sportspress' ),
-					'option'  => 'otfs_officials_show_statistics',
+					'option'  => 'sportspress_officials_show_statistics',
 					'action'  => array( $this, 'otfs_output_officials_statistics' ),
 					'default' => 'yes',
 				),

@@ -266,9 +266,17 @@ class OTFS_Officials extends SP_Custom_Post {
 				'order'          => 'DESC',
 				'meta_query'     => array(
 					array(
-						'key'     => 'sp_officials',
-						'value'   => 'i:' . $this->ID . ';', // Format the search string to match the serialized array.
-						'compare' => 'REGEXP',
+						'relation' => 'OR',
+						array(
+							'key'     => 'sp_officials',
+							'value'   => 'i:' . $this->ID . ';' . '|' . '"' . $this->ID . '";', // Format the search string to match the serialized array.
+							'compare' => 'RLIKE',
+						),
+						/*array(
+							'key'     => 'sp_officials',
+							'value'   => '"' . $this->ID . '";', // Format the search string to match the serialized array.
+							'compare' => 'REGEXP',
+						),*/
 					),
 					array(
 						'key'     => 'sp_format',

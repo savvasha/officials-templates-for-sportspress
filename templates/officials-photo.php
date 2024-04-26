@@ -10,7 +10,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-if ( get_option( 'otfs_officials_show_photo', 'yes' ) === 'no' ) {
+if ( get_option( 'sportspress_officials_show_photo', 'yes' ) === 'no' ) {
 	return;
 }
 

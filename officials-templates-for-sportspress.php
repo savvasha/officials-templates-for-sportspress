@@ -1,13 +1,12 @@
 <?php
 /**
  * Plugin Name: Officials Templates for SportsPress
- * Requires Plugins: sportspress
  * Description: Add templates to Officials pages
- * Version: 1.0
+ * Version: 1.2
  * Author: Savvas
  * Author URI: https://profiles.wordpress.org/savvasha/
  * Requires at least: 5.3
- * Requires PHP: 7.2
+ * Requires PHP: 7.4
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl.html
  *
