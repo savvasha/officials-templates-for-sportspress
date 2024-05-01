@@ -5,7 +5,7 @@ Tags: sportspress, officials, templates, profile, sports
 Requires at least: 5.3
 Requires PHP: 7.4
 Tested up to: 6.5
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,9 @@ Once activated, the plugin automatically enables an Officials Settings tab at `S
 4. An example of enhanced Officials frontend page.
 
 == Changelog ==
+
+= 1.3 =
+* NEW: Select for which duties you want to show stats and info.
 
 = 1.2 =
 * TWEAK: Support more serialized string schemas.
