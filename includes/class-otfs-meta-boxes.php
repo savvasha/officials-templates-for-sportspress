@@ -244,26 +244,50 @@ class OTFS_Meta_Boxes {
 
 		$show_per_league    = 'yes' === get_option( 'otfs_officials_show_per_league', 'yes' ) ? true : false;
 		$show_career_totals = 'yes' === get_option( 'otfs_officials_show_career_total', 'no' ) ? true : false;
+		$selected_duties    = $official->filtered_duties();
 
 		if ( $leagues ) {
 			if ( $show_per_league ) {
 				// Loop through statistics for each league.
 				$i = 0;
 				foreach ( $leagues as $league ) :
-					?>
-					<p><strong><?php echo esc_html( $league->name ); ?></strong></p>
-					<?php
-					list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( $league->term_id, true );
-					self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && 0 === $i, false, $formats, $total_types );
-					++$i;
+					if ( empty( $selected_duties ) ) {
+						?>
+						<p><strong><?php echo esc_html( $league->name ); ?></strong></p>
+						<?php
+						list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( $league->term_id, -1, true );
+						self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && 0 === $i, false, $formats, $total_types );
+						++$i;
+					} else {
+						foreach ( $selected_duties as $selected_duty ) {
+							$duty = get_term_by( 'id', $selected_duty, 'sp_duty' );
+							?>
+							<p><strong><?php echo esc_html( $league->name . ' ' . esc_attr__( 'as', 'officials-templates-for-sportspress' ) . ' ' . $duty->name ); ?></strong></p>
+							<?php
+							list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( $league->term_id, -1, true );
+							self::table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes && 0 === $i, false, $formats, $total_types );
+							++$i;
+						}
+					}
 				endforeach;
 			}
 			if ( $show_career_totals ) {
-				?>
-				<p><strong><?php esc_attr_e( 'Career Total', 'sportspress' ); ?></strong></p>
-				<?php
-				list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( 0, true );
-				self::table( $post->ID, 0, $columns, $data, $placeholders, $merged, $seasons_teams, false, false, $formats, $total_types );
+				if ( empty( $selected_duties ) ) {
+					?>
+					<p><strong><?php esc_attr_e( 'Career Total', 'sportspress' ); ?></strong></p>
+					<?php
+					list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( 0, -1, true );
+					self::table( $post->ID, 0, $columns, $data, $placeholders, $merged, $seasons_teams, false, false, $formats, $total_types );
+				} else {
+					foreach ( $selected_duties as $selected_duty ) {
+						$duty = get_term_by( 'id', $selected_duty, 'sp_duty' );
+						?>
+						<p><strong><?php echo esc_attr__( 'Career Total', 'sportspress' ) . ' ' . esc_attr__( 'as', 'officials-templates-for-sportspress' ) . ' ' . esc_html( $duty->name ); ?></strong></p>
+						<?php
+						list( $columns, $data, $placeholders, $merged, $seasons_teams, $has_checkboxes, $formats, $total_types ) = $official->stats( 0, -1, true );
+						self::table( $post->ID, 0, $columns, $data, $placeholders, $merged, $seasons_teams, false, false, $formats, $total_types );
+					}
+				}
 			}
 		}
 	}
@@ -466,5 +490,6 @@ class OTFS_Meta_Boxes {
 		}
 	}
 }
-
-new OTFS_Meta_Boxes();
+if ( get_option( 'sportspress_load_officials_module', 'no' ) === 'yes' ) {
+	new OTFS_Meta_Boxes();
+}

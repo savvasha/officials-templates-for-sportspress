@@ -59,38 +59,65 @@ if ( ! function_exists( 'otfs_sort_by_order' ) ) {
 }
 usort( $leagues, 'otfs_sort_by_order' );
 
-$duties          = $official->duties();
-$player_sections = array();
-
-// Determine order of sections.
-$section_order = array( -1 => null );
+$selected_duties = $official->filtered_duties();
 
 // Loop through statistics for each league.
 if ( is_array( $leagues ) ) :
 	if ( $show_per_league ) :
 		foreach ( $leagues as $league ) :
-			$caption = $league->name;
+			if ( empty( $selected_duties ) ) {
+				$caption = $league->name;
 
-			$args = array(
-				'data'       => $official->stats( $league->term_id, false ),
-				'caption'    => $caption,
-				'scrollable' => $scrollable,
-				'league_id'  => $league->term_id,
-				'hide_teams' => true,
-			);
-			sp_get_template( 'otfs-statistics-league.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+				$args = array(
+					'data'       => $official->stats( $league->term_id, -1, false ),
+					'caption'    => $caption,
+					'scrollable' => $scrollable,
+					'league_id'  => $league->term_id,
+					'hide_teams' => true,
+				);
+				sp_get_template( 'otfs-statistics-league.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+			} else {
+				foreach ( $selected_duties as $selected_duty ) {
+					$duty    = get_term_by( 'id', $selected_duty, 'sp_duty' );
+					$caption = $league->name . ' ' . esc_attr__( 'as', 'officials-templates-for-sportspress' ) . ' ' . $duty->name;
+
+					$args = array(
+						'data'       => $official->stats( $league->term_id, $selected_duty, false ),
+						'caption'    => $caption,
+						'scrollable' => $scrollable,
+						'league_id'  => $league->term_id,
+						'hide_teams' => true,
+					);
+					sp_get_template( 'otfs-statistics-league.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+				}
+			}
 		endforeach;
 	endif;
 
 	if ( $show_career_totals ) {
-		$caption = esc_attr__( 'Career Total', 'sportspress' );
+		if ( empty( $selected_duties ) ) {
+			$caption = esc_attr__( 'Career Total', 'sportspress' );
 
-		$args = array(
-			'data'       => $official->stats( 0, false ),
-			'caption'    => $caption,
-			'scrollable' => $scrollable,
-			'hide_teams' => true,
-		);
-		sp_get_template( 'otfs-statistics-league.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+			$args = array(
+				'data'       => $official->stats( 0, -1, false ),
+				'caption'    => $caption,
+				'scrollable' => $scrollable,
+				'hide_teams' => true,
+			);
+			sp_get_template( 'otfs-statistics-league.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+		} else {
+			foreach ( $selected_duties as $selected_duty ) {
+				$duty    = get_term_by( 'id', $selected_duty, 'sp_duty' );
+				$caption = esc_attr__( 'Career Total', 'sportspress' ) . ' ' . esc_attr__( 'as', 'officials-templates-for-sportspress' ) . ' ' . $duty->name;
+
+				$args = array(
+					'data'       => $official->stats( 0, $selected_duty, false ),
+					'caption'    => $caption,
+					'scrollable' => $scrollable,
+					'hide_teams' => true,
+				);
+				sp_get_template( 'otfs-statistics-league.php', $args, '', OTFS_PLUGIN_DIR . 'templates/' );
+			}
+		}
 	}
 endif;

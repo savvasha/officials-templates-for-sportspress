@@ -43,6 +43,15 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 		public function get_settings() {
 			$templates = $this->templates();
 			$templates = apply_filters( 'sportspress_' . $this->template . '_templates', $templates );
+			$duties    = get_terms(
+				array(
+					'taxonomy'   => 'sp_duty',
+					'hide_empty' => false,
+				)
+			);
+			foreach ( $duties as $duty ) {
+				$otfs_duties[ $duty->term_id ] = $duty->name;
+			}
 
 			return apply_filters(
 				'otfs_officials_settings',
@@ -158,6 +167,13 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 						),
 
 						array(
+							'title'   => esc_attr__( 'Duties', 'sportspress' ),
+							'id'      => 'otfs_officials_duties',
+							'type'    => 'multiselect',
+							'options' => $otfs_duties,
+						),
+
+						array(
 							'title'         => esc_attr__( 'Display', 'sportspress' ),
 							'desc'          => esc_attr__( 'Per League', 'sportspress' ),
 							'id'            => 'otfs_officials_show_per_league',
@@ -198,5 +214,7 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 	}
 
 endif;
-
-return new OTFS_Settings_Officials();
+if ( get_option( 'sportspress_load_officials_module', 'no' ) === 'yes' ) {
+	return new OTFS_Settings_Officials();
+}
+return;

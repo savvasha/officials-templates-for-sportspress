@@ -45,6 +45,35 @@ class OTFS_Officials extends SP_Custom_Post {
 	}
 
 	/**
+	 * Returns filtered duties.
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function filtered_duties() {
+		$duties          = $this->duties();
+		$selected_duties = get_option( 'otfs_officials_duties', array() );
+
+		if ( ! $duties ) {
+			return $selected_duties; }
+		// Extract term IDs from $duties.
+		$duties_term_ids = array_map(
+			function ( $item ) {
+				return $item->term_id;
+			},
+			$duties
+		);
+
+		// Convert term IDs in $selected_duties to integers for comparison.
+		$selected_duties_term_ids = array_map( 'intval', $selected_duties );
+
+		// Find common term IDs between the two arrays.
+		$officials_duties = array_intersect( $duties_term_ids, $selected_duties_term_ids );
+
+		return $officials_duties;
+	}
+
+	/**
 	 * Returns nationalities
 	 *
 	 * @access public
@@ -80,8 +109,13 @@ class OTFS_Officials extends SP_Custom_Post {
 			'meta_query'     => array(
 				array(
 					'key'     => 'sp_officials',
-					'value'   => 'i:' . $this->ID . ';', // Format the search string to match the serialized array.
-					'compare' => 'REGEXP',
+					'value'   => 'i:' . $this->ID . ';|"' . $this->ID . '";', // Format the search string to match the serialized array.
+					'compare' => 'RLIKE',
+				),
+				array(
+					'key'     => 'sp_format',
+					'value'   => apply_filters( 'sportspress_competitive_event_formats', array( 'league' ) ),
+					'compare' => 'IN',
 				),
 			),
 		);
@@ -101,10 +135,11 @@ class OTFS_Officials extends SP_Custom_Post {
 	 *
 	 * @access public
 	 * @param int  $league_id The ID of the league.
+	 * @param int  $duty_id   The ID of official's duty. If set to -1 then all duties will be considered.
 	 * @param bool $admin     Optional. Whether the request is from an admin context. Defaults to false.
 	 * @return array
 	 */
-	public function stats( $league_id, $admin = false ) {
+	public function stats( $league_id, $duty_id = -1, $admin = false ) {
 		$seasons = $this->get_terms_sorted_by_sp_order( 'sp_season' );
 		// If no Seasons are selected by the user, then all Seasons should be included.
 		if ( ! is_array( $seasons ) ) {
@@ -266,17 +301,9 @@ class OTFS_Officials extends SP_Custom_Post {
 				'order'          => 'DESC',
 				'meta_query'     => array(
 					array(
-						'relation' => 'OR',
-						array(
-							'key'     => 'sp_officials',
-							'value'   => 'i:' . $this->ID . ';' . '|' . '"' . $this->ID . '";', // Format the search string to match the serialized array.
-							'compare' => 'RLIKE',
-						),
-						/*array(
-							'key'     => 'sp_officials',
-							'value'   => '"' . $this->ID . '";', // Format the search string to match the serialized array.
-							'compare' => 'REGEXP',
-						),*/
+						'key'     => 'sp_officials',
+						'value'   => 'i:' . $this->ID . ';|"' . $this->ID . '";', // Format the search string to match the serialized array.
+						'compare' => 'RLIKE',
 					),
 					array(
 						'key'     => 'sp_format',
@@ -315,6 +342,11 @@ class OTFS_Officials extends SP_Custom_Post {
 				$team_performance = (array) get_post_meta( $event->ID, 'sp_players', true );
 				$timeline         = (array) get_post_meta( $event->ID, 'sp_timeline', true );
 				$minutes          = get_post_meta( $event->ID, 'sp_minutes', true );
+				$officials        = get_post_meta( $event->ID, 'sp_officials', true );
+
+				if ( -1 !== $duty_id && isset( $officials[ $duty_id ] ) && ! in_array( $this->ID, $officials[ $duty_id ], true ) ) {
+					continue; }
+
 				if ( '' === $minutes ) {
 					$minutes = get_option( 'sportspress_event_minutes', 90 );
 				}
