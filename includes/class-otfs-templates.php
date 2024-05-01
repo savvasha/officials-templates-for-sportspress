@@ -139,5 +139,6 @@ class OTFS_Templates {
 		sp_get_template( 'officials-statistics.php', array(), '', OTFS_PLUGIN_DIR . 'templates/' );
 	}
 }
-
-new OTFS_Templates();
+if ( get_option( 'sportspress_load_officials_module', 'no' ) === 'yes' ) {
+	new OTFS_Templates();
+}

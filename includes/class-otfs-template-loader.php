@@ -193,5 +193,6 @@ class OTFS_Template_Loader {
 		return $content;
 	}
 }
-
-new OTFS_Template_Loader();
+if ( get_option( 'sportspress_load_officials_module', 'no' ) === 'yes' ) {
+	new OTFS_Template_Loader();
+}
