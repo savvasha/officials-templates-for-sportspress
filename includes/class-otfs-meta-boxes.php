@@ -177,6 +177,7 @@ class OTFS_Meta_Boxes {
 				sp_dropdown_taxonomies( $args );
 				?>
 			</p>
+			<?php do_action( 'otfs_meta_box_officials_details', $post ); ?>
 			<?php
 		}
 	}
@@ -488,6 +489,7 @@ class OTFS_Meta_Boxes {
 		if ( isset( $_POST['sp_columns'] ) ) {
 			update_post_meta( $post_id, 'sp_columns', array_map( 'sanitize_key', $_POST['sp_columns'] ) );
 		}
+		do_action( 'otfs_meta_box_officials_save', $post );
 	}
 }
 if ( get_option( 'sportspress_load_officials_module', 'no' ) === 'yes' ) {

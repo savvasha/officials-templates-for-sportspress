@@ -5,7 +5,7 @@ Tags: sportspress, officials, templates, profile, sports
 Requires at least: 5.3
 Requires PHP: 7.4
 Tested up to: 6.5
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +14,13 @@ This plugin enhances the Official profile on SportsPress by adding custom templa
 == Description ==
 
 Officials Templates for SportsPress is a WordPress plugin that enhances the Official profile on SportsPress by adding custom template functions. These functions allow you to easily display and customize official's details on your sports website.
+
+You can add your own detail info by using the following hooks:
+1. Actions
+* `otfs_meta_box_officials_details`: To add the custom detail field to the Details Meta-Box
+* `otfs_meta_box_officials_save` : To save the custom detail field.
+2. Filters
+* `otfs_officials_details`: To show the custome detail field at the frontend.
 
 == Features ==
 
@@ -48,6 +55,9 @@ Once activated, the plugin automatically enables an Officials Settings tab at `S
 4. An example of enhanced Officials frontend page.
 
 == Changelog ==
+
+= 1.4 =
+* NEW: Add hooks to the "Details" meta-box. See description for more info.
 
 = 1.3 =
 * NEW: Select for which duties you want to show stats and info.
