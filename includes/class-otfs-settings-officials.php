@@ -73,7 +73,7 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 							array(
 								'title'   => esc_attr__( 'Link', 'sportspress' ),
 								'desc'    => esc_attr__( 'Link officials', 'sportspress' ),
-								'id'      => 'otfs_link_officials',
+								'id'      => 'sportspress_link_officials',
 								'default' => 'yes',
 								'type'    => 'checkbox',
 							),
