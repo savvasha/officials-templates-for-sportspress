@@ -3,7 +3,7 @@
  * OTFS Officials Settings
  *
  * @class       OTFS_Settings_Officials
- * @version     1.0.0
+ * @version     1.5.0
  * @package     OTFS/Classes
  * @category    Class
  * @author      SavvasHa
