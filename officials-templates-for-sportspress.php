@@ -32,6 +32,11 @@ if ( ! defined( 'OTFS_PLUGIN_URL' ) ) {
 	define( 'OTFS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
 
+// Define plugin version.
+if ( ! defined( 'OTFS_VERSION' ) ) {
+	define( 'OTFS_VERSION', '1.5' ); // Update this when needed
+}
+
 // Hooks.
 add_filter( 'sportspress_get_settings_pages', 'otfs_add_settings_page' );
 add_action( 'sportspress_init', 'otfs_add_officials_templates' );
@@ -84,6 +89,9 @@ if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
 function otfs_include_post_type_handlers() {
 	include_once 'includes/class-otfs-meta-boxes.php';
 }
+
+// Include the admin notice functionality.
+include_once 'includes/otfs-admin-notice.php';
 
 /**
  * Add visibility option to performances and statistics.
