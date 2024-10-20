@@ -35,9 +35,9 @@ If you're looking for advanced reporting features and additional functionalities
 Our premium plugin introduces a comprehensive Officials Report feature, which allows you to easily track and display detailed data related to match officials. Whether you prefer using the WordPress block editor or shortcodes, the Officials Report offers seamless integration in both modes. This flexibility ensures that you can place and customize reports in any part of your website, making it incredibly convenient for users who manage their content in different ways.
 
 - **Block Mode**: Effortlessly add and customize official reports using the WordPress block editor, taking advantage of real-time previews and intuitive controls.
-- **Shortcode Mode**: Prefer shortcodes? No problem! Use simple shortcodes to embed detailed official reports anywhere on your site, from posts and pages to custom widgets.
+- **Shortcode Mode**: Prefer shortcodes? No problem! Use simple shortcode to embed detailed official reports anywhere on your site, from posts and pages to custom widgets.
 
-Check out the premium version to bring more detailed insights and flexibility to your SportsPress setup!
+[Check out the premium version to bring more detailed insights and flexibility to your SportsPress setup](https://savvasha.com/officials-report-for-sportspress/)!
 
 == Installation ==
 
