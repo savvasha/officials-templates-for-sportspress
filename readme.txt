@@ -4,7 +4,7 @@ Donate link: https://bit.ly/3NLUtMh
 Tags: sportspress, officials, templates, profile, sports 
 Requires at least: 5.3
 Requires PHP: 7.4
-Tested up to: 6.5
+Tested up to: 6.6
 Stable tag: 1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,7 @@ You can add your own detail info by using the following hooks:
 * `otfs_meta_box_officials_details`: To add the custom detail field to the Details Meta-Box
 * `otfs_meta_box_officials_save` : To save the custom detail field.
 2. Filters
-* `otfs_officials_details`: To show the custome detail field at the frontend.
+* `otfs_officials_details`: To show the custom detail field at the frontend.
 
 == Features ==
 
@@ -28,6 +28,16 @@ You can add your own detail info by using the following hooks:
 - **Enhanced Officials Management:** Adds the ability to show several details of an Official (i.e. Nationality, Age etc)
 - **Responsive Design:** Ensures officials' templates look great on all devices.
 - **Easy Integration:** Seamlessly integrates with SportsPress for straightforward implementation.
+
+== Recommended Plugin: ==
+If you're looking for advanced reporting features and additional functionalities, we recommend checking out our premium plugin: [Officials Report for SportsPress](https://savvasha.com/officials-report-for-sportspress/).
+
+Our premium plugin introduces a comprehensive Officials Report feature, which allows you to easily track and display detailed data related to match officials. Whether you prefer using the WordPress block editor or shortcodes, the Officials Report offers seamless integration in both modes. This flexibility ensures that you can place and customize reports in any part of your website, making it incredibly convenient for users who manage their content in different ways.
+
+- **Block Mode**: Effortlessly add and customize official reports using the WordPress block editor, taking advantage of real-time previews and intuitive controls.
+- **Shortcode Mode**: Prefer shortcodes? No problem! Use simple shortcodes to embed detailed official reports anywhere on your site, from posts and pages to custom widgets.
+
+Check out the premium version to bring more detailed insights and flexibility to your SportsPress setup!
 
 == Installation ==
 
