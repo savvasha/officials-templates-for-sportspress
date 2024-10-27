@@ -4,8 +4,8 @@ Donate link: https://bit.ly/3NLUtMh
 Tags: sportspress, officials, templates, profile, sports 
 Requires at least: 5.3
 Requires PHP: 7.4
-Tested up to: 6.6
-Stable tag: 1.5
+Tested up to: 6.7
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,12 @@ Once activated, the plugin automatically enables an Officials Settings tab at `S
 4. An example of enhanced Officials frontend page.
 
 == Changelog ==
+
+= 1.6 =
+* New: Added a dismissible admin notice to inform users about the premium plugin "Officials Report for SportsPress."
+* Improvement: Admin notice now includes a call-to-action button for a clearer promotion experience.
+* Enhancement: Notice dismissal resets automatically on plugin version updates.
+* Code: Updated code to fully comply with WordPress Coding Standards.
 
 = 1.5 =
 * FIX: The officials were not linked in the match/event page.

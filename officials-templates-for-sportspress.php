@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Officials Templates for SportsPress
  * Description: Add templates to Officials pages
- * Version: 1.5
+ * Version: 1.6
  * Author: Savvas
  * Author URI: https://profiles.wordpress.org/savvasha/
  * Requires at least: 5.3
@@ -34,7 +34,7 @@ if ( ! defined( 'OTFS_PLUGIN_URL' ) ) {
 
 // Define plugin version.
 if ( ! defined( 'OTFS_VERSION' ) ) {
-	define( 'OTFS_VERSION', '1.5' ); // Update this when needed
+	define( 'OTFS_VERSION', '1.6' ); // Update this when needed
 }
 
 // Hooks.
