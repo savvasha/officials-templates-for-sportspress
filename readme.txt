@@ -4,8 +4,8 @@ Donate link: https://bit.ly/3NLUtMh
 Tags: sportspress, officials, templates, profile, sports 
 Requires at least: 5.3
 Requires PHP: 7.4
-Tested up to: 6.7
-Stable tag: 1.6
+Tested up to: 6.8
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,9 @@ Once activated, the plugin automatically enables an Officials Settings tab at `S
 4. An example of enhanced Officials frontend page.
 
 == Changelog ==
+
+= 1.7 =
+* Fix: Undefined variable $otfs_duties.
 
 = 1.6 =
 * New: Added a dismissible admin notice to inform users about the premium plugin "Officials Report for SportsPress."
