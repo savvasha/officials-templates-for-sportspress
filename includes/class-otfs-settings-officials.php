@@ -49,6 +49,8 @@ if ( ! class_exists( 'OTFS_Settings_Officials' ) ) :
 					'hide_empty' => false,
 				)
 			);
+
+			$otfs_duties = array(); // Prevent error when the sp_duty taxonomy returns no results.
 			foreach ( $duties as $duty ) {
 				$otfs_duties[ $duty->term_id ] = $duty->name;
 			}
